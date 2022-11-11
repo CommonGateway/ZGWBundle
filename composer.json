@@ -1,7 +1,7 @@
 {
     "name": "common-gateway/zgw-bundle",
     "description": "Symfoyn bundle for zgw standard functionality",
-	"type" : "symfony-bundle",
+    "type" : "common-gateway-plugin",
     "license": "EUPL-1.2",
     "minimum-stability" : "dev",
     "require": {
