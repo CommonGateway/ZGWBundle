@@ -14,6 +14,6 @@ class ZGWService
      */
     public function zgwHandler(array $data, array $configuration): array
     {
-        return ['response' => 'Hello. Your ZGWBundle works'];
+        return ['response' => 'Hello. The ZGWBundle works'];
     }
 }
