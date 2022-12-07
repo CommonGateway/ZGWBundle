@@ -1,0 +1,34 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc_stuurgegevens.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Stuurgegevens",
+    "type": "object",
+    "properties": {
+      "id":{
+        "type": "integer"
+      },
+      "berichtcode": {
+        "type": "string"
+      },
+      "zender": {
+        "type": "object",
+        "$ref": "#/definitions/Organisatiegegevens"
+      },
+      "ontvanger": {
+        "type": "object",
+        "$ref": "#/definitions/Organisatiegegevens"
+      },
+      "referentienummer": {
+        "type": "string"	
+      },
+      "tijdstipBericht": {
+        "type": "string<date>"
+      },
+      "entiteittype" : {
+        "type" : "string"
+      }
+    }
+  }
+  
+    

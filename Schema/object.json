@@ -1,0 +1,88 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc_object.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Object",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "identificatie": {
+        "type":"string"
+      },
+      "omschrijving": {
+        "type":"string"
+      },
+      "dctOmschrijving":{
+        "type":"string"
+      },
+      "toelichting": {
+        "type":"string"
+      },
+      "creatiedatum": {
+        "type":"string<date>"
+      },
+      "registratiedatum": {
+        "type":"string<date>"
+      },
+      "startdatum": {
+        "type":"string<date>"
+      },
+      "publicatiedatum": {
+        "type":"string<date>"
+      },
+      "einddatumGepland": {
+        "type":"string<date>"
+      },
+      "uiterlijkeEindDatum":{
+        "type":"string<date>"
+      },
+      "betalingsIndicatie": {
+        "type":"string"
+      },
+      "laatsteBetaaldatum": {
+        "type":"string<date>"
+      },
+      "zaakniveau": {
+        "type":"integer"
+      },
+      "deelzakenIndicatie": {
+        "type":"string"
+      },
+      "extraElementen": {
+        "type":"array",
+        "items": {
+          "$ref": "#/definitions/ExtraElementen"
+        }
+      },
+      "isVan": {
+        "type": "object",
+        "$ref": "#/definitions/IsVan"
+      },
+      "HeeftAlsInitiator": {
+        "type": "object",
+        "$ref": "#/definitions/HeeftAlsInitiator"
+      },
+      "zgw": {
+        "type": "object",
+        "$ref": "#/definitions/Zgw"
+      },
+      "titel" :{
+        "type": "string"
+      },
+      "beschrijving": {
+        "type": "string"
+      },
+      "formaat": {
+        "type": "string"
+      },
+      "taal": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      ""
+    }
+  }
