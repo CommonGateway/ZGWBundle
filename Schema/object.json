@@ -83,6 +83,27 @@
       "status": {
         "type": "string"
       },
-      ""
+      "auteur" : {
+        "type": "string"
+      },
+      "inhoud": {
+        "type": "string"
+      },
+      "isRelevantVoor": {
+        "type": "object",
+        "$ref": "#/definitions/isRelevantVoor"
+      },
+      "heeft": {
+        "type": "array",
+        "items": {
+          "$ref":"#/definitions/Status"
+        }
+      },
+      "heeftRelevant": {
+        "type": "array",
+        "items": {
+          "$ref":"#/definitions/Document"
+        }
+      }
     }
   }

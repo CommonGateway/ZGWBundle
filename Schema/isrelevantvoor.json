@@ -1,17 +1,15 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc_zgw.schema.json",
+
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc_isrelevantvoor.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
-    "title": "Zgw",
+    "title": "isRelevantVoor",
     "type": "object",
     "properties": {
         "id": {
             "type": "string"
         },
-        "zaaktype": {
-            "type": "string"
-        },
-        "identificatie": {
+        "identificatie":{
             "type": "string"
         }
     }
