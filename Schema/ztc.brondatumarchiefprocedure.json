@@ -9,10 +9,29 @@
     "nullable": true,
     "properties": {
         "afleidingswijze": {
-            "type": "string"
+            "type": "string",
+            "description": "Wijze van bepalen van de brondatum.\nUitleg bij mogelijke waarden:\n*`afgehandeld` - (Afgehandeld) De termijn start op de datum waarop de zaak is afgehandeld (ZAAK.Einddatum in het RGBZ).\n* `ander_datumkenmerk` - (Ander datumkenmerk) De termijn start op de datum die is vastgelegd in een ander datumveld dan de datumvelden waarop de overige waarden (van deze attribuutsoort) betrekking hebben. `Objecttype`, `Registratie` en `Datumkenmerk` zijn niet leeg.* `eigenschap` - (Eigenschap) De termijn start op de datum die vermeld is in een zaaktype-specifieke eigenschap (zijnde een `datumveld`). `ResultaatType.ZaakType` heeft een `Eigenschap`; `Objecttype`, en `Datumkenmerk` zijn niet leeg.\n* `gerelateerde_zaak` - (Gerelateerde zaak) De term"      
         },
         "datumkenmerk": {
-            
+            "type": "string",
+            "description": "Naam van de attribuutsoort van het procesobject dat bepalend is voor het einde van de procestermijn."
+        },
+        "einddatumBekend": {
+            "type": "boolean",
+            "description": "Indicatie dat de einddatum van het procesobject gedurende de uitvoering van de zaak bekend moet worden. Indien deze nog niet bekend is en deze waarde staat op `true`, dan kan de zaak (nog) niet afgesloten "
+        },
+        "objecttype": {
+            "type": "string",
+            "description": "Het soort object in de registratie dat het procesobject representeert.\nUitleg bij mogelijke waarden:\n* `adres` - Adres\n* `besluit` - Besluit\n* `buurt` - Buurt\n* `enkelvoudig_document` - Enkelvoudig document\n* `gemeente` - Gemeente\n* `gemeentelijke_openbare_ruimte` - Gemeentelijke openbare ruimte\n* `huishouden` - Huishouden\n* `inrichtingselement` - Inrichtingselement"
+        },
+        "registratie": {
+            "type": "string",
+            "description": "De naam van de registratie waarvan het procesobject deel uit maakt."
+        },
+        "procestermijn": {
+            "type": "string<duration>",
+            "nullable": true,
+            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze"
         }
     }
 }

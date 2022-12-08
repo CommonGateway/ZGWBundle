@@ -198,7 +198,7 @@
         "description": "URL-referenties naar de EIGENSCHAPPEN die aanwezig moeten zijn in ZAKEN van dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/Eigenschappen"
         }
       },
       "informatieobjecttypen": {
@@ -206,7 +206,7 @@
         "description": "URL-referenties naar de INFORMATIEOBJECTTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/informatieObjecttypen"
         }
       },
       "roltypen": {
@@ -214,7 +214,7 @@
         "description": "URL-referenties naar de ROLTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/Roltypen"
         }
       },
       "besluittypen": {
@@ -222,14 +222,14 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/Besluittypen"
         }
       },
       "gerelateerdeZaaktypen": {
         "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/gerelateerdeZaaktypen"
         }
       },
       "beginGeldigheid": {

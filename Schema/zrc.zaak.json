@@ -151,13 +151,13 @@
         "nullable": true
       },
       "zaakgeometrie": {
-        "$ref": "#/definitions/"
+        "$ref": "#/definitions/zaakGeometrie"
       },
       "verlenging": {
-        "$ref": "#/definitions/"
+        "$ref": "#/definitions/Verlenging"
       },
       "opschorting": {
-        "$ref": "#/definitions/"
+        "$ref": "#/definitions/Opschorting"
       },
       "selectielijstklasse": {
         "title": "Selectielijstklasse",
@@ -188,14 +188,14 @@
         "description": "Een lijst van relevante andere zaken.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/revelantAndereZaken"
         }
       },
       "eigenschappen": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/eigenschappen"
         },
         "readOnly": true
       },
@@ -203,18 +203,18 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/Rollen"
         },
         "readOnly": true
       },
       "status": {
-        "$ref": "#/definitions/"
+        "$ref": "#/definitions/Status"
       },
       "zaakinformatieobjecten": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/zaakinformatieobjecten"
         },
         "readOnly": true
       },
@@ -231,7 +231,7 @@
         "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via `ZaakObject`.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/"
+          "$ref": "#/definitions/Kenmerken"
         }
       },
       "archiefnominatie": {
