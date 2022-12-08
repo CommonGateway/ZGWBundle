@@ -1,0 +1,41 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1",
+    "title": "Resultaat",
+    "type": "object",
+    "properties": {
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "zaak": {
+        "$ref": "#/definitions/Zaak",
+        "required": true
+      },
+      "resultaattype": {
+        "description": "URL-referentie naar het RESULTAATTYPE (in de Catalogi API).",
+        "$ref": "#/definitions/Statustype",
+        "required": true
+      },
+      "toelichting": {
+        "type": "string",
+        "description": "Een toelichting op wat het resultaat van de zaak inhoudt.",
+        "maxLength": 1000
+      }
+    },
+    "required": [
+      "zaak",
+      "resultaattype"
+    ]
+  }

@@ -1,0 +1,101 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1",
+    "type": "object",
+    "title": "BesluitType",
+    "properties": {
+      "url": {
+        "type": "string",
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "format": "uri",
+        "maxLength": 1000,
+        "minLength": 1
+      },
+      "catalogus": {
+        "$ref": "#/definitions/Catalogus",
+        "required": true
+      },
+      "zaaktypes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uri"
+        },
+        "required": true
+      },
+      "omschrijving": {
+        "description": "Omschrijving van de aard van BESLUITen van het BESLUITTYPE.",
+        "type": "string",
+        "maxLength": 80
+      },
+      "omschrijvingGeneriek": {
+        "description": "Algemeen gehanteerde omschrijving van de aard van BESLUITen van het BESLUITTYPE",
+        "type": "string",
+        "maxLength": 80
+      },
+      "besluitcategorie": {
+        "description": "Typering van de aard van BESLUITen van het BESLUITTYPE.",
+        "type": "string",
+        "maxLength": 40
+      },
+      "reactietermijn": {
+        "type": "string",
+        "description": "Het aantal dagen, gerekend vanaf de verzend- of publicatiedatum, waarbinnen verweer tegen een besluit van het besluittype mogelijk is.",
+        "format": "duration",
+        "nullable": true
+      },
+      "publicatieIndicatie": {
+        "type": "boolean",
+        "description": "Aanduiding of BESLUITen van dit BESLUITTYPE gepubliceerd moeten worden.",
+        "required": true
+      },
+      "publicatietekst": {
+        "description": "De generieke tekst van de publicatie van BESLUITen van dit BESLUITTYPE",
+        "type": "string"
+      },
+      "publicatietermijn": {
+        "type": "string",
+        "description": "Het aantal dagen, gerekend vanaf de verzend- of publicatiedatum, dat BESLUITen van dit BESLUITTYPE gepubliceerd moeten blijven.",
+        "format": "duration",
+        "nullable": true
+      },
+      "toelichting": {
+        "description": "Een eventuele toelichting op dit BESLUITTYPE.",
+        "type": "string"
+      },
+      "informatieobjecttypen": {
+        "type": "array",
+        "description": "URL-referenties naar het INFORMATIEOBJECTTYPE van informatieobjecten waarin besluiten van dit BESLUITTYPE worden vastgelegd.",
+        "items": {
+          "$ref": "#/definitions/InformatieObjectType"
+        },
+        "required": true
+      },
+      "beginGeldigheid": {
+        "type": "string",
+        "description": "De datum waarop het is ontstaan.",
+        "format": "date",
+        "required": true
+      },
+      "eindeGeldigheid": {
+        "type": "string",
+        "description": "De datum waarop het is opgeheven.",
+        "format": "date",
+        "nullable": true
+      },
+      "concept": {
+        "type": "boolean",
+        "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
+        "readOnly": true
+      }
+    },
+    "required": [
+      "catalogus",
+      "zaaktypes",
+      "publicatieIndicatie",
+      "informatieobjecttypen",
+      "beginGeldigheid"
+    ]
+  }

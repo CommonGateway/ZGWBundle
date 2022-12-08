@@ -1,0 +1,47 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1",
+    "title": "Status",
+    "type": "object",
+    "properties": {
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "zaak": {
+        "$ref": "#/definitions/Zaak"
+      },
+      "statustype": {
+        "description": "URL-referentie naar het STATUSTYPE (in de Catalogi API).",
+        "$ref": "#/definitions/Statustype",
+        "type": "string",
+        "required": true
+      },
+      "datumStatusGezet": {
+        "description": "De datum waarop de ZAAK de status heeft verkregen.",
+        "type": "string",
+        "format": "datetime",
+        "required": true
+      },
+      "statustoelichting": {
+        "type": "string",
+        "description": "Een, voor de initiator van de zaak relevante, toelichting op de status van een zaak.",
+        "maxLength": 1000
+      }
+    },
+    "required": [
+      "statustype",
+      "datumStatusGezet"
+    ]
+  }

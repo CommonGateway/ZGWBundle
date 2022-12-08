@@ -42,7 +42,7 @@
       "zaaktype": {
         "type": "string",
         "description": "ZaakType from ZaakTypeCatalogus",
-        "$ref": "#/definitions/ZaakType"
+        "$ref": "#/definitions/Zaaktype"
       },
       "registratiedatum": {
         "title": "Registratiedatum",
@@ -151,7 +151,7 @@
         "nullable": true
       },
       "zaakgeometrie": {
-        "$ref": "#/definitions/ZaakGeometrie"
+        "$ref": "#/definitions/GeoJSONGeometry"
       },
       "verlenging": {
         "$ref": "#/definitions/Verlenging"
@@ -188,14 +188,14 @@
         "description": "Een lijst van relevante andere zaken.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/RevelantAndereZaken"
+          "$ref": "#/definitions/RelevanteZaak"
         }
       },
       "eigenschappen": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/Eigenschappen"
+          "$ref": "#/definitions/ZaakEigenschap"
         },
         "readOnly": true
       },
@@ -203,7 +203,7 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/Rollen"
+          "$ref": "#/definitions/Rol"
         },
         "readOnly": true
       },
@@ -214,7 +214,7 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/ZaakInformatieObjecten"
+          "$ref": "#/definitions/ZaakInformatieObject"
         },
         "readOnly": true
       },
@@ -231,7 +231,7 @@
         "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via `ZaakObject`.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Kenmerken"
+          "$ref": "#/definitions/ZaakKenmerk"
         }
       },
       "archiefnominatie": {
@@ -282,6 +282,7 @@
     },
     "required": [
       "zaaktype",
+      "registratiedatum",
       "verantwoordelijkeOrganisatie",
       "startdatum"
     ]
