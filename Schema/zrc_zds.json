@@ -11,15 +11,12 @@
             "description": "Unique identifier for the given user."
         },
         "stuurgegevens":{
-            "type": "object",
             "$ref": "#/definitions/Stuurgegevens"
         },
         "parameters": {
-            "type": "object",
             "$ref": "#/definitions/Parameters"
         },
         "object": {
-            "type" : "object",
             "$ref": "#/definitions/Object"
         },
         "zgwZaak": {

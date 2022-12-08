@@ -9,11 +9,9 @@
             "type": "integer"
         },
         "vestiging": {
-            "type": "object",
             "$ref": "#/definitions/Vestiging"
         },
         "natuurlijkPersoon": {
-            "type:": "object",
             "$ref": "#/definitions/NatuurlijkPersoon"
         }
     }

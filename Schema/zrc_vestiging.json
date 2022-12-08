@@ -18,7 +18,6 @@
             "type": "string"
         },
         "verblijfsadres": {
-            "type": "object",
             "$ref": "#/definitions/Verblijfadres"
         },
         "identificatie": {

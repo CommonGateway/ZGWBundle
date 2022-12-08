@@ -57,15 +57,12 @@
         }
       },
       "isVan": {
-        "type": "object",
         "$ref": "#/definitions/IsVan"
       },
       "HeeftAlsInitiator": {
-        "type": "object",
         "$ref": "#/definitions/HeeftAlsInitiator"
       },
       "zgw": {
-        "type": "object",
         "$ref": "#/definitions/Zgw"
       },
       "titel" :{
@@ -90,7 +87,6 @@
         "type": "string"
       },
       "isRelevantVoor": {
-        "type": "object",
         "$ref": "#/definitions/isRelevantVoor"
       },
       "heeft": {

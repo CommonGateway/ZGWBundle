@@ -12,11 +12,9 @@
         "type": "string"
       },
       "zender": {
-        "type": "object",
         "$ref": "#/definitions/Organisatiegegevens"
       },
       "ontvanger": {
-        "type": "object",
         "$ref": "#/definitions/Organisatiegegevens"
       },
       "referentienummer": {
