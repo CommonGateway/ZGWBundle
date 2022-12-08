@@ -10,16 +10,22 @@
     "properties": {
         "url": {
             "type": "string",
-            "format": "url",
-            "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object."
+            "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+            "format": "uri",
+            "minLength": 1,
+            "maxLength": 1000
         },
         "omschrijving": {
             "type": "string",
-            "description": "Een korte, voor de initiator van de zaak relevante, omschrijving van de aard van de STATUS van zaken van een ZAAKTYPE."
+            "description": "Een korte, voor de initiator van de zaak relevante, omschrijving van de aard van de STATUS van zaken van een ZAAKTYPE.",
+            "minLength": 1,
+            "maxLength": 80,
+            "required": true
         },
         "omschrijvingGeneriek": {
             "type": "string",
-            "description": "Algemeen gehanteerde omschrijving van de aard van STATUSsen van het STATUSTYPE"
+            "description": "Algemeen gehanteerde omschrijving van de aard van STATUSsen van het STATUSTYPE",
+            "maxLength": 80
         },
         "statustekst": {
             "type": "string",
@@ -31,7 +37,10 @@
         },
         "volgnummer": {
             "type": "integer",
-            "description": "Een volgnummer voor statussen van het STATUSTYPE binnen een zaak."
+            "description": "Een volgnummer voor statussen van het STATUSTYPE binnen een zaak.",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 9999
         },
         "isEindstatus": {
             "type" :"boolean",

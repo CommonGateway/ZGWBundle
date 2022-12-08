@@ -8,12 +8,16 @@
     "properties": {
         "naam": {
             "type": "string",
-            "description": "De naam van het Referentieproces."
+            "description": "De naam van het Referentieproces.",
+            "minLength": 1,
+            "maxLength": 80,
+            "required": true
         },
         "link": {
             "type": "string",
             "description": "De URL naar de beschrijving van het Referentieproces.",
-            "format": "url"
+            "format": "uri",
+            "maxLength": 200
         }
     },
     "required": [
