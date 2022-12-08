@@ -1,0 +1,48 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1",
+    "type": "object",
+    "title": "Eigenschap",
+    "properties": {
+      "url": {
+        "type": "string",
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "format": "uri",
+        "maxLength": 1000,
+        "minLength": 1
+      },
+      "naam": {
+        "description": "De naam van de EIGENSCHAP",
+        "type": "string",
+        "maxLength": 20,
+        "minLength": 1,
+        "required": true
+      },
+      "definitie": {
+        "description": "De beschrijving van de betekenis van deze EIGENSCHAP",
+        "type": "string",
+        "maxLength": 255,
+        "minLength": 1,
+        "required": true
+      },
+      "specificatie": {
+        "$ref": "#/definitions/EigenschapSpecificatie"
+      },
+      "toelichting": {
+        "title": "Toelichting",
+        "description": "Een toelichting op deze EIGENSCHAP en het belang hiervan voor zaken van dit ZAAKTYPE.",
+        "type": "string",
+        "maxLength": 1000
+      },
+      "zaaktype": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "required": [
+      "naam",
+      "definitie"
+    ]
+  }
