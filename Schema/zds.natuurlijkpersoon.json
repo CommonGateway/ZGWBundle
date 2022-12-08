@@ -1,5 +1,5 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zds.natuurlijkpersoon.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.natuurlijkPersoon.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
     "title": "NatuurlijkPersoon",
@@ -33,7 +33,7 @@
             "type": "string"
         },
         "verblijfadres": {
-            "$ref": "#/definitions/Verblijfadres"
+            "$ref": "#/definitions/VerblijfAdres"
         }
     }
 }

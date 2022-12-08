@@ -21,28 +21,35 @@
         "type":"string"
       },
       "creatiedatum": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "registratiedatum": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "startdatum": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "publicatiedatum": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "einddatumGepland": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "uiterlijkeEindDatum":{
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "betalingsIndicatie": {
         "type":"string"
       },
       "laatsteBetaaldatum": {
-        "type":"string<date>"
+        "type":"string",
+        "format": "date"
       },
       "zaakniveau": {
         "type":"integer"
@@ -87,7 +94,7 @@
         "type": "string"
       },
       "isRelevantVoor": {
-        "$ref": "#/definitions/isRelevantVoor"
+        "$ref": "#/definitions/IsRelevantVoor"
       },
       "heeft": {
         "type": "array",

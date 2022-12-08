@@ -151,7 +151,7 @@
         "nullable": true
       },
       "zaakgeometrie": {
-        "$ref": "#/definitions/zaakGeometrie"
+        "$ref": "#/definitions/ZaakGeometrie"
       },
       "verlenging": {
         "$ref": "#/definitions/Verlenging"
@@ -188,14 +188,14 @@
         "description": "Een lijst van relevante andere zaken.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/revelantAndereZaken"
+          "$ref": "#/definitions/RevelantAndereZaken"
         }
       },
       "eigenschappen": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/eigenschappen"
+          "$ref": "#/definitions/Eigenschappen"
         },
         "readOnly": true
       },
@@ -214,7 +214,7 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/zaakinformatieobjecten"
+          "$ref": "#/definitions/ZaakInformatieObjecten"
         },
         "readOnly": true
       },

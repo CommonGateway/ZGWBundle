@@ -1,9 +1,9 @@
 
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zds.extraelementen.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.extraElementen.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
-    "title": "ExtraElementen",
+    "title": "extraElementen",
     "type": "object",
     "properties": {
         "id": {
