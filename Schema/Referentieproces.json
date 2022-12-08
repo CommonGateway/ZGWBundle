@@ -1,0 +1,22 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/Referentieproces.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "type": "object",
+    "title": "ReferentieProces",
+    "description": "Het Referentieproces dat ten grondslag ligt aan dit ZAAKTYPE.",
+    "properties": {
+        "naam": {
+            "type": "string",
+            "description": "De naam van het Referentieproces."
+        },
+        "link": {
+            "type": "string",
+            "description": "De URL naar de beschrijving van het Referentieproces.",
+            "format": "url"
+        }
+    },
+    "required": [
+        "naam"
+    ]
+}

@@ -1,0 +1,61 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/Catalogus.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "type": "object",
+    "title": "Catalogus",
+    "properties": {
+        "url": {
+            "type": "string",
+            "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+            "format": "url"
+        },
+        "domein": {
+            "type": "string",
+            "description": "Een afkorting waarmee wordt aangegeven voor welk domein in een CATALOGUS ZAAKTYPEn zijn uitgewerkt."
+        },
+        "rsin": {
+            "type": "string",
+            "description": "Het door een kamer toegekend uniek nummer voor de INGESCHREVEN NIET-NATUURLIJK PERSOON die de eigenaar is van een CATALOGUS."
+        },
+        "contactpersoonBeheerNaam": {
+            "type": "string",
+            "description": "De naam van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS."
+        },
+        "contactpersoonBeheerTelefoonnummer": {
+            "type": "string",
+            "description": "Het telefoonnummer van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS."
+        },
+        "contactpersoonBeheerEmailadres": {
+            "type": "string",
+            "description": "Het emailadres van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS.",
+            "format": "email"
+        },
+        "zaaktypen": {
+            "type": "array",
+            "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/Zaaktype"
+            }
+        },
+        "besluittypen": {
+            "type": "array",
+            "description": "URL-referenties naar BESLUITTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/BesluitType"
+            }
+        },
+        "informatieobjecttypen": {
+            "type": "array",
+            "description": "URL-referenties naar INFORMATIEOBJECTTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/InformatieObjectType"
+            }
+        }
+    },
+    "required": [
+        "domein",
+        "rsin",
+        "contactpersoonBeheerNaam"
+    ]
+}
