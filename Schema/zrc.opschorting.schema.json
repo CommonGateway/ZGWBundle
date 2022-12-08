@@ -16,10 +16,10 @@
         "type": "string",
         "required": true,
         "maxLength": 200
-      },
-      "required": [
-        "reden",
-        "indicatie"
-      ]
-    }
-  }
+      }
+    },
+    "required": [
+      "reden",
+      "indicatie"
+    ]
+}

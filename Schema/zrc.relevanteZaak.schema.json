@@ -21,10 +21,10 @@
           "bijdrage"
         ],
         "required": true
-      },
-      "required": [
-        "url",
-        "aardRelatie"
-      ]
-    }
+      }
+    },
+  "required": [
+    "url",
+    "aardRelatie"
+  ]
   }
