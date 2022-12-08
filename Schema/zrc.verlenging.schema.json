@@ -17,10 +17,10 @@
         "type": "string",
         "format": "duration",
         "required": true
-      },
-      "required": [
-        "reden",
-        "duur"
-      ]
-    }
+      }
+    },
+  "required": [
+    "reden",
+    "duur"
+  ]
   }

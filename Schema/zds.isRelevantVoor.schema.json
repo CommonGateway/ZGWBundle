@@ -1,0 +1,16 @@
+{
+
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.isRelevantVoor.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "IsRelevantVoor",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "identificatie":{
+            "type": "string"
+        }
+    }
+}

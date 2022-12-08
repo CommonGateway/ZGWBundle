@@ -1,0 +1,18 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.Zgw.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Zgw",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "zaaktype": {
+            "type": "string"
+        },
+        "identificatie": {
+            "type": "string"
+        }
+    }
+}

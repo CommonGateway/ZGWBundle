@@ -1,0 +1,58 @@
+
+
+
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "StatusType",
+    "type": "object",
+    "properties": {
+        "url": {
+            "type": "string",
+            "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+            "format": "uri",
+            "minLength": 1,
+            "maxLength": 1000
+        },
+        "omschrijving": {
+            "type": "string",
+            "description": "Een korte, voor de initiator van de zaak relevante, omschrijving van de aard van de STATUS van zaken van een ZAAKTYPE.",
+            "minLength": 1,
+            "maxLength": 80,
+            "required": true
+        },
+        "omschrijvingGeneriek": {
+            "type": "string",
+            "description": "Algemeen gehanteerde omschrijving van de aard van STATUSsen van het STATUSTYPE",
+            "maxLength": 80
+        },
+        "statustekst": {
+            "type": "string",
+            "description": "De tekst die wordt gebruikt om de Initiator te informeren over het bereiken van een STATUS van dit STATUSTYPE bij het desbetreffende ZAAKTY"
+        },
+        "zaaktype": {
+            "type": "string",
+            "format": "uri"
+        },
+        "volgnummer": {
+            "type": "integer",
+            "description": "Een volgnummer voor statussen van het STATUSTYPE binnen een zaak.",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 9999
+        },
+        "isEindstatus": {
+            "type" :"boolean",
+            "description" : "Geeft aan dat dit STATUSTYPE een eindstatus betreft. Dit gegeven is afgeleid uit alle STATUSTYPEn van dit ZAAKTYPE met het hoog"
+        },
+        "informeren": {
+            "type" : "boolean",
+            "description" : "Aanduiding die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan"
+        }
+    },
+    "required": [
+        "omschrijving",
+        "volgnummer"
+    ]
+}

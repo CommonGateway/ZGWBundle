@@ -1,0 +1,33 @@
+{
+    
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.Zds.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Zds",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Unique identifier for the given user."
+        },
+        "stuurgegevens":{
+            "$ref": "#/definitions/StuurGegevens"
+        },
+        "parameters": {
+            "$ref": "#/definitions/Parameters"
+        },
+        "object": {
+            "$ref": "#/definitions/Object"
+        },
+        "zgwZaak": {
+            "type":"string"
+        },
+        "zgwDocument": {
+            "type": "string"
+        }
+    }
+  }
+  
+    
+    
+    

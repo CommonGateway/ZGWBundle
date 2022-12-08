@@ -1,0 +1,18 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.parameters.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Parameters",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "mutatiesoort": {
+        "type":"string"
+      },
+      "indicatorOvername": {
+        "type":"string"
+      }
+    }
+  }

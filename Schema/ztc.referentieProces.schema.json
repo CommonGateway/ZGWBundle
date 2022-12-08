@@ -1,0 +1,26 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.referentieProces.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "type": "object",
+    "title": "ReferentieProces",
+    "description": "Het Referentieproces dat ten grondslag ligt aan dit ZAAKTYPE.",
+    "properties": {
+        "naam": {
+            "type": "string",
+            "description": "De naam van het Referentieproces.",
+            "minLength": 1,
+            "maxLength": 80,
+            "required": true
+        },
+        "link": {
+            "type": "string",
+            "description": "De URL naar de beschrijving van het Referentieproces.",
+            "format": "uri",
+            "maxLength": 200
+        }
+    },
+    "required": [
+        "naam"
+    ]
+}

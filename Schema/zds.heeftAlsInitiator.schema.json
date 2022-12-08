@@ -1,0 +1,18 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.heeftalsinitiator.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "HeeftAlsInitiator",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "vestiging": {
+            "$ref": "#/definitions/Vestiging"
+        },
+        "natuurlijkPersoon": {
+            "$ref": "#/definitions/NatuurlijkPersoon"
+        }
+    }
+}

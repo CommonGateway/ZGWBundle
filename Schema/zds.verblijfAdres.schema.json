@@ -1,0 +1,39 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.verblijfAdres.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "VerblijfAdres",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "aoaldentificatie": {
+            "type": "string"
+        },
+        "authentiek": {
+            "type": "string"
+        },
+        "wplWoonplaatsNaam": {
+            "type": "string"
+        },
+        "gorOpenbareRuimteNaam": {
+            "type": "string"
+        },
+        "aoaPostcode": {
+            "type": "string"
+        },
+        "aoaHuisnummer": {
+            "type": "string"
+        },
+        "aoaHuiletter": {
+            "type": "string"
+        },
+        "aoaHuisnummertoevoeging": {
+            "type": "string"
+        },
+        "inpLocatiebeschrijving": {
+            "type": "string"
+        }
+    }
+}

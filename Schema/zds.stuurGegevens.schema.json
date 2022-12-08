@@ -1,0 +1,33 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.stuurGegevens.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "StuurGegevens",
+    "type": "object",
+    "properties": {
+      "id":{
+        "type": "integer"
+      },
+      "berichtcode": {
+        "type": "string"
+      },
+      "zender": {
+        "$ref": "#/definitions/OrganisatieGegevens"
+      },
+      "ontvanger": {
+        "$ref": "#/definitions/OrganisatieGegevens"
+      },
+      "referentienummer": {
+        "type": "string"	
+      },
+      "tijdstipBericht": {
+        "type":"string",
+        "format": "date"
+      },
+      "entiteittype" : {
+        "type" : "string"
+      }
+    }
+  }
+  
+    

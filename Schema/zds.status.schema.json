@@ -1,0 +1,28 @@
+
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.status.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Status",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "omschrijving": {
+            "type": "string"
+        },
+        "omschrijvingGeneriek": {
+            "type": "string"
+        },
+        "datumStatusGezet": {
+            "type": "string"
+        },
+        "toelichting":{
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        }
+    }
+}

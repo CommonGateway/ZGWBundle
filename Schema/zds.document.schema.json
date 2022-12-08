@@ -1,0 +1,49 @@
+{
+
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.document.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Document",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "identificatie":{
+            "type": "string"
+        },
+        "omschrijving":{
+            "type": "string"
+        },
+        "omschrijvingGeneriek": {
+            "type": "string"
+        },
+        "creatiedatum": {
+            "type": "string"
+        },
+        "ontvangsdatum": {
+            "type": "string"
+        },
+        "titel":{
+            "type": "string"
+        },
+        "formaat": {
+            "type": "string"
+        },
+        "taal": {
+            "type": "string"
+        },
+        "status": {
+            "type": "string"
+        },
+        "vertrouwelijkAanduiding": {
+            "type": "string"
+        },
+        "auteur": {
+            "type": "string"
+        },
+        "link": {
+            "type": "string"
+        }
+    }
+}

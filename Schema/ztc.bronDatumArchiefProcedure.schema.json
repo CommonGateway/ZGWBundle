@@ -1,0 +1,86 @@
+
+
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.bronDatumArchiefProcedure.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "BrondatumArchiefprocedure",
+    "description": "Specificatie voor het bepalen van de brondatum voor de start van de Archiefactietermijn (=brondatum) van het zaakdossier.",
+    "type": "object",
+    "nullable": true,
+    "properties": {
+        "afleidingswijze": {
+            "type": "string",
+            "description": "Wijze van bepalen van de brondatum.\nUitleg bij mogelijke waarden:\n*`afgehandeld` - (Afgehandeld) De termijn start op de datum waarop de zaak is afgehandeld (ZAAK.Einddatum in het RGBZ).\n* `ander_datumkenmerk` - (Ander datumkenmerk) De termijn start op de datum die is vastgelegd in een ander datumveld dan de datumvelden waarop de overige waarden (van deze attribuutsoort) betrekking hebben. `Objecttype`, `Registratie` en `Datumkenmerk` zijn niet leeg.* `eigenschap` - (Eigenschap) De termijn start op de datum die vermeld is in een zaaktype-specifieke eigenschap (zijnde een `datumveld`). `ResultaatType.ZaakType` heeft een `Eigenschap`; `Objecttype`, en `Datumkenmerk` zijn niet leeg.\n* `gerelateerde_zaak` - (Gerelateerde zaak) De term",
+            "enum": [
+                "afgehandeld",
+                "ander_datumkenmerk",
+                "eigenschap",
+                "gerelateerde_zaak",
+                "hoofdzaak",
+                "ingangsdatum_besluit",
+                "termijn",
+                "vervaldatum_besluit",
+                "zaakobject"
+            ],
+            "required": true
+        },
+        "datumkenmerk": {
+            "type": "string",
+            "description": "Naam van de attribuutsoort van het procesobject dat bepalend is voor het einde van de procestermijn.",
+            "maxLength": 80
+        },
+        "einddatumBekend": {
+            "type": "boolean",
+            "description": "Indicatie dat de einddatum van het procesobject gedurende de uitvoering van de zaak bekend moet worden. Indien deze nog niet bekend is en deze waarde staat op `true`, dan kan de zaak (nog) niet afgesloten "
+        },
+        "objecttype": {
+            "type": "string",
+            "description": "Het soort object in de registratie dat het procesobject representeert.\nUitleg bij mogelijke waarden:\n* `adres` - Adres\n* `besluit` - Besluit\n* `buurt` - Buurt\n* `enkelvoudig_document` - Enkelvoudig document\n* `gemeente` - Gemeente\n* `gemeentelijke_openbare_ruimte` - Gemeentelijke openbare ruimte\n* `huishouden` - Huishouden\n* `inrichtingselement` - Inrichtingselement",
+            "enum": [
+                "adres",
+                "besluit",
+                "buurt",
+                "enkelvoudig_document",
+                "gemeente",
+                "gemeentelijke_openbare_ruimte",
+                "huishouden",
+                "inrichtingselement",
+                "kadastrale_onroerende_zaak",
+                "kunstwerkdeel",
+                "maatschappelijke_activiteit",
+                "medewerker",
+                "natuurlijk_persoon",
+                "niet_natuurlijk_persoon",
+                "openbare_ruimte",
+                "organisatorische_eenheid",
+                "pand",
+                "spoorbaandeel",
+                "status",
+                "terreindeel",
+                "terrein_gebouwd_object",
+                "vestiging",
+                "waterdeel",
+                "wegdeel",
+                "wijk",
+                "woonplaats",
+                "woz_deelobject",
+                "woz_object",
+                "woz_waarde",
+                "zakelijk_recht",
+                "overige"
+            ]
+        },
+        "registratie": {
+            "type": "string",
+            "description": "De naam van de registratie waarvan het procesobject deel uit maakt.",
+            "maxLength": 80
+        },
+        "procestermijn": {
+            "type": "string",
+            "format": "duration",
+            "nullable": true,
+            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze"
+        }
+    }
+}

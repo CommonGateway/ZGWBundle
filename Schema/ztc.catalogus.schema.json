@@ -1,0 +1,77 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "type": "object",
+    "title": "Catalogus",
+    "properties": {
+        "url": {
+            "type": "string",
+            "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+            "format": "uri",
+            "minLength": 1,
+            "maxLength": 1000
+        },
+        "domein": {
+            "type": "string",
+            "description": "Een afkorting waarmee wordt aangegeven voor welk domein in een CATALOGUS ZAAKTYPEn zijn uitgewerkt.",
+            "minLength": 1,
+            "maxLength": 5,
+            "required": true
+        },
+        "rsin": {
+            "type": "string",
+            "description": "Het door een kamer toegekend uniek nummer voor de INGESCHREVEN NIET-NATUURLIJK PERSOON die de eigenaar is van een CATALOGUS.",
+            "minLength": 1,
+            "maxLength": 9,
+            "required": true
+        },
+        "contactpersoonBeheerNaam": {
+            "type": "string",
+            "description": "De naam van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS.",
+            "minLength": 1,
+            "maxLength": 40,
+            "required": true
+        },
+        "contactpersoonBeheerTelefoonnummer": {
+            "type": "string",
+            "description": "Het telefoonnummer van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS.",
+            "maxLength": 20
+        },
+        "contactpersoonBeheerEmailadres": {
+            "type": "string",
+            "description": "Het emailadres van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS.",
+            "maxLength": 254,
+            "format": "email"
+        },
+        "zaaktypen": {
+            "type": "array",
+            "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/Zaaktype"
+            },
+            "readOnly": true
+        },
+        "besluittypen": {
+            "type": "array",
+            "description": "URL-referenties naar BESLUITTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/BesluitType"
+            },
+            "readOnly": true
+        },
+        "informatieobjecttypen": {
+            "type": "array",
+            "description": "URL-referenties naar INFORMATIEOBJECTTYPEn die in deze CATALOGUS worden ontsloten.",
+            "items": {
+                "$ref": "#/definitions/InformatieObjectType"
+            },
+            "readOnly": true
+        }
+    },
+    "required": [
+        "domein",
+        "rsin",
+        "contactpersoonBeheerNaam"
+    ]
+}

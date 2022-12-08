@@ -1,0 +1,39 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.natuurlijkPersoon.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "NatuurlijkPersoon",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "inpBsn": {
+            "type": "string"
+        },
+        "authentiek": {
+            "type": "string"
+        },
+        "geslachtsnaam" : {
+            "type": "string"
+        },
+        "voorvoegselGeslachtsnaam" : {
+            "type": "string"
+        },
+        "voorletters": {
+            "type": "string"
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "geslachtsaanduiding": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "verblijfadres": {
+            "$ref": "#/definitions/VerblijfAdres"
+        }
+    }
+}

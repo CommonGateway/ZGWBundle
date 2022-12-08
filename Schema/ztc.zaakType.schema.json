@@ -1,5 +1,5 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/ztc_zaaktype.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1",
     "type": "object",
@@ -172,17 +172,17 @@
         "maxLength": 200
       },
       "referentieproces": {
-        "$ref": "https://vng.opencatalogi.nl/schemas/ReferentieProces"
+        "$ref": "#/definitions/ReferentieProces"
       },
       "catalogus": {
-        "$ref": "https://vng.opencatalogi.nl/schemas/Catalogus"
+        "$ref": "#/definitions/Catalogus"
       },
       "statustypen": {
         "type": "array",
         "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/StatusType"
+          "$ref": "#/definitions/StatusType"
         }
       },
       "resultaattypen": {
@@ -190,7 +190,7 @@
         "description": "URL-referenties naar de RESULTAATTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ResultaatType"
+          "$ref": "#/definitions/ResultaatType"
         }
       },
       "eigenschappen": {
@@ -198,7 +198,7 @@
         "description": "URL-referenties naar de EIGENSCHAPPEN die aanwezig moeten zijn in ZAKEN van dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/Eigenschap"
+          "$ref": "#/definitions/Eigenschappen"
         }
       },
       "informatieobjecttypen": {
@@ -206,7 +206,7 @@
         "description": "URL-referenties naar de INFORMATIEOBJECTTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/InformatieObjectType"
+          "$ref": "#/definitions/InformatieObjecttTypen"
         }
       },
       "roltypen": {
@@ -214,7 +214,7 @@
         "description": "URL-referenties naar de ROLTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/RolType"
+          "$ref": "#/definitions/RolTypen"
         }
       },
       "besluittypen": {
@@ -222,14 +222,14 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/BesluitType"
+          "$ref": "#/definitions/BesluitTypen"
         }
       },
       "gerelateerdeZaaktypen": {
         "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
         "type": "array",
         "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ZaakTypenRelatie"
+          "$ref": "#/definitions/GerelateerdeZaakTypen"
         }
       },
       "beginGeldigheid": {

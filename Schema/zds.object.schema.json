@@ -1,0 +1,112 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.object.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1.0",
+    "title": "Object",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "identificatie": {
+        "type":"string"
+      },
+      "omschrijving": {
+        "type":"string"
+      },
+      "dctOmschrijving":{
+        "type":"string"
+      },
+      "toelichting": {
+        "type":"string"
+      },
+      "creatiedatum": {
+        "type":"string",
+        "format": "date"
+      },
+      "registratiedatum": {
+        "type":"string",
+        "format": "date"
+      },
+      "startdatum": {
+        "type":"string",
+        "format": "date"
+      },
+      "publicatiedatum": {
+        "type":"string",
+        "format": "date"
+      },
+      "einddatumGepland": {
+        "type":"string",
+        "format": "date"
+      },
+      "uiterlijkeEindDatum":{
+        "type":"string",
+        "format": "date"
+      },
+      "betalingsIndicatie": {
+        "type":"string"
+      },
+      "laatsteBetaaldatum": {
+        "type":"string",
+        "format": "date"
+      },
+      "zaakniveau": {
+        "type":"integer"
+      },
+      "deelzakenIndicatie": {
+        "type":"string"
+      },
+      "extraElementen": {
+        "type":"array",
+        "items": {
+          "$ref": "#/definitions/ExtraElementen"
+        }
+      },
+      "isVan": {
+        "$ref": "#/definitions/IsVan"
+      },
+      "HeeftAlsInitiator": {
+        "$ref": "#/definitions/HeeftAlsInitiator"
+      },
+      "zgw": {
+        "$ref": "#/definitions/Zgw"
+      },
+      "titel" :{
+        "type": "string"
+      },
+      "beschrijving": {
+        "type": "string"
+      },
+      "formaat": {
+        "type": "string"
+      },
+      "taal": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      "auteur" : {
+        "type": "string"
+      },
+      "inhoud": {
+        "type": "string"
+      },
+      "isRelevantVoor": {
+        "$ref": "#/definitions/IsRelevantVoor"
+      },
+      "heeft": {
+        "type": "array",
+        "items": {
+          "$ref":"#/definitions/Status"
+        }
+      },
+      "heeftRelevant": {
+        "type": "array",
+        "items": {
+          "$ref":"#/definitions/Document"
+        }
+      }
+    }
+  }

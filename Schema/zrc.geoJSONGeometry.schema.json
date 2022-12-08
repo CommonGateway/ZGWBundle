@@ -28,10 +28,10 @@
           "type": "number"
         },
         "required": true
-      },
-      "required": [
-        "type",
-        "coordinates"
-      ]
-    }
+      }
+    },
+  "required": [
+    "type",
+    "coordinates"
+  ]
   }
