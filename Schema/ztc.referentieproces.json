@@ -1,5 +1,5 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/ztc_referentieproces.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.referentieproces.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
     "type": "object",
@@ -11,7 +11,7 @@
             "description": "De naam van het Referentieproces."
         },
         "link": {
-            "type": "string",
+            "type": "string<uri>",
             "description": "De URL naar de beschrijving van het Referentieproces.",
             "format": "url"
         }

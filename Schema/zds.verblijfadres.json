@@ -1,39 +1,39 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc_natuurlijkpersoon.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.verblijfadres.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
-    "title": "NatuurlijkPersoon",
+    "title": "Verblijfadres",
     "type": "object",
     "properties": {
         "id": {
             "type": "integer"
         },
-        "inpBsn": {
+        "aoaldentificatie": {
             "type": "string"
         },
         "authentiek": {
             "type": "string"
         },
-        "geslachtsnaam" : {
+        "wplWoonplaatsNaam": {
             "type": "string"
         },
-        "voorvoegselGeslachtsnaam" : {
+        "gorOpenbareRuimteNaam": {
             "type": "string"
         },
-        "voorletters": {
+        "aoaPostcode": {
             "type": "string"
         },
-        "voornamen": {
+        "aoaHuisnummer": {
             "type": "string"
         },
-        "geslachtsaanduiding": {
+        "aoaHuiletter": {
             "type": "string"
         },
-        "geboortedatum": {
+        "aoaHuisnummertoevoeging": {
             "type": "string"
         },
-        "verblijfadres": {
-            "$ref": "#/definitions/Verblijfadres"
+        "inpLocatiebeschrijving": {
+            "type": "string"
         }
     }
 }

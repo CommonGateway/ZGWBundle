@@ -1,27 +1,32 @@
-
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc_status.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.vestiging.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
-    "title": "Status",
+    "title": "Vestiging",
     "type": "object",
     "properties": {
         "id": {
+            "type": "integer"
+        },
+        "vestigingsNummer": {
             "type": "string"
         },
-        "omschrijving": {
+        "authentiek": {
             "type": "string"
         },
-        "omschrijvingGeneriek": {
+        "handelsnaam": {
             "type": "string"
         },
-        "datumStatusGezet": {
+        "verblijfsadres": {
+            "$ref": "#/definitions/Verblijfadres"
+        },
+        "identificatie": {
             "type": "string"
         },
-        "toelichting":{
+        "naam": {
             "type": "string"
         },
-        "name": {
+        "isGehuisvestIn": {
             "type": "string"
         }
     }

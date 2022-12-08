@@ -1,12 +1,12 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/ztc_catalogus.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
     "type": "object",
     "title": "Catalogus",
     "properties": {
         "url": {
-            "type": "string",
+            "type": "string<uri>",
             "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
             "format": "url"
         },
@@ -27,7 +27,7 @@
             "description": "Het telefoonnummer van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS."
         },
         "contactpersoonBeheerEmailadres": {
-            "type": "string",
+            "type": "string<email>",
             "description": "Het emailadres van de contactpersoon die verantwoordelijk is voor het beheer van de CATALOGUS.",
             "format": "email"
         },
