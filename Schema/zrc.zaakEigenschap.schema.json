@@ -39,8 +39,8 @@
       }
     },
     "required": [
-      "zaaktype",
-      "verantwoordelijkeOrganisatie",
-      "startdatum"
+      "zaak",
+      "eigenschap",
+      "waarde"
     ]
   }
