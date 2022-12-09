@@ -43,7 +43,7 @@
       },
       "beschrijving": {
         "type": "string",
-        "description": "Een op het object gerichte beschrijving van de inhoud vanhet INFORMATIEOBJECT.",
+        "description": "Een op het object gerichte beschrijving van de inhoud vanhet INFORMATIEOBJECT."
       },
       "registratiedatum": {
         "type": "string",
