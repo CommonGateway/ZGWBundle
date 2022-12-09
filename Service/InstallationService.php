@@ -75,7 +75,7 @@ class InstallationService implements InstallerInterface
         }
 
         // Let create some endpoints
-        $objectsThatShouldHaveEndpoints = ['https://vng.opencatalogi.nl/schemas/zrc_zaak.schema.json'];
+        $objectsThatShouldHaveEndpoints = ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'];
 
         foreach ($objectsThatShouldHaveEndpoints as $object) {
             (isset($this->io) ? $this->io->writeln('Looking for a endpoint for: ' . $object) : '');
