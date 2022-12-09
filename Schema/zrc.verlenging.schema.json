@@ -1,0 +1,26 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "0.1",
+    "title": "Verlenging",
+    "type": "object",
+    "properties": {
+      "reden": {
+        "description": "Omschrijving van de reden voor het verlengen van de behandeling van de zaak.",
+        "type": "string",
+        "required": true,
+        "maxLength": 200,
+        "minLength": 1
+      },
+      "duur": {
+        "description": "Het aantal werkbare dagen waarmee de doorlooptijd van de behandeling van de ZAAK is verlengd (of verkort) ten opzichte van de eerder gecommuniceerde doorlooptijd.",
+        "type": "string",
+        "format": "duration",
+        "required": true
+      }
+    },
+  "required": [
+    "reden",
+    "duur"
+  ]
+  }

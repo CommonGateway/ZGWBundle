@@ -1,8 +1,8 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zds.verblijfadres.schema.json",
+    "$id": "https://vng.opencatalogi.nl/schemas/zds.verblijfAdres.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "version": "0.1.0",
-    "title": "Verblijfadres",
+    "title": "VerblijfAdres",
     "type": "object",
     "properties": {
         "id": {
