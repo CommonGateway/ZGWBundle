@@ -51,7 +51,7 @@ class InstallationService implements InstallerInterface
     {
 
         // Lets create some genneric dashboard cards
-        $objectsThatShouldHaveCards = ['https://vng.opencatalogi.nl/schemas/zrc_zaak.schema.json'];
+        $objectsThatShouldHaveCards = ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'];
 
         foreach ($objectsThatShouldHaveCards as $object) {
             (isset($this->io) ? $this->io->writeln('Looking for a dashboard card for: ' . $object) : '');
