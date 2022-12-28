@@ -1,0 +1,11 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.objectTypeEnum.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ObjectTypeEnum",
+  "enum": [
+    "besluit",
+    "zaak",
+    "verzoek"
+  ],
+  "type": "string"
+}
