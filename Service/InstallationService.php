@@ -5,6 +5,7 @@ namespace CommonGateway\ZGWBundle\Service;
 
 use App\Entity\DashboardCard;
 use App\Entity\Endpoint;
+use App\Entity\Entity;
 use CommonGateway\CoreBundle\Installer\InstallerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -74,28 +75,47 @@ class InstallationService implements InstallerInterface
             (isset($this->io) ? $this->io->writeln('Dashboard card found') : '');
         }
 
-        // Let create some endpoints
-        $objectsThatShouldHaveEndpoints = ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'];
+        $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
 
-        foreach ($objectsThatShouldHaveEndpoints as $object) {
-            (isset($this->io) ? $this->io->writeln('Looking for a endpoint for: ' . $object) : '');
-            $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $object]);
+        $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']);
+        var_dump($entity->getName());
+        if ($entity instanceof Entity) {
+            $path = 'zrc/zaken';
 
-            if (
-                count($entity->getEndpoints()) == 0
-            ) {
-                $endpoint = new Endpoint($entity);
-                $this->entityManager->persist($endpoint);
-                (isset($this->io) ? $this->io->writeln('Endpoint created') : '');
-                continue;
-            }
-            (isset($this->io) ? $this->io->writeln('Endpoint found') : '');
+            $endpoint = $endpointRepository->findOneBy(['name' => '/zaken item']) ?? new Endpoint();
+            $endpoint->setEntity($entity);
+            $endpoint->setName('/zaken item');
+            $endpoint->setDescription($entity->getDescription());
+            $endpoint->setMethod('GET');
+            $endpoint->setMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
+            $endpoint->setPath(['zrc', 'zaken', '{id}']);
+            $pathRegEx = '^' . $path . '/?([a-z0-9-]+)?$';
+            $endpoint->setPathRegex($pathRegEx);
+            $endpoint->setOperationType('item');
+            $this->entityManager->persist($endpoint);
+            isset($this->io) && $this->io->writeln('Zaken endpoints created');
         }
 
+        $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json']);
+        var_dump($entity->getName());
+        if ($entity instanceof Entity) {
+            $path = 'ztc/zaaktypen';
+
+            $endpoint = $endpointRepository->findOneBy(['name' => '/zaaktypen item']) ?? new Endpoint();
+            $endpoint->setEntity($entity);
+            $endpoint->setName('/zaaktypen item');
+            $endpoint->setDescription($entity->getDescription());
+            $endpoint->setMethod('GET');
+            $endpoint->setMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
+            $endpoint->setPath(['ztc', 'zaaktypen', '{id}']);
+            $pathRegEx = '^' . $path . '/?([a-z0-9-]+)?$';
+            $endpoint->setPathRegex($pathRegEx);
+            $endpoint->setOperationType('item');
+            $this->entityManager->persist($endpoint);
+            isset($this->io) && $this->io->writeln('ZaakTypen endpoints created');
+        }
+        var_dump('FLUSH');
+
         $this->entityManager->flush();
-
-        // Lets see if there is a generic search endpoint
-
-
     }
 }
