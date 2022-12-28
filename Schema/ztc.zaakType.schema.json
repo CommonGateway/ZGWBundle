@@ -1,283 +1,283 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "version": "0.1",
-    "type": "object",
-    "title": "ZaakType",
-    "properties": {
-      "url": {
+  "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1",
+  "type": "object",
+  "title": "ZaakType",
+  "properties": {
+    "url": {
+      "type": "string",
+      "title": "Url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "format": "uri",
+      "maxLength": 1000,
+      "minLength": 1
+    },
+    "identificatie": {
+      "title": "Identificatie",
+      "description": "Unieke identificatie van het ZAAKTYPE binnen de CATALOGUS waarin het ZAAKTYPE voorkomt.",
+      "type": "string"
+    },
+    "omschrijving": {
+      "title": "Omschrijving",
+      "description": "Omschrijving van de aard van ZAAKen van het ZAAKTYPE.",
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 1
+    },
+    "omschrijvingGeneriek": {
+      "title": "Omschrijving generiek",
+      "description": "Algemeen gehanteerde omschrijving van de aard van ZAAKen van het ZAAKTYPE",
+      "type": "string",
+      "maxLength": 80
+    },
+    "vertrouwelijkheidaanduiding": {
+      "title": "Vertrouwelijkheidaanduiding",
+      "description": "Aanduiding van de mate waarin zaakdossiers van ZAAKen van dit ZAAKTYPE voor de openbaarheid bestemd zijn. Indien de zaak bij het aanmaken geen vertrouwelijkheidaanduiding krijgt, dan wordt deze waarde gezet.\n\nUitleg bij mogelijke waarden:\n\n* `openbaar` - Openbaar\n* `beperkt_openbaar` - Beperkt openbaar\n* `intern` - Intern\n* `zaakvertrouwelijk` - Zaakvertrouwelijk\n* `vertrouwelijk` - Vertrouwelijk\n* `confidentieel` - Confidentieel\n* `geheim` - Geheim\n* `zeer_geheim` - Zeer geheim",
+      "type": "string",
+      "enum": [
+        "openbaar",
+        "beperkt_openbaar",
+        "intern",
+        "zaakvertrouwelijk",
+        "vertrouwelijk",
+        "confidentieel",
+        "geheim",
+        "zeer_geheim"
+      ]
+    },
+    "doel": {
+      "title": "Doel",
+      "description": "Een omschrijving van hetgeen beoogd is te bereiken met een zaak van dit zaaktype.",
+      "type": "string",
+      "minLength": 1
+    },
+    "aanleiding": {
+      "title": "Aanleiding",
+      "description": "Een omschrijving van de gebeurtenis die leidt tot het starten van een ZAAK van dit ZAAKTYPE.",
+      "type": "string",
+      "minLength": 1
+    },
+    "toelichting": {
+      "title": "Toelichting",
+      "description": "Een eventuele toelichting op dit zaaktype, zoals een beschrijving van het procesverloop op de hoofdlijnen.",
+      "type": "string"
+    },
+    "indicatieInternOfExtern": {
+      "title": "Indicatie intern of extern",
+      "description": "Een aanduiding waarmee onderscheid wordt gemaakt tussen ZAAKTYPEn die Intern respectievelijk Extern geïnitieerd worden. Indien van beide sprake kan zijn, dan prevaleert de externe initiatie.\n\nUitleg bij mogelijke waarden:\n\n* `inkomend` - Inkomend\n* `intern` - Intern\n* `uitgaand` - Uitgaand",
+      "type": "string",
+      "enum": [
+        "intern",
+        "extern"
+      ]
+    },
+    "handelingInitiator": {
+      "title": "Handeling initiator",
+      "description": "Werkwoord dat hoort bij de handeling die de initiator verricht bij dit zaaktype. Meestal 'aanvragen', 'indienen' of 'melden'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.handeling_initiator",
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 1
+    },
+    "onderwerp": {
+      "title": "Onderwerp",
+      "description": "Het onderwerp van ZAAKen van dit ZAAKTYPE. In veel gevallen nauw gerelateerd aan de product- of dienstnaam uit de Producten- en Dienstencatalogus (PDC). Bijvoorbeeld: 'Evenementenvergunning', 'Geboorte', 'Klacht'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.onderwerp",
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 1
+    },
+    "handelingBehandelaar": {
+      "title": "Handeling behandelaar",
+      "description": "Werkwoord dat hoort bij de handeling die de behandelaar verricht bij het afdoen van ZAAKen van dit ZAAKTYPE. Meestal 'behandelen', 'uitvoeren', 'vaststellen' of 'onderhouden'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.handeling_behandelaar",
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 1
+    },
+    "doorlooptijd": {
+      "title": "Doorlooptijd",
+      "description": "De periode waarbinnen volgens wet- en regelgeving een ZAAK van het ZAAKTYPE afgerond dient te zijn, in kalenderdagen.",
+      "type": "string",
+      "format": "duration"
+    },
+    "servicenorm": {
+      "title": "Servicenorm",
+      "description": "De periode waarbinnen verwacht wordt dat een ZAAK van het ZAAKTYPE afgerond wordt conform de geldende servicenormen van de zaakbehandelende organisatie(s).",
+      "type": "string",
+      "format": "duration",
+      "nullable": true
+    },
+    "opschortingEnAanhoudingMogelijk": {
+      "title": "Opschorting/aanhouding mogelijk",
+      "description": "Aanduiding die aangeeft of ZAAKen van dit mogelijk ZAAKTYPE kunnen worden opgeschort en/of aangehouden.",
+      "type": "boolean"
+    },
+    "verlengingMogelijk": {
+      "title": "Verlenging mogelijk",
+      "description": "Aanduiding die aangeeft of de Doorlooptijd behandeling van ZAAKen van dit ZAAKTYPE kan worden verlengd.",
+      "type": "boolean"
+    },
+    "verlengingstermijn": {
+      "title": "Verlengingstermijn",
+      "description": "De termijn in dagen waarmee de Doorlooptijd behandeling van ZAAKen van dit ZAAKTYPE kan worden verlengd. Mag alleen een waarde bevatten als verlenging mogelijk is.",
+      "type": "string",
+      "format": "duration",
+      "nullable": true
+    },
+    "trefwoorden": {
+      "description": "Een trefwoord waarmee ZAAKen van het ZAAKTYPE kunnen worden gekarakteriseerd.",
+      "type": "array",
+      "items": {
+        "title": "Trefwoord",
         "type": "string",
-        "title": "Url",
-        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "maxLength": 30,
+        "minLength": 1
+      }
+    },
+    "publicatieIndicatie": {
+      "title": "Publicatie indicatie",
+      "description": "Aanduiding of (het starten van) een ZAAK dit ZAAKTYPE gepubliceerd moet worden.",
+      "type": "boolean"
+    },
+    "publicatietekst": {
+      "title": "Publicatietekst",
+      "description": "De generieke tekst van de publicatie van ZAAKen van dit ZAAKTYPE.",
+      "type": "string"
+    },
+    "verantwoordingsrelatie": {
+      "description": "De relatie tussen ZAAKen van dit ZAAKTYPE en de beleidsmatige en/of financiële verantwoording.",
+      "type": "array",
+      "items": {
+        "title": "Verantwoordingsrelatie",
+        "type": "string",
+        "maxLength": 40,
+        "minLength": 1
+      }
+    },
+    "productenOfDiensten": {
+      "description": "Het product of de dienst die door ZAAKen van dit ZAAKTYPE wordt voortgebracht.",
+      "type": "array",
+      "items": {
+        "title": "URL naar product/dienst",
+        "type": "string",
         "format": "uri",
         "maxLength": 1000,
         "minLength": 1
-      },
-      "identificatie": {
-        "title": "Identificatie",
-        "description": "Unieke identificatie van het ZAAKTYPE binnen de CATALOGUS waarin het ZAAKTYPE voorkomt.",
-        "type": "string"
-      },
-      "omschrijving": {
-        "title": "Omschrijving",
-        "description": "Omschrijving van de aard van ZAAKen van het ZAAKTYPE.",
-        "type": "string",
-        "maxLength": 80,
-        "minLength": 1
-      },
-      "omschrijvingGeneriek": {
-        "title": "Omschrijving generiek",
-        "description": "Algemeen gehanteerde omschrijving van de aard van ZAAKen van het ZAAKTYPE",
-        "type": "string",
-        "maxLength": 80
-      },
-      "vertrouwelijkheidaanduiding": {
-        "title": "Vertrouwelijkheidaanduiding",
-        "description": "Aanduiding van de mate waarin zaakdossiers van ZAAKen van dit ZAAKTYPE voor de openbaarheid bestemd zijn. Indien de zaak bij het aanmaken geen vertrouwelijkheidaanduiding krijgt, dan wordt deze waarde gezet.\n\nUitleg bij mogelijke waarden:\n\n* `openbaar` - Openbaar\n* `beperkt_openbaar` - Beperkt openbaar\n* `intern` - Intern\n* `zaakvertrouwelijk` - Zaakvertrouwelijk\n* `vertrouwelijk` - Vertrouwelijk\n* `confidentieel` - Confidentieel\n* `geheim` - Geheim\n* `zeer_geheim` - Zeer geheim",
-        "type": "string",
-        "enum": [
-          "openbaar",
-          "beperkt_openbaar",
-          "intern",
-          "zaakvertrouwelijk",
-          "vertrouwelijk",
-          "confidentieel",
-          "geheim",
-          "zeer_geheim"
-        ]
-      },
-      "doel": {
-        "title": "Doel",
-        "description": "Een omschrijving van hetgeen beoogd is te bereiken met een zaak van dit zaaktype.",
-        "type": "string",
-        "minLength": 1
-      },
-      "aanleiding": {
-        "title": "Aanleiding",
-        "description": "Een omschrijving van de gebeurtenis die leidt tot het starten van een ZAAK van dit ZAAKTYPE.",
-        "type": "string",
-        "minLength": 1
-      },
-      "toelichting": {
-        "title": "Toelichting",
-        "description": "Een eventuele toelichting op dit zaaktype, zoals een beschrijving van het procesverloop op de hoofdlijnen.",
-        "type": "string"
-      },
-      "indicatieInternOfExtern": {
-        "title": "Indicatie intern of extern",
-        "description": "Een aanduiding waarmee onderscheid wordt gemaakt tussen ZAAKTYPEn die Intern respectievelijk Extern geïnitieerd worden. Indien van beide sprake kan zijn, dan prevaleert de externe initiatie.\n\nUitleg bij mogelijke waarden:\n\n* `inkomend` - Inkomend\n* `intern` - Intern\n* `uitgaand` - Uitgaand",
-        "type": "string",
-        "enum": [
-          "intern",
-          "extern"
-        ]
-      },
-      "handelingInitiator": {
-        "title": "Handeling initiator",
-        "description": "Werkwoord dat hoort bij de handeling die de initiator verricht bij dit zaaktype. Meestal 'aanvragen', 'indienen' of 'melden'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.handeling_initiator",
-        "type": "string",
-        "maxLength": 20,
-        "minLength": 1
-      },
-      "onderwerp": {
-        "title": "Onderwerp",
-        "description": "Het onderwerp van ZAAKen van dit ZAAKTYPE. In veel gevallen nauw gerelateerd aan de product- of dienstnaam uit de Producten- en Dienstencatalogus (PDC). Bijvoorbeeld: 'Evenementenvergunning', 'Geboorte', 'Klacht'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.onderwerp",
-        "type": "string",
-        "maxLength": 80,
-        "minLength": 1
-      },
-      "handelingBehandelaar": {
-        "title": "Handeling behandelaar",
-        "description": "Werkwoord dat hoort bij de handeling die de behandelaar verricht bij het afdoen van ZAAKen van dit ZAAKTYPE. Meestal 'behandelen', 'uitvoeren', 'vaststellen' of 'onderhouden'. Zie ook het IOB model op https://www.gemmaonline.nl/index.php/Imztc_2.1/doc/attribuutsoort/zaaktype.handeling_behandelaar",
-        "type": "string",
-        "maxLength": 20,
-        "minLength": 1
-      },
-      "doorlooptijd": {
-        "title": "Doorlooptijd",
-        "description": "De periode waarbinnen volgens wet- en regelgeving een ZAAK van het ZAAKTYPE afgerond dient te zijn, in kalenderdagen.",
-        "type": "string",
-        "format": "duration"
-      },
-      "servicenorm": {
-        "title": "Servicenorm",
-        "description": "De periode waarbinnen verwacht wordt dat een ZAAK van het ZAAKTYPE afgerond wordt conform de geldende servicenormen van de zaakbehandelende organisatie(s).",
-        "type": "string",
-        "format": "duration",
-        "nullable": true
-      },
-      "opschortingEnAanhoudingMogelijk": {
-        "title": "Opschorting/aanhouding mogelijk",
-        "description": "Aanduiding die aangeeft of ZAAKen van dit mogelijk ZAAKTYPE kunnen worden opgeschort en/of aangehouden.",
-        "type": "boolean"
-      },
-      "verlengingMogelijk": {
-        "title": "Verlenging mogelijk",
-        "description": "Aanduiding die aangeeft of de Doorlooptijd behandeling van ZAAKen van dit ZAAKTYPE kan worden verlengd.",
-        "type": "boolean"
-      },
-      "verlengingstermijn": {
-        "title": "Verlengingstermijn",
-        "description": "De termijn in dagen waarmee de Doorlooptijd behandeling van ZAAKen van dit ZAAKTYPE kan worden verlengd. Mag alleen een waarde bevatten als verlenging mogelijk is.",
-        "type": "string",
-        "format": "duration",
-        "nullable": true
-      },
-      "trefwoorden": {
-        "description": "Een trefwoord waarmee ZAAKen van het ZAAKTYPE kunnen worden gekarakteriseerd.",
-        "type": "array",
-        "items": {
-          "title": "Trefwoord",
-          "type": "string",
-          "maxLength": 30,
-          "minLength": 1
-        }
-      },
-      "publicatieIndicatie": {
-        "title": "Publicatie indicatie",
-        "description": "Aanduiding of (het starten van) een ZAAK dit ZAAKTYPE gepubliceerd moet worden.",
-        "type": "boolean"
-      },
-      "publicatietekst": {
-        "title": "Publicatietekst",
-        "description": "De generieke tekst van de publicatie van ZAAKen van dit ZAAKTYPE.",
-        "type": "string"
-      },
-      "verantwoordingsrelatie": {
-        "description": "De relatie tussen ZAAKen van dit ZAAKTYPE en de beleidsmatige en/of financiële verantwoording.",
-        "type": "array",
-        "items": {
-          "title": "Verantwoordingsrelatie",
-          "type": "string",
-          "maxLength": 40,
-          "minLength": 1
-        }
-      },
-      "productenOfDiensten": {
-        "description": "Het product of de dienst die door ZAAKen van dit ZAAKTYPE wordt voortgebracht.",
-        "type": "array",
-        "items": {
-          "title": "URL naar product/dienst",
-          "type": "string",
-          "format": "uri",
-          "maxLength": 1000,
-          "minLength": 1
-        }
-      },
-      "selectielijstProcestype": {
-        "title": "Selectielijst procestype",
-        "description": "URL-referentie naar een vanuit archiveringsoptiek onderkende groep processen met dezelfde kenmerken (PROCESTYPE in de Selectielijst API).",
-        "type": "string",
-        "format": "uri",
-        "maxLength": 200
-      },
-      "referentieproces": {
-        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.referentieProces.schema.json"
-      },
-      "catalogus": {
-        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
-      },
-      "statustypen": {
-        "type": "array",
-        "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
-        }
-      },
-      "resultaattypen": {
-        "type": "array",
-        "description": "URL-referenties naar de RESULTAATTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
-        }
-      },
-      "eigenschappen": {
-        "type": "array",
-        "description": "URL-referenties naar de EIGENSCHAPPEN die aanwezig moeten zijn in ZAKEN van dit ZAAKTYPE.",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
-        }
-      },
-      "informatieobjecttypen": {
-        "type": "array",
-        "description": "URL-referenties naar de INFORMATIEOBJECTTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
-        }
-      },
-      "roltypen": {
-        "type": "array",
-        "description": "URL-referenties naar de ROLTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
-        }
-      },
-      "besluittypen": {
-        "description": "URL-referenties naar de BESLUITTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
-        }
-      },
-      "gerelateerdeZaaktypen": {
-        "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
-        "type": "array",
-        "items": {
-          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
-        }
-      },
-      "beginGeldigheid": {
-        "title": "Begin geldigheid",
-        "description": "De datum waarop het is ontstaan.",
-        "type": "string",
-        "format": "date"
-      },
-      "eindeGeldigheid": {
-        "title": "Einde geldigheid",
-        "description": "De datum waarop het is opgeheven.",
-        "type": "string",
-        "format": "date",
-        "nullable": true
-      },
-      "versiedatum": {
-        "title": "Versiedatum",
-        "description": "De datum waarop de (gewijzigde) kenmerken van het ZAAKTYPE geldig zijn geworden",
-        "type": "string",
-        "format": "date"
-      },
-      "concept": {
-        "title": "Concept",
-        "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
-        "type": "boolean",
-        "readOnly": true
       }
     },
-    "required": [
-      "identificatie",
-      "omschrijving",
-      "vertrouwelijkheidaanduiding",
-      "doel",
-      "aanleiding",
-      "indicatieInternOfExtern",
-      "handelingInitiator",
-      "onderwerp",
-      "handelingBehandelaar",
-      "doorlooptijd",
-      "opschortingEnAanhoudingMogelijk",
-      "verlengingMogelijk",
-      "publicatieIndicatie",
-      "productenOfDiensten",
-      "referentieproces",
-      "catalogus",
-      "besluittypen",
-      "gerelateerdeZaaktypen",
-      "beginGeldigheid",
-      "versiedatum"
-    ]
-  }
+    "selectielijstProcestype": {
+      "title": "Selectielijst procestype",
+      "description": "URL-referentie naar een vanuit archiveringsoptiek onderkende groep processen met dezelfde kenmerken (PROCESTYPE in de Selectielijst API).",
+      "type": "string",
+      "format": "uri",
+      "maxLength": 200
+    },
+    "referentieproces": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.referentieProces.schema.json"
+    },
+    "catalogus": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+    },
+    "statustypen": {
+      "type": "array",
+      "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
+      }
+    },
+    "resultaattypen": {
+      "type": "array",
+      "description": "URL-referenties naar de RESULTAATTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
+      }
+    },
+    "eigenschappen": {
+      "type": "array",
+      "description": "URL-referenties naar de EIGENSCHAPPEN die aanwezig moeten zijn in ZAKEN van dit ZAAKTYPE.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
+      }
+    },
+    "informatieobjecttypen": {
+      "type": "array",
+      "description": "URL-referenties naar de INFORMATIEOBJECTTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
+      }
+    },
+    "roltypen": {
+      "type": "array",
+      "description": "URL-referenties naar de ROLTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
+      }
+    },
+    "besluittypen": {
+      "description": "URL-referenties naar de BESLUITTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
+      }
+    },
+    "gerelateerdeZaaktypen": {
+      "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
+      "type": "array",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+      }
+    },
+    "beginGeldigheid": {
+      "title": "Begin geldigheid",
+      "description": "De datum waarop het is ontstaan.",
+      "type": "string",
+      "format": "date"
+    },
+    "eindeGeldigheid": {
+      "title": "Einde geldigheid",
+      "description": "De datum waarop het is opgeheven.",
+      "type": "string",
+      "format": "date",
+      "nullable": true
+    },
+    "versiedatum": {
+      "title": "Versiedatum",
+      "description": "De datum waarop de (gewijzigde) kenmerken van het ZAAKTYPE geldig zijn geworden",
+      "type": "string",
+      "format": "date"
+    },
+    "concept": {
+      "title": "Concept",
+      "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
+      "type": "boolean",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "identificatie",
+    "omschrijving",
+    "vertrouwelijkheidaanduiding",
+    "doel",
+    "aanleiding",
+    "indicatieInternOfExtern",
+    "handelingInitiator",
+    "onderwerp",
+    "handelingBehandelaar",
+    "doorlooptijd",
+    "opschortingEnAanhoudingMogelijk",
+    "verlengingMogelijk",
+    "publicatieIndicatie",
+    "productenOfDiensten",
+    "referentieproces",
+    "catalogus",
+    "besluittypen",
+    "gerelateerdeZaaktypen",
+    "beginGeldigheid",
+    "versiedatum"
+  ]
+}

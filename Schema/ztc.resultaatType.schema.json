@@ -1,5 +1,3 @@
-
-
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -31,7 +29,7 @@
             "minLength": 1
         },
         "selectielijstklasse":{
-            "type": "string<uri>",
+            "type": "string",
             "description" :"URL-referentie naar de, voor het archiefregime bij het RESULTAATTYPE relevante, categorie in de Selectielijst Archiefbescheiden (RESULTAAT in de Selectielijst API) van de voor het ZAAKTYPE verantwoordelijke overheidsorganisatie.",
             "format": "uri",
             "minLength": 1,
