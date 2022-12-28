@@ -78,7 +78,6 @@ class InstallationService implements InstallerInterface
         $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
 
         $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']);
-        var_dump($entity->getName());
         if ($entity instanceof Entity) {
             $path = 'zrc/zaken';
 
@@ -97,7 +96,6 @@ class InstallationService implements InstallerInterface
         }
 
         $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json']);
-        var_dump($entity->getName());
         if ($entity instanceof Entity) {
             $path = 'ztc/zaaktypen';
 
@@ -114,7 +112,6 @@ class InstallationService implements InstallerInterface
             $this->entityManager->persist($endpoint);
             isset($this->io) && $this->io->writeln('ZaakTypen endpoints created');
         }
-        var_dump('FLUSH');
 
         $this->entityManager->flush();
     }
