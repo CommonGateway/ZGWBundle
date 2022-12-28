@@ -14,7 +14,7 @@
         "minLength": 1
       },
       "catalogus": {
-        "$ref": "#/definitions/Catalogus",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
         "required": true
       },
       "zaaktypes": {

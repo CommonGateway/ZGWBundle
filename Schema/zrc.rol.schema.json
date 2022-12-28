@@ -20,7 +20,7 @@
         "readOnly": true
       },
       "zaak": {
-        "$ref": "#/definitions/Zaak"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
       },
       "betrokkene": {
         "description": "URL-referentie naar een betrokkene gerelateerd aan de ZAAK.",
@@ -41,11 +41,7 @@
         "required": true
       },
       "roltype": {
-        "type": "string",
-        "description": "URL-referentie naar een roltype binnen het ZAAKTYPE van de ZAAK.",
-        "minLength": 1,
-        "maxLength": 1000,
-        "required": true
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
       },
       "omschrijving": {
         "type": "string",
