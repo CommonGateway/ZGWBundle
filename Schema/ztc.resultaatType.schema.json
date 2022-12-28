@@ -58,7 +58,7 @@
         },
         "brondatumArchiefprocedure": {
             "description": "Specificatie voor het bepalen van de brondatum voor de start van de Archiefactietermijn (=brondatum) van het zaakdossier.",
-            "$ref": "#/definitions/BrondatumArchiefprocedure"
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.bronDatumArchiefProcedure.schema.json"
         }
     },
     "required": [

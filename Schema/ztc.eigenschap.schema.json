@@ -28,7 +28,7 @@
         "required": true
       },
       "specificatie": {
-        "$ref": "#/definitions/EigenschapSpecificatie"
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschapSpecificatie.schema.json"
       },
       "toelichting": {
         "title": "Toelichting",
