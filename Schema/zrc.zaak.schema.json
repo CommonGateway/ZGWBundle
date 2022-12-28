@@ -42,7 +42,7 @@
       "zaaktype": {
         "type": "string",
         "description": "ZaakType from ZaakTypeCatalogus",
-        "$ref": "#/definitions/Zaaktype"
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "registratiedatum": {
         "title": "Registratiedatum",
@@ -151,13 +151,13 @@
         "nullable": true
       },
       "zaakgeometrie": {
-        "$ref": "#/definitions/GeoJSONGeometry"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json"
       },
       "verlenging": {
-        "$ref": "#/definitions/Verlenging"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json"
       },
       "opschorting": {
-        "$ref": "#/definitions/Opschorting"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.opschorting.schema.json"
       },
       "selectielijstklasse": {
         "title": "Selectielijstklasse",
@@ -188,14 +188,14 @@
         "description": "Een lijst van relevante andere zaken.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/RelevanteZaak"
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.relevanteZaak.schema.json"
         }
       },
       "eigenschappen": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/ZaakEigenschap"
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json"
         },
         "readOnly": true
       },
@@ -203,18 +203,18 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/Rol"
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json"
         },
         "readOnly": true
       },
       "status": {
-        "$ref": "#/definitions/Status"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
       },
       "zaakinformatieobjecten": {
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "$ref": "#/definitions/ZaakInformatieObject"
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json"
         },
         "readOnly": true
       },
@@ -231,7 +231,7 @@
         "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via `ZaakObject`.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/ZaakKenmerk"
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakKenmerk.schema.json"
         }
       },
       "archiefnominatie": {

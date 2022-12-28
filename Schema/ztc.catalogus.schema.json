@@ -48,7 +48,7 @@
             "type": "array",
             "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
             "items": {
-                "$ref": "#/definitions/Zaaktype"
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
             },
             "readOnly": true
         },
@@ -56,7 +56,7 @@
             "type": "array",
             "description": "URL-referenties naar BESLUITTYPEn die in deze CATALOGUS worden ontsloten.",
             "items": {
-                "$ref": "#/definitions/BesluitType"
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
             },
             "readOnly": true
         },
@@ -64,7 +64,7 @@
             "type": "array",
             "description": "URL-referenties naar INFORMATIEOBJECTTYPEn die in deze CATALOGUS worden ontsloten.",
             "items": {
-                "$ref": "#/definitions/InformatieObjectType"
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
             },
             "readOnly": true
         }

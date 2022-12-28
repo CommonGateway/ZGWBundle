@@ -20,12 +20,12 @@
         "readOnly": true
       },
       "zaak": {
-        "$ref": "#/definitions/Zaak",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "required": true
       },
       "resultaattype": {
         "description": "URL-referentie naar het RESULTAATTYPE (in de Catalogi API).",
-        "$ref": "#/definitions/Statustype",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
         "required": true
       },
       "toelichting": {
