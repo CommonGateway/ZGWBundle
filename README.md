@@ -1,6 +1,6 @@
 # ZGWBundle
 
-Symfoyn bundle for zgw standard functionality
+Common Gateway Symfony bundle for ZGW functionality including the Zaken, Catalogi, Documenten and Besluiten APIs. 
 
 #### Using your code
 
