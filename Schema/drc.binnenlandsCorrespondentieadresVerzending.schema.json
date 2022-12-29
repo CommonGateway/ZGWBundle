@@ -1,0 +1,52 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.binnenlandsCorrespondentieadresVerzending.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BinnenlandsCorrespondentieadresVerzending",
+  "type": "object",
+  "description": "Het correspondentieadres, betreffende een adresseerbaar object, van de BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT indien dat afwijkt van het reguliere binnenlandse correspondentieadres van BETROKKENE.",
+  "properties": {
+    "huisletter": {
+      "type": "string",
+      "description": "Een door of namens het bevoegd gemeentelijk orgaan ten aanzien van een adresseerbaar object toegekende toevoeging aan een huisnummer in de vorm van een alfanumeriek teken.",
+      "title": "huisletter",
+      "maxLength": 1
+    },
+    "huisnummer": {
+      "type": "integer",
+      "maximum": 99999,
+      "minimum": 1,
+      "description": "Een door of namens het bevoegd gemeentelijk orgaan ten aanzien van een adresseerbaar object toegekende nummering.",
+      "title": "huisnummer"
+    },
+    "huisnummerToevoeging": {
+      "type": "string",
+      "description": "Een door of namens het bevoegd gemeentelijk orgaan ten aanzien van een adresseerbaar object toegekende nadere toevoeging aan een huisnummer of een combinatie van huisnummer en huisletter.",
+      "title": "huisnummer toevoeging",
+      "maxLength": 4
+    },
+    "naamOpenbareRuimte": {
+      "type": "string",
+      "description": "Een door het bevoegde gemeentelijke orgaan aan een GEMEENTELIJKE  OPENBARE RUIMTE toegekende benaming.",
+      "title": "naam openbare ruimte",
+      "maxLength": 80
+    },
+    "postcode": {
+      "type": "string",
+      "description": "De door TNT Post vastgestelde code behorende bij een bepaalde combinatie van een naam van een woonplaats, naam van een openbare ruimte en een huisnummer.",
+      "title": "postcode",
+      "maxLength": 6
+    },
+    "woonplaatsnaam": {
+      "type": "string",
+      "description": "De door het bevoegde gemeentelijke orgaan aan een WOONPLAATS toegekende benaming.",
+      "title": "woonplaatsnaam",
+      "maxLength": 80
+    }
+  },
+  "required": [
+    "huisnummer",
+    "naamOpenbareRuimte",
+    "woonplaatsnaam"
+  ],
+  "nullable": true
+}
