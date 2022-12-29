@@ -61,10 +61,10 @@ class InstallationService implements InstallerInterface
     private function createCollections(): array
     {
         $collectionConfigs = [
-            ['name' => 'Besluiten',  'prefix' => '/brc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/brc'],
-            ['name' => 'Documenten', 'prefix' => '/drc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/drc'],
-            ['name' => 'Zaken',      'prefix' => '/zrc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/zrc'],
-            ['name' => 'Catalogi',   'prefix' => '/ztc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/ztc'],
+            ['name' => 'Besluiten',  'prefix' => 'brc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/brc'],
+            ['name' => 'Documenten', 'prefix' => 'drc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/drc'],
+            ['name' => 'Zaken',      'prefix' => 'zrc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/zrc'],
+            ['name' => 'Catalogi',   'prefix' => 'ztc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/ztc'],
         ];
         $collections = [];
         foreach($collectionConfigs as $collectionConfig) {
