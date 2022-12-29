@@ -131,30 +131,31 @@ class InstallationService implements InstallerInterface
         $this->createCollections();
 
         $objectsThatShouldHaveEndpoints = [
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                   'path' => '/resultaten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                         'path' => '/rollen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                      'path' => '/statussen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',        'path' => '/zaakinformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                        'path' => '/zaken'],
-            //Missing zaakobjecten and klantcontacten
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => '/rollen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => '/statussen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => '/zaakinformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => '/zaken'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => '/zaakobjecten'],
 
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                 'path' => '/besluittypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                   'path' => '/catalogussen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                  'path' => '/eigenschappen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',        'path' => '/informatieobjecttypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resulstaatType.schema.json',              'path' => '/resultaattypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                     'path' => '/roltypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                  'path' => '/statustypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                    'path' => '/zaaktypen'],
-            //Missing: Zaaktype-informatieobjecttypen
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => '/catalogussen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resulstaatType.schema.json',               'path' => '/resultaattypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen'],
 
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                     'path' => '/besluiten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',     'path' => '/besluiten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => '/besluiten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => '/besluiten'],
 
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json', 'path' => '/enkelvoudiginformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',               'path' => '/gebruiksrechten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',      'path' => '/objectinformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                'path' => '/bestandsdelen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => '/gebruiksrechten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => '/objectinformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen'],
         ];
         $this->createEndpoints($objectsThatShouldHaveEndpoints);
 
