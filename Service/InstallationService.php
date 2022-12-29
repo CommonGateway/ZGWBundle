@@ -3,6 +3,7 @@
 // src/Service/InstallationService.php
 namespace CommonGateway\ZGWBundle\Service;
 
+use App\Entity\CollectionEntity;
 use App\Entity\DashboardCard;
 use App\Entity\Endpoint;
 use App\Entity\Entity;
@@ -48,6 +49,58 @@ class InstallationService implements InstallerInterface
         // Do some cleanup
     }
 
+    private function addSchemasToCollection(CollectionEntity $collection, string $schemaPrefix): CollectionEntity
+    {
+        $entities = $this->entityManager->getRepository('App:Entity')->findByReferencePrefix($schemaPrefix);
+        foreach($entities as $entity) {
+            $entity->addCollection($collection);
+        }
+        return $collection;
+    }
+
+    private function createCollections(): array
+    {
+        $collectionConfigs = [
+            ['name' => 'Besluiten',  'prefix' => '/brc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/brc'],
+            ['name' => 'Documenten', 'prefix' => '/drc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/drc'],
+            ['name' => 'Zaken',      'prefix' => '/zrc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/zrc'],
+            ['name' => 'Catalogi',   'prefix' => '/ztc', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/ztc'],
+        ];
+        $collections = [];
+        foreach($collectionConfigs as $collectionConfig) {
+            $collectionsFromEntityManager = $this->entityManager->getRepository('App:CollectionEntity')->findBy(['name' => $collectionConfig['name']]);
+            if(count($collectionsFromEntityManager) == 0){
+                $collection = new CollectionEntity($collectionConfig['name'], $collectionConfig['prefix'], 'ZgwBundle');
+            } else {
+                $collection = $collectionsFromEntityManager[0];
+            }
+            $collection = $this->addSchemasToCollection($collection, $collectionConfig['schemaPrefix']);
+            $this->entityManager->persist($collection);
+            $this->entityManager->flush();
+            $collections[$collectionConfig['name']] = $collection;
+        }
+        $this->io->writeln('Collections Created');
+        return $collections;
+    }
+
+    private function createEndpoints($objectsThatShouldHaveEndpoints): array
+    {
+        $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
+        $endpoints = [];
+        foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
+            $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
+            if ($entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
+                $endpoint = new Endpoint($entity, $objectThatShouldHaveEndpoint['path']);
+                $this->entityManager->persist($endpoint);
+                $this->entityManager->flush();
+                $endpoints[] = $endpoint;
+            }
+        }
+        $this->io->writeln('Endpoints Created');
+
+        return $endpoints;
+    }
+
     public function checkDataConsistency()
     {
 
@@ -75,43 +128,37 @@ class InstallationService implements InstallerInterface
             (isset($this->io) ? $this->io->writeln('Dashboard card found') : '');
         }
 
-        $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
+        $this->createCollections();
 
-        $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']);
-        if ($entity instanceof Entity) {
-            $path = 'zrc/zaken';
+        $objectsThatShouldHaveEndpoints = [
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => '/rollen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => '/statussen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => '/zaakinformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => '/zaken'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => '/zaakobjecten'],
 
-            $endpoint = $endpointRepository->findOneBy(['name' => '/zaken item']) ?? new Endpoint();
-            $endpoint->setEntity($entity);
-            $endpoint->setName('/zaken item');
-            $endpoint->setDescription($entity->getDescription());
-            $endpoint->setMethod('GET');
-            $endpoint->setMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
-            $endpoint->setPath(['zrc', 'zaken', '{id}']);
-            $pathRegEx = '^' . $path . '/?([a-z0-9-]+)?$';
-            $endpoint->setPathRegex($pathRegEx);
-            $endpoint->setOperationType('item');
-            $this->entityManager->persist($endpoint);
-            isset($this->io) && $this->io->writeln('Zaken endpoints created');
-        }
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => '/catalogussen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resulstaatType.schema.json',               'path' => '/resultaattypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen'],
 
-        $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json']);
-        if ($entity instanceof Entity) {
-            $path = 'ztc/zaaktypen';
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => '/besluiten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => '/besluiten'],
 
-            $endpoint = $endpointRepository->findOneBy(['name' => '/zaaktypen item']) ?? new Endpoint();
-            $endpoint->setEntity($entity);
-            $endpoint->setName('/zaaktypen item');
-            $endpoint->setDescription($entity->getDescription());
-            $endpoint->setMethod('GET');
-            $endpoint->setMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
-            $endpoint->setPath(['ztc', 'zaaktypen', '{id}']);
-            $pathRegEx = '^' . $path . '/?([a-z0-9-]+)?$';
-            $endpoint->setPathRegex($pathRegEx);
-            $endpoint->setOperationType('item');
-            $this->entityManager->persist($endpoint);
-            isset($this->io) && $this->io->writeln('ZaakTypen endpoints created');
-        }
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => '/gebruiksrechten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => '/objectinformatieobjecten'],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen'],
+        ];
+        $this->createEndpoints($objectsThatShouldHaveEndpoints);
+
 
         $this->entityManager->flush();
     }
