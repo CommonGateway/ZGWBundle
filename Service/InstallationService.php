@@ -101,6 +101,22 @@ class InstallationService implements InstallerInterface
         return $endpoints;
     }
 
+    private function createPublishEndpoints(array $objectsThatShouldHavePublishEndpoints): array
+    {
+        $endpoints = $this->createEndpoints($objectsThatShouldHavePublishEndpoints);
+        foreach ($endpoints as $endpoint) {
+            $path = $endpoint->getPath();
+            $path[] = 'publish';
+            $endpoint->setPath($path);
+            $endpoint->setPathRegex($endpoint->getPathRegex().'/publish');
+            $endpoint->setName($endpoint->getName().' Publish');
+            $endpoint->setDescription('Publishes the resource (sets concept to false)');
+            $this->entityManager->persist($endpoint);
+            $this->entityManager->flush();
+        }
+        return $endpoints;
+    }
+
     public function checkDataConsistency()
     {
 
@@ -159,6 +175,19 @@ class InstallationService implements InstallerInterface
             ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => '/verzendingen',                      'methods' => ['PUT']],
         ];
         $this->createEndpoints($objectsThatShouldHaveEndpoints);
+
+        $objectsThatShouldHavePublishEndpoints = [
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen',             'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => '/resultaattypen',                    'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen',                          'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen',                       'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen',    'methods' => ['PUT']],
+            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen',                         'methods' => ['PUT']],
+        ];
+
+        $this->createPublishEndpoints($objectsThatShouldHavePublishEndpoints)
 
 
         $this->entityManager->flush();
