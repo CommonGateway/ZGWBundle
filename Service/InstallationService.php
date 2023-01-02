@@ -150,11 +150,11 @@ class InstallationService implements InstallerInterface
             if($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json') {
                 $action->setListens('zgw.ztc.publish');
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.lockDocument.schema.json') {
-                $action->setListens('zgw.drc.lock');
+                $action->setListens(['zgw.drc.lock']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json') {
-                $action->setListens('zgw.drc.release');
+                $action->setListens(['zgw.drc.release']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.downloadContent.schema.json') {
-                $action->setListens('zgw.drc.download');
+                $action->setListens(['zgw.drc.download']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.saveContent.schema.json') {
                 $enkelvoudigInformatieObjectEntity = $this->entityManager->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json']);
                 $action->setConditions(['==' => [
