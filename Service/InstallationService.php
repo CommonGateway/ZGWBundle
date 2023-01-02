@@ -67,6 +67,8 @@ class InstallationService implements InstallerInterface
         'CommonGateway\ZGWBundle\ActionHandler\DrcLockHandler',
         'CommonGateway\ZGWBundle\ActionHandler\DrcReleaseHandler',
         'CommonGateway\ZGWBundle\ActionHandler\ZtcPublishHandler',
+        'CommonGateway\ZGWBundle\ActionHandler\InhoudHandler',
+        'CommonGateway\ZGWBundle\ActionHandler\DownloadInhoudHandler',
     ];
 
     private EntityManagerInterface $entityManager;
@@ -151,6 +153,14 @@ class InstallationService implements InstallerInterface
                 $action->setListens('zgw.drc.lock');
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json') {
                 $action->setListens('zgw.drc.release');
+            } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.downloadContent.schema.json') {
+                $action->setListens('zgw.drc.download');
+            } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.saveContent.schema.json') {
+                $enkelvoudigInformatieObjectEntity = $this->entityManager->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json']);
+                $action->setConditions(['==' => [
+                    ['var' => 'entity'],
+                    $enkelvoudigInformatieObjectEntity->getId()->toString(),
+                ]]);
             }
             $action->setConfiguration($defaultConfig);
 
@@ -173,6 +183,24 @@ class InstallationService implements InstallerInterface
             }
         }
         $this->io->writeln('Endpoints Created');
+
+        return $endpoints;
+    }
+
+    private function createDownloadEndpoint(array $downloadEndpoints): array
+    {
+        $endpoints = $this->createEndpoints($downloadEndpoints);
+        foreach($endpoints as $endpoint) {
+            $path = $endpoint->getPath();
+            $path[] = 'download';
+            $endpoint->setPath($path);
+            $endpoint->setPathRegex($endpoint->getPathRegex().'/download');
+            $endpoint->setName($endpoint->getName().' Download');
+            $endpoint->setDescription('Downloads the content of the Enkelvoudig Informatie Object');
+            $endpoint->setThrows('zgw.drc.download');
+            $this->entityManager->persist($endpoint);
+            $this->entityManager->flush();
+        }
 
         return $endpoints;
     }
@@ -292,6 +320,8 @@ class InstallationService implements InstallerInterface
         $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
         $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
         $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
+
+        $this->createDownloadEndpoint([['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten',     'methods' => ['GET']]]);
 
         $this->createActions();
 

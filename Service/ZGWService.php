@@ -4,14 +4,20 @@
 
 namespace CommonGateway\ZGWBundle\Service;
 
+use App\Entity\Endpoint;
+use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ZGWService
 {
-    public function __construct(EntityManagerInterface $entityManager)
+    private EntityManagerInterface $entityManager;
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag)
     {
         $this->entityManager = $entityManager;
+        $this->parameterBag = $parameterBag;
     }
 
 
@@ -65,5 +71,73 @@ class ZGWService
 
         $data['response'] = $object->toArray();
         return $data;
+    }
+
+    private function generateDownloadEndpoint(string $id, Endpoint $downloadEndpoint): string
+    {
+        $baseUrl = $this->parameterBag->get('app_url');
+        $pathArray = $downloadEndpoint->getPath();
+        foreach($pathArray as $key => $value) {
+            if($value == 'id' || $value == '[id]' || $value == '{id}') {
+                $pathArray[$key] = $id;
+            }
+        }
+
+        return $baseUrl.'/api/'.implode('/', $pathArray);
+    }
+
+    public function inhoudHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        if(!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
+            return $this->$data;
+        }
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
+        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->find($configuration['downloadEndpoint']);
+        if(
+            $objectEntity instanceof ObjectEntity &&
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']
+        ) {
+            $data = $objectEntity->toArray();
+            $file = new File();
+            $file->setName($data['titel']);
+            $file->setExtension('');
+            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            if($data['inhoud']) {
+                $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
+                $file->setBase64($data['inhoud']);
+            } elseif ($data['link']) {
+                $linkedData = file_get_contents($data['link']);
+                $file->setSize(mb_strlen($linkedData));
+                $file->setBase64(base64_encode($linkedData));
+            }
+            $file->setValue($objectEntity->getValueObject('inhoud'));
+            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
+            $this->entityManager->persist($file);
+            $this->entityManager->flush();
+        }
+
+        return $this->data;
+    }
+
+    public function downloadInhoudHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        if(!$configuration['enkelvoudigInformatieObjectEntityId']) {
+            return $this->$data;
+        }
+        $parameters = $this->data['parameters'];
+        $pathDefintion = $this->data['path'];
+        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
+
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
+        if(
+            $objectEntity instanceof ObjectEntity &&
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']
+        ) {
+            $this->data['response'] = new Response($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64(), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+        }
+
+        return $this->data;
     }
 }
