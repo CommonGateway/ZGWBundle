@@ -3,6 +3,7 @@
 // src/Service/InstallationService.php
 namespace CommonGateway\ZGWBundle\Service;
 
+use App\Entity\Action;
 use App\Entity\CollectionEntity;
 use App\Entity\DashboardCard;
 use App\Entity\Endpoint;
@@ -13,6 +14,60 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class InstallationService implements InstallerInterface
 {
+    public const SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS = [
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten',                    'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten',                        'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => '/rollen',                            'methods' => ['GET', 'POST', 'DELETE']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => '/statussen',                         'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => '/zaakinformatieobjecten',            'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => '/zaken',                             'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => '/zaakobjecten',                      'methods' => ['GET', 'POST']],
+
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => '/catalogussen',                      'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen',             'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => '/resultaattypen',                    'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen',                          'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen',                       'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen',    'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen',                         'methods' => []],
+
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => '/besluiten',                         'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => '/besluitinformatieobjecten',         'methods' => ['GET', 'POST', 'DELETE']],
+
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten',     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => '/gebruiksrechten',                   'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => '/objectinformatieobjecten',          'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen',                     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => '/verzendingen',                      'methods' => ['PUT']],
+    ];
+
+    public const SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS = [
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen',             'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => '/resultaattypen',                    'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen',                          'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen',                       'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen',    'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen',                         'methods' => ['PUT']],
+    ];
+
+    public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten',     'methods' => ['POST']],
+    ];
+
+    public const OBJECTS_THAT_SHOULD_HAVE_CARDS = [
+        'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',
+    ];
+
+    public const ACTION_HANDLERS = [
+        'CommonGateway\ZGWBundle\ActionHandler\DrcLockHandler',
+        'CommonGateway\ZGWBundle\ActionHandler\DrcReleaseHandler',
+        'CommonGateway\ZGWBundle\ActionHandler\ZtcPublishHandler',
+    ];
+
     private EntityManagerInterface $entityManager;
     private SymfonyStyle $io;
 
@@ -34,19 +89,136 @@ class InstallationService implements InstallerInterface
         return $this;
     }
 
-    public function install()
+    /**
+     * This function creates default configuration for the action.
+     *
+     * @param $actionHandler The actionHandler for witch the default configuration is set
+     *
+     * @return array
+     */
+    public function addActionConfiguration($actionHandler): array
     {
-        $this->checkDataConsistency();
+        $defaultConfig = [];
+        foreach ($actionHandler->getConfiguration()['properties'] as $key => $value) {
+            switch ($value['type']) {
+                case 'string':
+                case 'array':
+                    if (array_key_exists('example', $value)) {
+                        $defaultConfig[$key] = $value['example'];
+                    }
+                    break;
+                case 'object':
+                    break;
+                case 'uuid':
+                    if (array_key_exists('$ref', $value) &&
+                        $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $value['$ref']])) {
+                        $defaultConfig[$key] = $entity->getId()->toString();
+                    }
+                    break;
+                default:
+                    // throw error
+            }
+        }
+
+        return $defaultConfig;
     }
 
-    public function update()
+    public function createActions(): void
     {
-        $this->checkDataConsistency();
+        $actionHandlers = $this::ACTION_HANDLERS;
+        (isset($this->io) ? $this->io->writeln(['', '<info>Looking for actions</info>']) : '');
+
+        foreach ($actionHandlers as $handler) {
+            $actionHandler = $this->container->get($handler);
+
+            if ($this->entityManager->getRepository('App:Action')->findOneBy(['class' => get_class($actionHandler)])) {
+                (isset($this->io) ? $this->io->writeln(['Action found for ' . $handler]) : '');
+                continue;
+            }
+            if (!$schema = $actionHandler->getConfiguration()) {
+                continue;
+            }
+
+            $defaultConfig = $this->addActionConfiguration($actionHandler);
+
+            $action = new Action($actionHandler);
+            if($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json') {
+                $action->setListens('zgw.ztc.publish');
+            } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.lockDocument.schema.json') {
+                $action->setListens('zgw.drc.lock');
+            } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json') {
+                $action->setListens('zgw.drc.release');
+            }
+            $action->setConfiguration($defaultConfig);
+
+            $this->entityManager->persist($action);
+            (isset($this->io) ? $this->io->writeln(['Action created for '.$handler]) : '');
+        }
     }
 
-    public function uninstall()
+    private function createEndpoints($objectsThatShouldHaveEndpoints): array
     {
-        // Do some cleanup
+        $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
+        $endpoints = [];
+        foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
+            $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
+            if ($entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
+                $endpoint = new Endpoint($entity, $objectThatShouldHaveEndpoint['path'], $objectThatShouldHaveEndpoint['methods']);
+                $this->entityManager->persist($endpoint);
+                $this->entityManager->flush();
+                $endpoints[] = $endpoint;
+            }
+        }
+        $this->io->writeln('Endpoints Created');
+
+        return $endpoints;
+    }
+
+    private function createPublishEndpoints(array $objectsThatShouldHavePublishEndpoints): array
+    {
+        $endpoints = $this->createEndpoints($objectsThatShouldHavePublishEndpoints);
+        foreach ($endpoints as $endpoint) {
+            $path = $endpoint->getPath();
+            $path[] = 'publish';
+            $endpoint->setPath($path);
+            $endpoint->setPathRegex($endpoint->getPathRegex().'/publish');
+            $endpoint->setName($endpoint->getName().' Publish');
+            $endpoint->setDescription('Publishes the resource (sets concept to false)');
+            $endpoint->setThrows('zgw.ztc.publish');
+            $this->entityManager->persist($endpoint);
+            $this->entityManager->flush();
+        }
+        return $endpoints;
+    }
+
+    private function createLockAndReleaseEndpoints(array $objectsThatShouldHaveLockAndReleaseEndpoints): array
+    {
+        $lockEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
+        foreach ($lockEndpoints as $endpoint) {
+            $path = $endpoint->getPath();
+            $path[] = 'lock';
+            $endpoint->setPath($path);
+            $endpoint->setPathRegex($endpoint->getPathRegex().'/lock');
+            $endpoint->setName($endpoint->getName().' Lock');
+            $endpoint->setDescription('Locks the resource (sets concept to false)');
+            $endpoint->setThrows('zgw.drc.lock');
+            $this->entityManager->persist($endpoint);
+            $this->entityManager->flush();
+        }
+        $releaseEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
+        foreach ($releaseEndpoints as $endpoint) {
+            $path = $endpoint->getPath();
+            $path[] = 'release';
+            $endpoint->setPath($path);
+            $endpoint->setPathRegex($endpoint->getPathRegex().'/release');
+            $endpoint->setName($endpoint->getName().' Release');
+            $endpoint->setDescription('Locks the resource (sets concept to false)');
+            $endpoint->setThrows('zgw.drc.release');
+            $this->entityManager->persist($endpoint);
+            $this->entityManager->flush();
+        }
+
+        return array_merge($lockEndpoints, $releaseEndpoints);
     }
 
     private function addSchemasToCollection(CollectionEntity $collection, string $schemaPrefix): CollectionEntity
@@ -83,30 +255,9 @@ class InstallationService implements InstallerInterface
         return $collections;
     }
 
-    private function createEndpoints($objectsThatShouldHaveEndpoints): array
+
+    public function createDashboardCards($objectsThatShouldHaveCards)
     {
-        $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
-        $endpoints = [];
-        foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
-            $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
-            if ($entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
-                $endpoint = new Endpoint($entity, $objectThatShouldHaveEndpoint['path']);
-                $this->entityManager->persist($endpoint);
-                $this->entityManager->flush();
-                $endpoints[] = $endpoint;
-            }
-        }
-        $this->io->writeln('Endpoints Created');
-
-        return $endpoints;
-    }
-
-    public function checkDataConsistency()
-    {
-
-        // Lets create some genneric dashboard cards
-        $objectsThatShouldHaveCards = ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'];
-
         foreach ($objectsThatShouldHaveCards as $object) {
             (isset($this->io) ? $this->io->writeln('Looking for a dashboard card for: ' . $object) : '');
             $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $object]);
@@ -127,39 +278,35 @@ class InstallationService implements InstallerInterface
             }
             (isset($this->io) ? $this->io->writeln('Dashboard card found') : '');
         }
+    }
+
+    public function checkDataConsistency()
+    {
+        $this->createDashboardCards($this::OBJECTS_THAT_SHOULD_HAVE_CARDS);
 
         $this->createCollections();
 
-        $objectsThatShouldHaveEndpoints = [
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => '/rollen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => '/statussen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => '/zaakinformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => '/zaken'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => '/zaakobjecten'],
+        $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
+        $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
+        $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
 
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => '/catalogussen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resulstaatType.schema.json',               'path' => '/resultaattypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen'],
-
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => '/besluiten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => '/besluiten'],
-
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => '/gebruiksrechten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => '/objectinformatieobjecten'],
-            ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen'],
-        ];
-        $this->createEndpoints($objectsThatShouldHaveEndpoints);
-
+        $this->createActions();
 
         $this->entityManager->flush();
+    }
+
+    public function install()
+    {
+        $this->checkDataConsistency();
+    }
+
+    public function update()
+    {
+        $this->checkDataConsistency();
+    }
+
+    public function uninstall()
+    {
+        // Do some cleanup
     }
 }
