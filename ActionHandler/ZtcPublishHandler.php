@@ -2,9 +2,14 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
+use App\Exception\GatewayException;
+use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 use CommonGateway\ZGWBundle\Service\ZGWService;
+use Psr\Cache\CacheException;
+use Psr\Cache\InvalidArgumentException;
+use Respect\Validation\Exceptions\ComponentException;
 
-class ZtcPublishHandler
+class ZtcPublishHandler implements ActionHandlerInterface
 {
     private ZGWService $zgwService;
 
