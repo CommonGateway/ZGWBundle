@@ -146,11 +146,11 @@ class InstallationService implements InstallerInterface
 
             $action = new Action($actionHandler);
             if($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json') {
-                $action->setListens('zgw.ztc.publish');
+                $action->setListens(['zgw.ztc.publish']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.lockDocument.schema.json') {
-                $action->setListens('zgw.drc.lock');
+                $action->setListens(['zgw.drc.lock']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json') {
-                $action->setListens('zgw.drc.release');
+                $action->setListens(['zgw.drc.release']);
             }
             $action->setConfiguration($defaultConfig);
 
