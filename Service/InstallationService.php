@@ -16,8 +16,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class InstallationService implements InstallerInterface
 {
     public const MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT = [
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakeigenschappen'],                             'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakbesluiten'],                             'methods' => []],
+        ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakeigenschappen'],                             'methods' => []],
+        ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakbesluiten'],                             'methods' => []],
     ];
     public const SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS = [
         ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => ['/klantcontacten'],                    'methods' => ['GET', 'POST']],
@@ -243,32 +243,18 @@ class InstallationService implements InstallerInterface
 
         foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
             $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
-            if (!$entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
+            if ($entity instanceof Entity && $entityEndpoint = $endpointRepository->findOneBy(['name' => $objectThatShouldHaveEndpoint['name']])) {
                 continue;
             }
 
-            if ($endpointRepository->findBy(['name' => 'Zaak_ZaakEigenschap']) || $endpointRepository->findBy(['name' => 'Zaak_ZaakBesluit'])) {
-                continue;
-            }
             $endpoint = new Endpoint($entity, $objectThatShouldHaveEndpoint['path'], $objectThatShouldHaveEndpoint['methods']);
-
-            $entity = [];
-            foreach ($objectThatShouldHaveEndpoint['entities'] as $endpointEntity) {
-                if ($endpointEntity != $objectThatShouldHaveEndpoint['reference']) {
-                    $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $endpointEntity]);
-                    if (!$entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
-                        continue;
-                    }
-                }
-            }
+            $endpoint->setName($objectThatShouldHaveEndpoint['name']);
 
             if ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json') {
-                $endpoint->setName('Zaak_ZaakEigenschap');
                 $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakeigenschappen', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakeigenschap']);
             } elseif ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json'){
-                $endpoint->setName('Zaak_ZaakBesluit');
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'.id}', 'zaakbesluiten', '{id}'];
+                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakbesluiten', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakbesluit']);
             } else {
                 foreach ($endpoint->getPath() as $path) {
@@ -282,7 +268,6 @@ class InstallationService implements InstallerInterface
             $endpoint->setPath($pathArray);
             $this->entityManager->persist($endpoint);
             $this->entityManager->flush();
-
             $endpoints[] = $endpoint;
         }
         $this->io->writeln('Endpoints Created');
