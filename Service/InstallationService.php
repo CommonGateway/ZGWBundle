@@ -161,6 +161,7 @@ class InstallationService implements InstallerInterface
                     ['var' => 'entity'],
                     $enkelvoudigInformatieObjectEntity->getId()->toString(),
                 ]]);
+                $action->setListens(['commongateway.object.create', 'commongateway.object.update']);
             }
             $action->setConfiguration($defaultConfig);
 

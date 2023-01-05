@@ -99,11 +99,15 @@ class ZGWService
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']
         ) {
             $data = $objectEntity->toArray();
+
             $file = new File();
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
             if($data['inhoud']) {
+                if(filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
+                    return $this->data;
+                }
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
             } elseif ($data['link']) {
@@ -114,6 +118,7 @@ class ZGWService
             $file->setValue($objectEntity->getValueObject('inhoud'));
             $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
             $this->entityManager->persist($file);
+            $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
         }
 
@@ -139,5 +144,31 @@ class ZGWService
         }
 
         return $this->data;
+    }
+
+    public function uploadFilePartHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+
+        $parameters = $this->data['parameters'];
+        $pathDefintion = $this->data['path'];
+        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
+
+        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
+            return $this->data;
+        }
+//          @TODO: Uncomment this once lock and release are proven to work
+//        if(!$objectEntity->toArray()['lock'] !== $this->data['lock']) {
+//            throw new \HttpException('Lock not valid', 400);
+//        }
+
+        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+        $file->setBase64($file->getBase64().$data['inhoud']);
+        $file->setSize(mb_strlen($file->getBase64()));
+
+
+
+
     }
 }
