@@ -243,7 +243,11 @@ class InstallationService implements InstallerInterface
 
         foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
             $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
-            if ($entity instanceof Entity && $entityEndpoint = $endpointRepository->findOneBy(['name' => $objectThatShouldHaveEndpoint['name']])) {
+            if (!$entity instanceof Entity && $entityEndpoint = $endpointRepository->findOneBy(['name' => $objectThatShouldHaveEndpoint['name']])) {
+                continue;
+            }
+
+            if(!$entity){
                 continue;
             }
 
@@ -316,16 +320,10 @@ class InstallationService implements InstallerInterface
             (isset($this->io) ? $this->io->writeln('Looking for a dashboard card for: ' . $object) : '');
             $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $object]);
             if (
+                $entity &&
                 !$dashboardCard = $this->entityManager->getRepository('App:DashboardCard')->findOneBy(['entityId' => $entity->getId()])
             ) {
-                $dashboardCard = new DashboardCard();
-                $dashboardCard->setType('schema');
-                $dashboardCard->setEntity('App:Entity');
-                $dashboardCard->setObject('App:Entity');
-                $dashboardCard->setName($entity->getName());
-                $dashboardCard->setDescription($entity->getDescription());
-                $dashboardCard->setEntityId($entity->getId());
-                $dashboardCard->setOrdering(1);
+                $dashboardCard = new DashboardCard($entity);
                 $this->entityManager->persist($dashboardCard);
                 (isset($this->io) ? $this->io->writeln('Dashboard card created') : '');
                 continue;
