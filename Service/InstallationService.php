@@ -318,6 +318,7 @@ class InstallationService implements InstallerInterface
                 $collection = $collectionsFromEntityManager[0];
             }
             $collection = $this->addSchemasToCollection($collection, $collectionConfig['schemaPrefix']);
+            $collection->setPrefix($collectionConfig['prefix']);
             $this->entityManager->persist($collection);
             $this->entityManager->flush();
             $collections[$collectionConfig['name']] = $collection;
