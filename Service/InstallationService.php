@@ -255,10 +255,10 @@ class InstallationService implements InstallerInterface
             $endpoint->setName($objectThatShouldHaveEndpoint['name']);
 
             if ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json') {
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakeigenschappen', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakeigenschappen', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakeigenschap']);
             } elseif ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json'){
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakbesluiten', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakbesluiten', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakbesluit']);
             } else {
                 foreach ($endpoint->getPath() as $path) {
