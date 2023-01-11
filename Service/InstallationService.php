@@ -161,6 +161,7 @@ class InstallationService implements InstallerInterface
                 $action->setListens(['zgw.drc.release']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json') {
                 $action->setListens(['zrc.post.zaakeigenschap']);
+                $action->setThrows(['zrc.zaakeigenschap.updated']);
             } elseif($schema['$id'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json') {
                 $action->setListens(['zrc.post.zaakbesluit']);
             }
