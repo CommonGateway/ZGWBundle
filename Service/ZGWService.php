@@ -63,7 +63,7 @@ class ZGWService
         $this->configuration = $configuration;
 
         if ($this->data['parameters']->getMethod() == 'POST' || $this->data['parameters']->getMethod() == 'PUT') {
-            $explodedArray = explode('/api/zrc/zaken/', $this->data['parameters']->getPathInfo());
+            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
             $explodedZaakId = explode('/zaakeigenschappen', $explodedArray[1]);
             $zaakId = $explodedZaakId[0];
 
