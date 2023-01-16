@@ -192,6 +192,7 @@ class InstallationService implements InstallerInterface
 
     private function createPublishEndpoints(array $objectsThatShouldHavePublishEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create publish endpoints...'): '');
         $endpoints = $this->createEndpoints($objectsThatShouldHavePublishEndpoints);
         foreach ($endpoints as $endpoint) {
             $path = $endpoint->getPath();
@@ -209,6 +210,7 @@ class InstallationService implements InstallerInterface
 
     private function createLockAndReleaseEndpoints(array $objectsThatShouldHaveLockAndReleaseEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create release endpoints...'): '');
         $lockEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
         foreach ($lockEndpoints as $endpoint) {
             $path = $endpoint->getPath();
@@ -239,6 +241,7 @@ class InstallationService implements InstallerInterface
 
     private function createEndpointForMultilpeSchemas($objectsThatShouldHaveEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create multiple schema endpoints...'): '');
         $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
         $endpoints = [];
 
