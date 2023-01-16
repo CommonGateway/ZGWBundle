@@ -15,11 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class InstallationService implements InstallerInterface
 {
-    // todo: make this work with string ipv array for path
-//    public const MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT = [
-//        ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakeigenschappen'],                             'methods' => []],
-//        ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakbesluiten'],                             'methods' => []],
-//    ];
+    public const MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT = [
+        ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',  'path' => '/zaken/([a-z0-9-]+)/zaakeigenschappen',  'methods' => []],
+        ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',        'path' => '/zaken/([a-z0-9-]+)/zaakbesluiten',      'methods' => []],
+    ];
     public const SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS = [
         ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten',                    'methods' => ['GET', 'POST']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten',                        'methods' => []],
@@ -257,10 +256,10 @@ class InstallationService implements InstallerInterface
             $endpoint->setName($objectThatShouldHaveEndpoint['name']);
 
             if ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json') {
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakeigenschappen', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'._self.id}', 'zaakeigenschappen', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakeigenschap']);
             } elseif ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json'){
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakbesluiten', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'._self.id}', 'zaakbesluiten', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakbesluit']);
             } else {
                 foreach ($endpoint->getPath() as $path) {
@@ -357,8 +356,7 @@ class InstallationService implements InstallerInterface
         $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
         $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
         $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
-        // todo: fix this :
-//        $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
+        $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
 
         $this->createActions();
 
