@@ -46,7 +46,7 @@ class InstallationService implements InstallerInterface
         ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen',                     'methods' => []],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => '/verzendingen',                      'methods' => ['PUT']],
     ];
-
+    
     public const SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS = [
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => ['PUT']],
@@ -174,20 +174,22 @@ class InstallationService implements InstallerInterface
         $endpoints = [];
         foreach($objectsThatShouldHaveEndpoints as $objectThatShouldHaveEndpoint) {
             $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $objectThatShouldHaveEndpoint['reference']]);
-            if ($entity instanceof Entity && !$endpointRepository->findBy(['name' => $entity->getName()])) {
+            if ($entity instanceof Entity && !$endpointRepository->findOneBy(['name' => $entity->getName()])) {
                 $endpoint = new Endpoint($entity, $objectThatShouldHaveEndpoint['path'], $objectThatShouldHaveEndpoint['methods']);
+                
                 $this->entityManager->persist($endpoint);
                 $this->entityManager->flush();
                 $endpoints[] = $endpoint;
             }
         }
-        $this->io->writeln('Endpoints Created');
-
+        (isset($this->io) ? $this->io->writeln(count($endpoints).' Endpoints Created'): '');
+        
         return $endpoints;
     }
 
     private function createPublishEndpoints(array $objectsThatShouldHavePublishEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create publish endpoints...'): '');
         $endpoints = $this->createEndpoints($objectsThatShouldHavePublishEndpoints);
         foreach ($endpoints as $endpoint) {
             $path = $endpoint->getPath();
@@ -205,6 +207,7 @@ class InstallationService implements InstallerInterface
 
     private function createLockAndReleaseEndpoints(array $objectsThatShouldHaveLockAndReleaseEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create release endpoints...'): '');
         $lockEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
         foreach ($lockEndpoints as $endpoint) {
             $path = $endpoint->getPath();
@@ -235,6 +238,7 @@ class InstallationService implements InstallerInterface
 
     private function createEndpointForMultilpeSchemas($objectsThatShouldHaveEndpoints): array
     {
+        (isset($this->io) ? $this->io->writeln('Create multiple schema endpoints...'): '');
         $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
         $endpoints = [];
 
@@ -352,7 +356,8 @@ class InstallationService implements InstallerInterface
         $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
         $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
         $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
-        $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
+        // todo: fix this :
+//        $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
 
         $this->createActions();
 
