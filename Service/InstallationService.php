@@ -16,49 +16,46 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class InstallationService implements InstallerInterface
 {
     public const MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT = [
-        ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakeigenschappen'],                             'methods' => []],
-        ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'entities' => ['https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json', 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'],                         'path' => ['/zaken', '/zaakbesluiten'],                             'methods' => []],
+        ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',  'path' => '/zaken/([a-z0-9-]+)/zaakeigenschappen',  'methods' => []],
+        ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',        'path' => '/zaken/([a-z0-9-]+)/zaakbesluiten',      'methods' => []],
     ];
     public const SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS = [
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => ['/klantcontacten'],                    'methods' => ['GET', 'POST']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => ['/resultaten'],                        'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => ['/rollen'],                            'methods' => ['GET', 'POST', 'DELETE']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => ['/statussen'],                         'methods' => ['GET', 'POST']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => ['/zaakinformatieobjecten'],            'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => ['/zaken'],                             'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => ['/zaakobjecten'],                      'methods' => ['GET', 'POST']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',               'path' => ['/zaakeigenschappen'],                 'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',                  'path' => ['/zaakbesluiten'],                     'methods' => []],
-
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => ['/besluittypen'],                      'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => ['/catalogussen'],                      'methods' => ['GET', 'POST']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => ['/eigenschappen'],                     'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => ['/informatieobjecttypen'],             'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => ['/resultaattypen'],                    'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => ['/roltypen'],                          'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => ['/statustypen'],                       'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => ['/zaaktype-informatieobjecttypen'],    'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => ['/zaaktypen'],                         'methods' => []],
-
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => ['/besluiten'],                         'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => ['/besluitinformatieobjecten'],         'methods' => ['GET', 'POST', 'DELETE']],
-
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => ['/enkelvoudiginformatieobjecten'],     'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => ['/gebruiksrechten'],                   'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => ['/objectinformatieobjecten'],          'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => ['/bestandsdelen'],                     'methods' => []],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => ['/verzendingen'],                      'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => '/klantcontacten',                    'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => '/resultaten',                        'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json',                          'path' => '/rollen',                            'methods' => ['GET', 'POST', 'DELETE']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.status.schema.json',                       'path' => '/statussen',                         'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json',         'path' => '/zaakinformatieobjecten',            'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',                         'path' => '/zaken',                             'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json',                   'path' => '/zaakobjecten',                      'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',               'path' => '/zaakeigenschappen',                 'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',                  'path' => '/zaakbesluiten',                     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json',                    'path' => '/catalogussen',                      'methods' => ['GET', 'POST']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen',             'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => '/resultaattypen',                    'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen',                          'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen',                       'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen',    'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen',                         'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json',                      'path' => '/besluiten',                         'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json',      'path' => '/besluitinformatieobjecten',         'methods' => ['GET', 'POST', 'DELETE']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => '/enkelvoudiginformatieobjecten',     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json',                'path' => '/gebruiksrechten',                   'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json',       'path' => '/objectinformatieobjecten',          'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json',                 'path' => '/bestandsdelen',                     'methods' => []],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => '/verzendingen',                      'methods' => ['PUT']],
     ];
 
     public const SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS = [
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => ['/besluittypen'],                      'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => ['/eigenschappen'],                     'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => ['/informatieobjecttypen'],             'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => ['/resultaattypen'],                    'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => ['/roltypen'],                          'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => ['/statustypen'],                       'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => ['/zaaktype-informatieobjecttypen'],    'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => ['/zaaktypen'],                         'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => '/besluittypen',                      'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => '/eigenschappen',                     'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => '/informatieobjecttypen',             'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => '/resultaattypen',                    'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => '/roltypen',                          'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => '/statustypen',                       'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => '/zaaktype-informatieobjecttypen',    'methods' => ['PUT']],
+        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => '/zaaktypen',                         'methods' => ['PUT']],
     ];
 
     public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
@@ -255,10 +252,10 @@ class InstallationService implements InstallerInterface
             $endpoint->setName($objectThatShouldHaveEndpoint['name']);
 
             if ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json') {
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakeigenschappen', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'._self.id}', 'zaakeigenschappen', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakeigenschap']);
             } elseif ($objectThatShouldHaveEndpoint['reference'] == 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json'){
-                $pathArray = ['zrc', 'zaken', '{'.strtolower($entity->getName()).'_.id}', 'zaakbesluiten', '{id}'];
+                $pathArray = ['zrc', 'v1', 'zaken', '{'.strtolower($entity->getName()).'._self.id}', 'zaakbesluiten', '{id}'];
                 $endpoint->setThrows(['zrc.post.zaakbesluit']);
             } else {
                 foreach ($endpoint->getPath() as $path) {
