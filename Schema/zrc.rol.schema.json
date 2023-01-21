@@ -76,23 +76,7 @@
         ]
       },
       "betrokkeneIdentificatie": {
-        "oneOf": [
-          {
-            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolMedewerker.schema.json"
-          },
-          {
-            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json"
-          },
-          {
-            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNietNatuurlijkPersoon.schema.json"
-          },
-          {
-            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolOrganisatorischeEenheid.schema.json"
-          },
-          {
-            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolVestiging.schema.json"
-          }
-        ]
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json"
       }
     },
     "required": [

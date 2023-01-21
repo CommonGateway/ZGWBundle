@@ -66,6 +66,85 @@
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
       "nullable": true,
       "title": "subVerblijfBuitenland"
+    },
+    "identificatie": {
+      "type": "string",
+      "description": "Een korte unieke aanduiding van de MEDEWERKER.",
+      "title": "identificatie",
+      "maxLength": 24
+    },
+    "achternaam": {
+      "type": "string",
+      "description": "De achternaam zoals de MEDEWERKER die in het dagelijkse verkeer gebruikt.",
+      "title": "achternaam",
+      "maxLength": 200
+    },
+    "voorvoegselAchternaam": {
+      "type": "string",
+      "description": "Dat deel van de geslachtsnaam dat voorkomt in Tabel 36 (GBA), voorvoegseltabel, en door een spatie van de geslachtsnaam is",
+      "title": "voorvoegsel achternaam",
+      "maxLength": 10
+    },
+    "innNnpId": {
+      "type": "string",
+      "description": "Het door een kamer toegekend uniek nummer voor de INGESCHREVEN NIET-NATUURLIJK PERSOON",
+      "title": "inn nnp id",
+      "maxLength": 9
+    },
+    "annIdentificatie": {
+      "type": "string",
+      "description": "Het door de gemeente uitgegeven unieke nummer voor een ANDER NIET-NATUURLIJK PERSOON",
+      "title": "ann identificatie",
+      "maxLength": 17
+    },
+    "statutaireNaam": {
+      "type": "string",
+      "description": "Naam van de niet-natuurlijke persoon zoals deze is vastgelegd in de statuten (rechtspersoon) of in de vennootschapsovereenkomst is overeengekomen (Vennootschap onder firma of Commanditaire vennootschap).",
+      "title": "statutaire naam",
+      "maxLength": 500
+    },
+    "innRechtsvorm": {
+      "description": "De juridische vorm van de NIET-NATUURLIJK PERSOON.",
+      "title": "inn rechtsvorm",
+      "type": "string"
+    },
+    "bezoekadres": {
+      "type": "string",
+      "description": "De gegevens over het adres van de NIET-NATUURLIJK PERSOON",
+      "title": "bezoekadres",
+      "maxLength": 1000
+    },
+    "naam": {
+      "type": "string",
+      "description": "De feitelijke naam van de organisatorische eenheid.",
+      "title": "naam",
+      "maxLength": 50
+    },
+    "isGehuisvestIn": {
+      "type": "string",
+      "title": "is gehuisvest in",
+      "maxLength": 24
+    },
+    "vestigingsNummer": {
+      "type": "string",
+      "description": "Een korte unieke aanduiding van de Vestiging.",
+      "title": "vestigings nummer",
+      "maxLength": 24
+    },
+    "handelsnaam": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 625
+      },
+      "description": "De naam van de vestiging waaronder gehandeld wordt.",
+      "title": "handelsnaam"
+    },
+    "kvkNummer": {
+      "type": "string",
+      "description": "Een uniek nummer gekoppeld aan de onderneming.",
+      "title": "kvk nummer",
+      "maxLength": 8
     }
   }
 }
