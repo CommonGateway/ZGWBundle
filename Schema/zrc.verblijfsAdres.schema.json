@@ -1,0 +1,58 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.verblijfsAdres.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1",
+  "title": "VerblijfsAdres",
+  "type": "object",
+  "properties": {
+    "aoaIdentificatie": {
+      "type": "string",
+      "description": "De unieke identificatie van het OBJECT",
+      "title": "identificatie",
+      "maxLength": 100
+    },
+    "wplWoonplaatsNaam": {
+      "type": "string",
+      "title": "wpl woonplaats naam",
+      "maxLength": 80
+    },
+    "gorOpenbareRuimteNaam": {
+      "type": "string",
+      "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
+      "title": "gor openbare ruimte naam",
+      "maxLength": 80
+    },
+    "aoaPostcode": {
+      "type": "string",
+      "title": "postcode",
+      "maxLength": 7
+    },
+    "aoaHuisnummer": {
+      "type": "integer",
+      "maximum": 99999,
+      "minimum": 0,
+      "title": "huisnummer"
+    },
+    "aoaHuisletter": {
+      "type": "string",
+      "title": "huisletter",
+      "maxLength": 1
+    },
+    "aoaHuisnummertoevoeging": {
+      "type": "string",
+      "title": "huisnummertoevoeging",
+      "maxLength": 4
+    },
+    "inpLocatiebeschrijving": {
+      "type": "string",
+      "title": "locatie omschrijving",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "aoaHuisnummer",
+    "aoaIdentificatie",
+    "gorOpenbareRuimteNaam",
+    "wplWoonplaatsNaam"
+  ]
+}
