@@ -2,7 +2,7 @@
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "0.1",
-  "title": "Rol",
+  "title": "RolNatuurlijkPersoon",
   "type": "object",
   "properties": {
     "inpBsn": {
