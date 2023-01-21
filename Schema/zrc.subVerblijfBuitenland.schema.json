@@ -1,6 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SubVerlijfBuitenland",
   "version": "0.1",
   "type": "object",
   "properties": {

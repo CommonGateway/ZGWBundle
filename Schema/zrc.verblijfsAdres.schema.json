@@ -2,6 +2,7 @@
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.verblijfsAdres.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "0.1",
+  "title": "VerblijfsAdres",
   "type": "object",
   "properties": {
     "aoaIdentificatie": {
