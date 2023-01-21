@@ -1,0 +1,71 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1",
+  "title": "Rol",
+  "type": "object",
+  "properties": {
+    "inpBsn": {
+      "type": "string",
+      "description": "Het burgerservicenummer, bedoeld in artikel 1.1 van de Wet algemene bepalingen burgerservicenummer.",
+      "title": "inp bsn",
+      "maxLength": 9
+    },
+    "anpIdentificatie": {
+      "type": "string",
+      "description": "Het door de gemeente uitgegeven unieke nummer voor een ANDER NATUURLIJK PERSOON",
+      "title": "anp identificatie",
+      "maxLength": 17
+    },
+    "inpA_nummer": {
+      "type": "string",
+      "description": "Het administratienummer van de persoon, bedoeld in de Wet BRP",
+      "title": "inp a nummer",
+      "pattern": "^[1-9][0-9]{9}$",
+      "maxLength": 10
+    },
+    "geslachtsnaam": {
+      "type": "string",
+      "description": "De stam van de geslachtsnaam.",
+      "title": "geslachtsnaam",
+      "maxLength": 200
+    },
+    "voorvoegselGeslachtsnaam": {
+      "type": "string",
+      "title": "voorvoegsel geslachtsnaam",
+      "maxLength": 80
+    },
+    "voorletters": {
+      "type": "string",
+      "description": "De verzameling letters die gevormd wordt door de eerste letter van alle in volgorde voorkomende voornamen.",
+      "title": "voorletters",
+      "maxLength": 20
+    },
+    "voornamen": {
+      "type": "string",
+      "description": "Voornamen bij de naam die de persoon wenst te voeren.",
+      "title": "voornamen",
+      "maxLength": 200
+    },
+    "geslachtsaanduiding": {
+      "description": "Een aanduiding die aangeeft of de persoon een man of een vrouw is, of dat het geslacht nog onbekend is.\n\nUitleg bij mogelijke waarden:\n\n* `m` - Man\n* `v` - Vrouw\n* `o` - Onbekend",
+      "title": "geslachtsaanduiding",
+      "type": "string"
+    },
+    "geboortedatum": {
+      "type": "string",
+      "title": "geboortedatum",
+      "maxLength": 18
+    },
+    "verblijfsadres": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.verblijfsAdres.schema.json",
+      "nullable": true,
+      "title": "verblijfsadres"
+    },
+    "subVerblijfBuitenland": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
+      "nullable": true,
+      "title": "subVerblijfBuitenland"
+    }
+  }
+}

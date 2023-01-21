@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "version": "0.1",
+    "version": "0.2",
     "title": "Rol",
     "type": "object",
     "properties": {
@@ -73,6 +73,25 @@
         "enum": [
           "gemachtigde",
           "machtiginggever"
+        ]
+      },
+      "betrokkeneIdentificatie": {
+        "oneOf": [
+          {
+            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolMedewerker.schema.json"
+          },
+          {
+            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json"
+          },
+          {
+            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNietNatuurlijkPersoon.schema.json"
+          },
+          {
+            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolOrganisatorischeEenheid.schema.json"
+          },
+          {
+            "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolVestiging.schema.json"
+          }
         ]
       }
     },

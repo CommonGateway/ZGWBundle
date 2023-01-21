@@ -1,0 +1,39 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1",
+  "type": "object",
+  "properties": {
+    "lndLandcode": {
+      "type": "string",
+      "description": "De code, behorende bij de landnaam, zoals opgenomen in de Land/Gebied-tabel van de BRP.",
+      "title": "lnd landcode",
+      "maxLength": 4
+    },
+    "lndLandnaam": {
+      "type": "string",
+      "description": "De naam van het land, zoals opgenomen in de Land/Gebied-tabel van de BRP.",
+      "title": "lnd landnaam",
+      "maxLength": 40
+    },
+    "subAdresBuitenland_1": {
+      "type": "string",
+      "title": "sub adres buitenland 1",
+      "maxLength": 35
+    },
+    "subAdresBuitenland_2": {
+      "type": "string",
+      "title": "sub adres buitenland 2",
+      "maxLength": 35
+    },
+    "subAdresBuitenland_3": {
+      "type": "string",
+      "title": "sub adres buitenland 3",
+      "maxLength": 35
+    }
+  },
+  "required": [
+    "lndLandcode",
+    "lndLandnaam"
+  ]
+}
