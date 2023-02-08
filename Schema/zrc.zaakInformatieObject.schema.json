@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "version": "0.1",
+    "version": "0.2",
     "title": "ZaakInformatieObject",
     "type": "object",
     "properties": {
@@ -28,7 +28,8 @@
       "zaak": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "type": "string",
-        "required": true
+        "required": true,
+        "inversedBy": "zaakinformatieobjecten"
       },
       "aardRelatieWeergave": {
         "type": "string",
