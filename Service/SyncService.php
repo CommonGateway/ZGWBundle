@@ -8,38 +8,45 @@ use App\Entity\Entity as Schema;
 use App\Entity\Gateway as Source;
 use App\Service\SynchronizationService;
 use Doctrine\ORM\EntityManagerInterface;
-use CommonGateway\ZGWBundle\Service\ZRCService;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use CommonGateway\CoreBundle\Service\CallService;
+use Doctrine\Persistence\ObjectRepository;
 use Exception;
 
 
 /**
- * Syncs ZGW to the gateway
+ * Syncs ZGW to the gateway with a given Source and given API configuration (probably from SyncZGWAction).
  */
 class SyncService
 {
-    private array $configuration;
-    private array $data;
-
     private EntityManagerInterface $entityManager;
-    private ZRCService $zrcService;
     private SymfonyStyle $symfonyStyle;
     private SynchronizationService $synchronizationService;
     private CallService $callService;
 
+    private ?ObjectRepository $sourceRepo;
+    private ?ObjectRepository $schemaRepo;
+
     private ?Source $zgwSource;
+
+    private const SUPPORTED_APIS = [
+        'zrc',
+        'ztc',
+        'brc',
+        'drc'
+    ];
 
     public function __construct(
         EntityManagerInterface $entityManager,
         SynchronizationService $synchronizationService,
-        CallService $callService,
-        ZRCService $zrcService
+        CallService $callService
     ) {
         $this->entityManager = $entityManager;
-        $this->zrcService = $zrcService;
         $this->synchronizationService = $synchronizationService;
         $this->callService = $callService;
+
+        $this->sourceRepo = $entityManager->getRepository(Source::class);
+        $this->schemaRepo = $entityManager->getRepository(Schema::class);
     }
 
     /**
@@ -56,28 +63,86 @@ class SyncService
         return $this;
     } // end setStyle
 
+    /**
+     * Makes sure this action has the ZaakTypeSchema.
+     * 
+     * @return bool|Schema false if object couldn't be fetched.
+     */
+    private function getZaakTypeSchema()
+    {
+        // Get ZaakType schema
+        if (!$zaakTypeSchema = $this->schemaRepo->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json'])) {
+            isset($this->symfonyStyle) && $this->symfonyStyle->error('Could not find Schema: ZaakType');
+
+            return false;
+        }
+
+        return $zaakTypeSchema;
+    }// end getZaakTypeSchema
 
     /**
-     * @param array $endpoints Endpoints of all ZGW API's
+     * Makes sure this action has the ZaakSchema.
+     * 
+     * @return bool|Schema false if couldn't be fetched.
      */
-    public function syncZGW(array $endpoints)
+    private function getZaakSchema()
     {
-        // @TODO Get source
-        $zaakSchema = $this->getZaakSchema();
-        $zaakTypeSchema = $this->getZaakTypeSchema();
+        // Get Zaak schema
+        if (!$zaakSchema = $this->schemaRepo->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json'])) {
+            isset($this->symfonyStyle) && $this->symfonyStyle->error('Could not find Schema: ZaakType');
 
-        // @TODO get this config from action
-        $apis = ['zrc' => ['endpoint' => ''],  ['ztc' => ['endpoint' => '']]];
-        // @TODO Is source enabled
-        // @TODO Get all zgw schemas 
+            return false;
+        }
 
+        return $zaakSchema;
+    }// end getZaakSchema
+
+    /**
+     * Synchronizes all given configured ZGW API's.
+     * 
+     * @param array  $apis ZGW API's to sync.
+     * @param Source $apis ZGW API's Source.
+     * 
+     * @return bool true if successfully synchronized API's.
+     */
+    public function syncZGW(array $apis, Source $zgwSource)
+    {
+        if (!isset($this->zgwSource)) {
+            $this->zgwSource = $zgwSource;
+        }
+
+        // Loop throug all given API's, get their data and synchronize fetched objects.
         foreach ($apis as $apiName => $apiInfo) {
+
+            // Validate some config
+            if (!in_array($apiName, $this::SUPPORTED_APIS)) {
+                $supportedAPISString = implode(', ', $this::SUPPORTED_APIS);
+                $this->symfonyStyle->error("$apiName is not a supported, currently only supports $supportedAPISString. Continueing..");
+
+                continue;
+            }// end if
+            if (!isset($apiInfo['endpoint'])) {
+                $this->symfonyStyle->error("$apiName does not have a configured endpoint. Continueing..");
+
+                continue;
+            }// end if
+
+            // Get associated Schema
+            switch ($apiName) {
+                case 'zrc':
+                    $schema = $this->getZaakSchema();
+                    break;
+                case 'ztc':
+                    $schema = $this->getZaakTypeSchema();
+                    break;
+            }// end switch
+
             $objects = [];
             $count = 0;
             $flushCount = 0;
-            isset($endpoints[$apiName]) && $objects = $this->getAllFromAPI($apiInfo['endpoint']);
+            $objects = $this->getAllFromAPI($apiInfo['endpoint']);
             foreach ($objects as $object) {
-                if ($this->syncObject($object, $apiInfo['schema'])) {
+                if ($this->syncObject($object, $schema)) {
                     $count++;
                     $flushCount++;
                 }
@@ -87,17 +152,21 @@ class SyncService
                     $this->entityManager->flush();
                     $flushCount = 0;
                 }
-            }
+            }// end foreach
             isset($this->symfonyStyle) && $this->symfonyStyle->success("Created $count objecst for $apiName");
-        }
+        }// end foreach
 
         return true;
-    }
+    }// end syncZGW
 
     /**
-     * @param array $object ZGW Object
+     * Finds or creates a ZGW object from given arrayobject and Schema.
+     * 
+     * @param array $object ZGW Object.
+     * 
+     * @return void Nothing.
      */
-    private function syncObject(array $arrayObject, Schema $schema)
+    private function syncObject(array $arrayObject, Schema $schema): void
     {
         isset($this->symfonyStyle) && $this->symfonyStyle->info("Finding or creating a object for external id {$arrayObject['uuid']} for Schema {$schema->getName()}");
         $synchronization = $this->synchronizationService->findSyncBySource($this->zgwSource, $schema, $arrayObject['uuid']);
@@ -106,14 +175,14 @@ class SyncService
         $object = $synchronization->getObject();
         $this->entityManager->persist($object);
         isset($this->symfonyStyle) && $this->symfonyStyle->success("Persisted {$object->getId()->toString()} for Schema {$schema->getName()}");
-    }
+    }// end syncObject
 
     /**
-     * Gets all objects from a ZGW API
+     * Gets all objects from a ZGW API.
      * 
-     * @param string $endpoint Example: /zrc/api/v1/zaken
+     * @param string $endpoint Example: /zrc/api/v1/zaken.
      *
-     * @return array
+     * @return array All objects that were fetched.
      */
     public function getAllFromAPI(string $endpoint): array
     {
@@ -130,15 +199,36 @@ class SyncService
         isset($this->symfonyStyle) && $this->symfonyStyle->success("Fetched $objectCount objects from $endpoint");
 
         return $objects;
-    }
+    }// end getAllFromAPI
 
     /*
-     * Returns a welcoming string
+     * Runs the syncZGW function.
      *
-     * @return array
+     * @return array response => true if successfully synced.
      */
     public function syncHandler(array $data, array $configuration): array
     {
-        return ['response' => $this->syncZGW()];
-    }
+        if (!isset($configuration['source']) || !is_string($configuration['source'])) {
+            $this->symfonyStyle->error('Action SyncZGWSource source not set or not string');
+
+            return [];
+        }
+
+        
+        $source = $this->sourceRepo->findOneBy(['location' => $configuration['source']]);
+        if (!$source instanceof Source) {
+            $this->symfonyStyle->error("Action SyncZGWSource source not found for {$configuration['source']}");
+
+            return [];
+        }
+
+        if (!isset($configuration['apis']) || !is_array($configuration['apis'])) {
+            $this->symfonyStyle->error('Action SyncZGWSource apis not set or not array');
+
+            return [];
+        }
+        
+
+        return ['response' => $this->syncZGW($configuration['apis'], $source)];
+    }// end synHandler
 }
