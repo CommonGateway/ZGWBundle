@@ -8,6 +8,7 @@ use App\Entity\CollectionEntity;
 use App\Entity\DashboardCard;
 use App\Entity\Endpoint;
 use App\Entity\Entity;
+use App\Entity\Gateway as Source;
 use CommonGateway\CoreBundle\Installer\InstallerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -56,6 +57,11 @@ class InstallationService implements InstallerInterface
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json',                   'path' => 'statustypen',                       'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => 'zaaktype-informatieobjecttypen',    'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => 'zaaktypen',                         'methods' => ['PUT']],
+    ];
+
+    public const SOURCES = [
+        ['name' => 'ZGW API\'s', 'location' => '!location-ChangeMe!', 'auth' => 'jwt-HS256', 'jwtId' => '!ChangeMe!', 'secret' => '!ChangeMe!', 
+        'isEnabled' => 'false', 'accept' => 'application/json', 'headers' => [['key' => 'Accept-Crs', 'value' => 'EPSG:4326'], ['key' => 'Content-Crs', 'value' => 'EPSG:4326']]],
     ];
 
     public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
@@ -347,6 +353,35 @@ class InstallationService implements InstallerInterface
         }
     }
 
+    /**
+     * Creates the Sources we need.
+     *
+     * @param array $createSources Data for Sources we want to create.
+     *
+     * @return array The created sources.
+     */
+    private function createSources(): array
+    {
+        $sourceRepository = $this->entityManager->getRepository('App:Gateway');
+        $sources = [];
+
+        foreach ($this::SOURCES as $createSource) {
+            if ($sourceRepository->findOneBy(['name' => $createSource['name']]) instanceof Source === false) {
+                $source = new Source($createSource);
+
+                $this->entityManager->persist($source);
+                $this->entityManager->flush();
+                $sources[] = $source;
+            }
+        }
+
+        if (isset($this->io) === true) {
+            $this->io->writeln(count($sources).' Sources Created');
+        }
+
+        return $sources;
+    }//end createSources()
+
     public function checkDataConsistency()
     {
         $this->createDashboardCards($this::OBJECTS_THAT_SHOULD_HAVE_CARDS);
@@ -359,6 +394,8 @@ class InstallationService implements InstallerInterface
         $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
 
         $this->createActions();
+
+        $this->createSources();
 
         $this->entityManager->flush();
     }
