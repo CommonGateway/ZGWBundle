@@ -1,0 +1,21 @@
+{
+  "title": "SyncZGWSource",
+  "$id": "https://vng.opencatalogi.nl/action/zgw.sync_source.action.json",
+  "$schema": "https://json-schema.org/draft/2020-12/action",
+  "version": "0.0.1",
+  "listens": [
+    "zgw.source.sync"
+  ],
+  "throws": [],
+  "conditions": {
+    "==": [1, 1]
+  },
+  "class": "CommonGateway\\ZGWBundle\\ActionHandler\\SyncActionHandler",
+  "configuration": {
+    "source": "!location-ChangeMe!",
+    "mapping": "https://vrijbrp.nl/mapping/vrijbrp.ZgwToVrijbrpNaamgebruik.mapping.json",
+    "synchronizationEntity": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+  },
+  "isLockable": false,
+  "isEnabled": true
+}
