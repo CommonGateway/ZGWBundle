@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonGateway\Bundle\ActionHandler;
+namespace CommonGateway\ZGWBundle\ActionHandler;
 
 use App\Exception\GatewayException;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
