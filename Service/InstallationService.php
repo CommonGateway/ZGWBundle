@@ -275,7 +275,7 @@ class InstallationService implements InstallerInterface
             $this->entityManager->flush();
             $endpoints[] = $endpoint;
         }
-        $this->io->writeln('Endpoints Created');
+        (isset($this->io) ? $this->io->writeln('Endpoints Created') : '');
 
         return $endpoints;
     }
@@ -324,7 +324,7 @@ class InstallationService implements InstallerInterface
             $this->entityManager->flush();
             $collections[$collectionConfig['name']] = $collection;
         }
-        $this->io->writeln('Collections Created');
+        (isset($this->io) ? $this->io->writeln('Collections Created') : '');
         return $collections;
     }
 
