@@ -1,0 +1,29 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.ondertekening.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ondertekening",
+  "type": "object",
+  "description": "Aanduiding van de rechtskracht van een informatieobject. Mag niet van een waarde zijn voorzien als de `status` de waarde 'in bewerking' of 'ter vaststelling' heeft.",
+  "properties": {
+    "soort": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.soortEnum.schema.json"
+        }
+      ],
+      "title": "Ondertekeningsoort",
+      "description": "Aanduiding van de wijze van ondertekening van het INFORMATIEOBJECT\n\nUitleg bij mogelijke waarden:\n\n* `analoog` - Analoog\n* `digitaal` - Digitaal\n* `pki` - PKI"
+    },
+    "datum": {
+      "type": "string",
+      "format": "date",
+      "title": "Ondertekeningdatum",
+      "description": "De datum waarop de ondertekening van het INFORMATIEOBJECT heeft plaatsgevonden."
+    }
+  },
+  "required": [
+    "datum",
+    "soort"
+  ],
+  "nullable": true
+},

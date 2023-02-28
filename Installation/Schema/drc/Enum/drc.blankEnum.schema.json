@@ -1,0 +1,9 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.blankEnum.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BlankEnum",
+  "enum": [
+    ""
+  ],
+  "type": "string"
+}
