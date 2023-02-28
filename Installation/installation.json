@@ -1,3 +1,26 @@
 {
-    "installationService": "CommonGateway\\ZGWBundle\\Service\\InstallationService"
+    "installationService": "CommonGateway\\ZGWBundle\\Service\\InstallationService",
+    "collections": [
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/brc.besluiten.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/brc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/drc.documenten.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/drc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/zrc.zaken.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/zrc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/ztc.catalogi.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/ztc"
+        }
+    ],
+    "cards": {
+        "schemas": [
+            "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+        ]
+    }
 }

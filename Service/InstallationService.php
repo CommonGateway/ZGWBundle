@@ -5,7 +5,6 @@ namespace CommonGateway\ZGWBundle\Service;
 
 use App\Entity\Action;
 use App\Entity\CollectionEntity;
-use App\Entity\DashboardCard;
 use App\Entity\Endpoint;
 use App\Entity\Entity;
 use CommonGateway\CoreBundle\Installer\InstallerInterface;
@@ -60,10 +59,6 @@ class InstallationService implements InstallerInterface
 
     public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
         ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => 'enkelvoudiginformatieobjecten',     'methods' => ['POST']],
-    ];
-
-    public const OBJECTS_THAT_SHOULD_HAVE_CARDS = [
-        'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',
     ];
 
     public const ACTION_HANDLERS = [
@@ -302,57 +297,8 @@ class InstallationService implements InstallerInterface
         return $collection;
     }
 
-    private function createCollections(): array
-    {
-        $collectionConfigs = [
-            ['name' => 'Besluiten',  'prefix' => 'brc/v1', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/brc'],
-            ['name' => 'Documenten', 'prefix' => 'drc/v1', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/drc'],
-            ['name' => 'Zaken',      'prefix' => 'zrc/v1', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/zrc'],
-            ['name' => 'Catalogi',   'prefix' => 'ztc/v1', 'schemaPrefix' => 'https://vng.opencatalogi.nl/schemas/ztc'],
-        ];
-        $collections = [];
-        foreach($collectionConfigs as $collectionConfig) {
-            $collectionsFromEntityManager = $this->entityManager->getRepository('App:CollectionEntity')->findBy(['name' => $collectionConfig['name']]);
-            if(count($collectionsFromEntityManager) == 0){
-                $collection = new CollectionEntity($collectionConfig['name'], $collectionConfig['prefix'], 'ZgwBundle');
-            } else {
-                $collection = $collectionsFromEntityManager[0];
-            }
-            $collection = $this->addSchemasToCollection($collection, $collectionConfig['schemaPrefix']);
-            $collection->setPrefix($collectionConfig['prefix']);
-            $this->entityManager->persist($collection);
-            $this->entityManager->flush();
-            $collections[$collectionConfig['name']] = $collection;
-        }
-        (isset($this->io) ? $this->io->writeln('Collections Created') : '');
-        return $collections;
-    }
-
-
-    public function createDashboardCards($objectsThatShouldHaveCards)
-    {
-        foreach ($objectsThatShouldHaveCards as $object) {
-            (isset($this->io) ? $this->io->writeln('Looking for a dashboard card for: ' . $object) : '');
-            $entity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => $object]);
-            if (
-                $entity &&
-                !$dashboardCard = $this->entityManager->getRepository('App:DashboardCard')->findOneBy(['entityId' => $entity->getId()])
-            ) {
-                $dashboardCard = new DashboardCard($entity);
-                $this->entityManager->persist($dashboardCard);
-                (isset($this->io) ? $this->io->writeln('Dashboard card created') : '');
-                continue;
-            }
-            (isset($this->io) ? $this->io->writeln('Dashboard card found') : '');
-        }
-    }
-
     public function checkDataConsistency()
     {
-        $this->createDashboardCards($this::OBJECTS_THAT_SHOULD_HAVE_CARDS);
-
-        $this->createCollections();
-
         $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
         $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
         $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
