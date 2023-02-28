@@ -1,6 +1,6 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Verzending",
   "type": "object",
   "description": "Set gegevensgroepdata from validated nested data.\n\nUsage: include the mixin on the ModelSerializer that has gegevensgroepen.",

@@ -1,6 +1,6 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/drc.integriteit.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Integriteit",
   "type": "object",
   "description": "Uitdrukking van mate van volledigheid en onbeschadigd zijn van digitaal bestand.",

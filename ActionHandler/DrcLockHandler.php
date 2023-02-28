@@ -27,7 +27,7 @@ class DrcLockHandler implements ActionHandlerInterface
     {
         return [
             '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.lockDocument.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => 'Lock Document so no others can update it',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],

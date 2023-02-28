@@ -1,6 +1,6 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.relevanteZaak.schema.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
     "version": "0.1",
     "title": "RelevanteZaak",
     "description": "Een lijst van relevante andere zaken.",

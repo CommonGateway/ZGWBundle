@@ -27,7 +27,7 @@ class ZtcPublishHandler implements ActionHandlerInterface
     {
         return [
             '$id'         => 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => 'ZTC Publish Action',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],

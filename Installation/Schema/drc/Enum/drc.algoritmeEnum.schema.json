@@ -1,6 +1,6 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/drc.algoritmeEnum.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "AlgoritmeEnum",
   "enum": [
     "crc_16",

@@ -1,6 +1,6 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/drc.binnenlandsCorrespondentieadresVerzending.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "BinnenlandsCorrespondentieadresVerzending",
   "type": "object",
   "description": "Het correspondentieadres, betreffende een adresseerbaar object, van de BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT indien dat afwijkt van het reguliere binnenlandse correspondentieadres van BETROKKENE.",

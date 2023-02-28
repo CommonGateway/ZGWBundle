@@ -1,6 +1,6 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakKenmerk.schema.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
     "version": "0.1",
     "title": "ZaakKenmerk",
     "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via ZaakObject.",

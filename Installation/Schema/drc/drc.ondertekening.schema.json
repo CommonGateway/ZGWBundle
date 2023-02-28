@@ -1,6 +1,6 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/drc.ondertekening.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Ondertekening",
   "type": "object",
   "description": "Aanduiding van de rechtskracht van een informatieobject. Mag niet van een waarde zijn voorzien als de `status` de waarde 'in bewerking' of 'ter vaststelling' heeft.",
