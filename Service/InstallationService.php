@@ -14,10 +14,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class InstallationService implements InstallerInterface
 {
+    // TODO: write new BL for this in CoreBundle->InstallationService, so we can remove this const and use installation.json instead.
     public const MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT = [
         ['name' => 'Zaak_zaakeigenschap', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',  'path' => 'zaken/([a-z0-9-]+)/zaakeigenschappen',  'methods' => []],
         ['name' => 'Zaak_zaakbesluit', 'reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',        'path' => 'zaken/([a-z0-9-]+)/zaakbesluiten',      'methods' => []],
     ];
+    
+    // TODO: Continue moving these to the installation.json ['endpoints']['schemas'] array. Delete this after...
     public const SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS = [
 //        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json',                 'path' => 'klantcontacten',                    'methods' => ['GET', 'POST']],
 //        ['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json',                    'path' => 'resultaten',                        'methods' => []],
@@ -46,9 +49,11 @@ class InstallationService implements InstallerInterface
         ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json',                   'path' => 'verzendingen',                      'methods' => ['PUT']],
     ];
     
+    // TODO: Continue moving these to the installation.json ['endpoints']['subEndpoints'] (publish) array. Delete this after...
+    // TODO: TEST if new installation.json ['endpoints']['subEndpoints'] works before removing this!
     public const SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS = [
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => 'besluittypen',                      'methods' => ['PUT']],
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => 'eigenschappen',                     'methods' => ['PUT']],
+//        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json',                  'path' => 'besluittypen',                      'methods' => ['PUT']],
+//        ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json',                   'path' => 'eigenschappen',                     'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json',         'path' => 'informatieobjecttypen',             'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json',                'path' => 'resultaattypen',                    'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json',                      'path' => 'roltypen',                          'methods' => ['PUT']],
@@ -56,11 +61,13 @@ class InstallationService implements InstallerInterface
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json', 'path' => 'zaaktype-informatieobjecttypen',    'methods' => ['PUT']],
         ['reference' => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',                     'path' => 'zaaktypen',                         'methods' => ['PUT']],
     ];
+    
+    // TODO: TEST if new installation.json ['endpoints']['subEndpoints'] works before removing this!
+//    public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
+//        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => 'enkelvoudiginformatieobjecten',     'methods' => ['POST']],
+//    ];
 
-    public const SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS = [
-        ['reference' => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',  'path' => 'enkelvoudiginformatieobjecten',     'methods' => ['POST']],
-    ];
-
+    // TODO: move these to installation.json. See Kiss-bundle installation.json ['actions']['handlers'] as example!
     public const ACTION_HANDLERS = [
         'CommonGateway\ZGWBundle\ActionHandler\DrcLockHandler',
         'CommonGateway\ZGWBundle\ActionHandler\DrcReleaseHandler',
@@ -101,6 +108,8 @@ class InstallationService implements InstallerInterface
      */
     public function addActionConfiguration($actionHandler): array
     {
+        // TODO: move ACTION_HANDLERS to installation.json. See Kiss-bundle installation.json ['actions']['handlers'] as example!
+        // TODO: remove this function after...
         $defaultConfig = [];
         foreach ($actionHandler->getConfiguration()['properties'] as $key => $value) {
             switch ($value['type']) {
@@ -125,7 +134,9 @@ class InstallationService implements InstallerInterface
 
         return $defaultConfig;
     }
-
+    
+    // TODO: move ACTION_HANDLERS to installation.json. See Kiss-bundle installation.json ['actions']['handlers'] as example!
+    // TODO: remove this function after...
     public function createActions(): void
     {
         $actionHandlers = $this::ACTION_HANDLERS;
@@ -162,7 +173,9 @@ class InstallationService implements InstallerInterface
             (isset($this->io) ? $this->io->writeln(['Action created for '.$handler]) : '');
         }
     }
-
+    
+    // TODO: Continue moving SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS to the installation.json ['endpoints']['schemas'] array.
+    // TODO: Delete this function after that is done AND if we no longer need this function for other functions in this service.
     private function createEndpoints($objectsThatShouldHaveEndpoints): array
     {
         $endpointRepository = $this->entityManager->getRepository('App:Endpoint');
@@ -182,6 +195,7 @@ class InstallationService implements InstallerInterface
         return $endpoints;
     }
 
+    // TODO: TEST if new installation.json ['endpoints']['subEndpoints'] works before removing this!
     private function createPublishEndpoints(array $objectsThatShouldHavePublishEndpoints): array
     {
         (isset($this->io) ? $this->io->writeln('Create publish endpoints...'): '');
@@ -199,38 +213,40 @@ class InstallationService implements InstallerInterface
         }
         return $endpoints;
     }
+    
+    // TODO: TEST if new installation.json ['endpoints']['subEndpoints'] works before removing this!
+//    private function createLockAndReleaseEndpoints(array $objectsThatShouldHaveLockAndReleaseEndpoints): array
+//    {
+//        (isset($this->io) ? $this->io->writeln('Create release endpoints...'): '');
+//        $lockEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
+//        foreach ($lockEndpoints as $endpoint) {
+//            $path = $endpoint->getPath();
+//            $path[] = 'lock';
+//            $endpoint->setPath($path);
+//            $endpoint->setPathRegex($endpoint->getPathRegex().'/lock');
+//            $endpoint->setName($endpoint->getName().' Lock');
+//            $endpoint->setDescription('Locks the resource (sets concept to false)');
+//            $endpoint->setThrows('zgw.drc.lock');
+//            $this->entityManager->persist($endpoint);
+//            $this->entityManager->flush();
+//        }
+//        $releaseEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
+//        foreach ($releaseEndpoints as $endpoint) {
+//            $path = $endpoint->getPath();
+//            $path[] = 'release';
+//            $endpoint->setPath($path);
+//            $endpoint->setPathRegex($endpoint->getPathRegex().'/release');
+//            $endpoint->setName($endpoint->getName().' Release');
+//            $endpoint->setDescription('Locks the resource (sets concept to false)');
+//            $endpoint->setThrows('zgw.drc.release');
+//            $this->entityManager->persist($endpoint);
+//            $this->entityManager->flush();
+//        }
+//
+//        return array_merge($lockEndpoints, $releaseEndpoints);
+//    }
 
-    private function createLockAndReleaseEndpoints(array $objectsThatShouldHaveLockAndReleaseEndpoints): array
-    {
-        (isset($this->io) ? $this->io->writeln('Create release endpoints...'): '');
-        $lockEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
-        foreach ($lockEndpoints as $endpoint) {
-            $path = $endpoint->getPath();
-            $path[] = 'lock';
-            $endpoint->setPath($path);
-            $endpoint->setPathRegex($endpoint->getPathRegex().'/lock');
-            $endpoint->setName($endpoint->getName().' Lock');
-            $endpoint->setDescription('Locks the resource (sets concept to false)');
-            $endpoint->setThrows('zgw.drc.lock');
-            $this->entityManager->persist($endpoint);
-            $this->entityManager->flush();
-        }
-        $releaseEndpoints = $this->createEndpoints($objectsThatShouldHaveLockAndReleaseEndpoints);
-        foreach ($releaseEndpoints as $endpoint) {
-            $path = $endpoint->getPath();
-            $path[] = 'release';
-            $endpoint->setPath($path);
-            $endpoint->setPathRegex($endpoint->getPathRegex().'/release');
-            $endpoint->setName($endpoint->getName().' Release');
-            $endpoint->setDescription('Locks the resource (sets concept to false)');
-            $endpoint->setThrows('zgw.drc.release');
-            $this->entityManager->persist($endpoint);
-            $this->entityManager->flush();
-        }
-
-        return array_merge($lockEndpoints, $releaseEndpoints);
-    }
-
+    // TODO: write new BL for this in CoreBundle->InstallationService, so we can remove this function and use installation.json instead.
     private function createEndpointForMultilpeSchemas($objectsThatShouldHaveEndpoints): array
     {
         (isset($this->io) ? $this->io->writeln('Create multiple schema endpoints...'): '');
@@ -275,33 +291,12 @@ class InstallationService implements InstallerInterface
         return $endpoints;
     }
 
-    public function setEntityMaxDepth()
-    {
-        $entities = $this->entityManager->getRepository('App:Entity')->findAll();
-        foreach ($entities as $entity) {
-            // set maxDepth for an entity to 5
-            $entity->setMaxDepth(5);
-            $this->entityManager->persist($entity);
-        }
-    }
-
-    private function addSchemasToCollection(CollectionEntity $collection, string $schemaPrefix): CollectionEntity
-    {
-        $entities = $this->entityManager->getRepository('App:Entity')->findByReferencePrefix($schemaPrefix);
-        foreach($entities as $entity) {
-            $entity->addCollection($collection);
-
-            // set all entity maxDepth to 5
-            $this->setEntityMaxDepth();
-        }
-        return $collection;
-    }
-
     public function checkDataConsistency()
     {
-        $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
-        $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
-        $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
+//        $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
+//        $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
+//        $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
+        // TODO: write new BL for this in CoreBundle->InstallationService, so we can remove this function and use installation.json instead.
         $this->createEndpointForMultilpeSchemas($this::MULTIPLE_SCHEMAS_THAT_SHOULD_HAVE_AN_ENDPOINT);
 
         $this->createActions();

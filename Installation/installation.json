@@ -85,6 +85,49 @@
                 "path": "eigenschappen",
                 "methods": []
             }
+        ],
+        "subEndpoints": [
+            {
+                "path": "publish",
+                "description": "Publishes the resource (sets concept to false)",
+                "throws": "zgw.ztc.publish",
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
+                        "path": "besluittypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+                        "path": "eigenschappen",
+                        "methods": ["PUT"]
+                    }
+                ]
+            },
+            {
+                "path": "lock",
+                "description": "Locks the resource (sets concept to false)",
+                "throws": "zgw.drc.lock",
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+                        "path": "enkelvoudiginformatieobjecten",
+                        "methods": ["POST"]
+                    }
+                ]
+            },
+            {
+                "path": "release",
+                "description": "Releases the resource",
+                "throws": "zgw.drc.release",
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+                        "path": "enkelvoudiginformatieobjecten",
+                        "methods": ["POST"]
+                    }
+                ]
+            }
         ]
     }
 }
