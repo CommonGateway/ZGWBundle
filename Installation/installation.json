@@ -22,5 +22,69 @@
         "schemas": [
             "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
         ]
+    },
+    "endpoints": {
+        "schemas": [
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
+                "path": "klantcontacten",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+                "path": "resultaten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
+                "path": "rollen",
+                "methods": ["GET", "POST", "DELETE"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+                "path": "statussen",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
+                "path": "zaakinformatieobjecten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+                "path": "zaken",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
+                "path": "zaakobjecten",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
+                "path": "zaakeigenschappen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
+                "path": "zaakbesluiten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
+                "path": "besluittypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+                "path": "catalogussen",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+                "path": "eigenschappen",
+                "methods": []
+            }
+        ]
     }
 }
