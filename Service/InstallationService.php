@@ -293,6 +293,7 @@ class InstallationService implements InstallerInterface
 
     public function checkDataConsistency()
     {
+        //TODO: remove this as soon as we can:
 //        $this->createEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_ENDPOINTS);
 //        $this->createPublishEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_PUBLISH_ENDPOINTS);
 //        $this->createLockAndReleaseEndpoints($this::SCHEMAS_THAT_SHOULD_HAVE_LOCK_AND_RELEASE_ENDPOINTS);
