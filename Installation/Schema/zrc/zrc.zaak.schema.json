@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1",
+  "version": "0.2",
   "title": "Zaak",
   "type": "object",
   "properties": {
@@ -40,7 +40,6 @@
       "maxLength": 1000
     },
     "zaaktype": {
-      "type": "string",
       "description": "ZaakType from ZaakTypeCatalogus",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
     },
