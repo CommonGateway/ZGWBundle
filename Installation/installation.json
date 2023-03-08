@@ -1,3 +1,269 @@
 {
-    "installationService": "CommonGateway\\ZGWBundle\\Service\\InstallationService"
+    "installationService": "CommonGateway\\ZGWBundle\\Service\\InstallationService",
+    "collections": [
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/brc.besluiten.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/brc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/drc.documenten.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/drc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/zrc.zaken.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/zrc"
+        },
+        {
+            "reference": "https://vng.opencatalogi.nl/collection/ztc.catalogi.collection.json",
+            "schemaPrefix": "https://vng.opencatalogi.nl/schemas/ztc"
+        }
+    ],
+    "cards": {
+        "schemas": [
+            "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+        ]
+    },
+    "endpoints": {
+        "schemas": [
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
+                "path": "klantcontacten",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+                "path": "resultaten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
+                "path": "rollen",
+                "methods": ["GET", "POST", "DELETE"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+                "path": "statussen",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
+                "path": "zaakinformatieobjecten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+                "path": "zaken",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
+                "path": "zaakobjecten",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
+                "path": "zaakeigenschappen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
+                "path": "zaakbesluiten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
+                "path": "besluittypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+                "path": "catalogussen",
+                "methods": ["GET", "POST"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+                "path": "eigenschappen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
+                "path": "informatieobjecttypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
+                "path": "resultaattypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json",
+                "path": "roltypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
+                "path": "statustypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+                "path": "zaaktypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
+                "path": "zaaktype-informatieobjecttypen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json",
+                "path": "besluiten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json",
+                "path": "besluitinformatieobjecten",
+                "methods": ["GET", "POST", "DELETE"]
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+                "path": "enkelvoudiginformatieobjecten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
+                "path": "gebruiksrechten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json",
+                "path": "objectinformatieobjecten",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json",
+                "path": "bestandsdelen",
+                "methods": []
+            },
+            {
+                "reference": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
+                "path": "verzendingen",
+                "methods": ["PUT"]
+            }
+        ],
+        "subEndpoints": [
+            {
+                "path": "publish",
+                "description": "Publishes the resource (sets concept to false)",
+                "throws": ["zgw.ztc.publish"],
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
+                        "path": "besluittypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+                        "path": "eigenschappen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
+                        "path": "informatieobjecttypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
+                        "path": "resultaattypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json",
+                        "path": "roltypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
+                        "path": "statustypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
+                        "path": "zaaktype-informatieobjecttypen",
+                        "methods": ["PUT"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+                        "path": "zaaktypen",
+                        "methods": ["PUT"]
+                    }
+                ]
+            },
+            {
+                "path": "lock",
+                "description": "Locks the resource (sets concept to false)",
+                "throws": ["zgw.drc.lock"],
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+                        "path": "enkelvoudiginformatieobjecten",
+                        "methods": ["POST"]
+                    }
+                ]
+            },
+            {
+                "path": "release",
+                "description": "Releases the resource",
+                "throws": ["zgw.drc.release"],
+                "schemas": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+                        "path": "enkelvoudiginformatieobjecten",
+                        "methods": ["POST"]
+                    }
+                ]
+            }
+        ]
+    },
+    "actions": {
+      "handlers": [
+        {
+          "name": "DrcLockAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcLockHandler",
+          "listens": ["commongateway.response.pre"]
+        },
+        {
+          "name": "PostZaakBesluitAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
+          "listens": ["commongateway.response.pre"]
+        },
+        {
+          "name": "DrcReleaseAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakBesluitHandler",
+          "listens": ["commongateway.response.pre"]
+        },
+        {
+          "name": "PostZaakEigenschapAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakEigenschapAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakEigenschapHandler",
+          "listens": ["commongateway.response.pre"]
+        },
+        {
+          "name": "ZtcPublishAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
+          "listens": ["commongateway.response.pre"]
+        }
+      ],
+      "fixConfigRef": [
+        "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
+        "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
+        "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
+        "https://vng.opencatalogi.nl/action/kiss.PostZaakEigenschapAction.action.json",
+        "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json"
+      ]
+    }
 }

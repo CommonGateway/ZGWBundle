@@ -1,0 +1,8 @@
+{
+    "title": "Zaken",
+    "$id": "https://vng.opencatalogi.nl/collection/zrc.zaken.collection.json",
+    "$schema": "https://docs.commongateway.nl/schemas/CollectionEntity.schema.json",
+    "version": "0.0.1",
+    "prefix": "zrc/v1",
+    "plugin": "ZgwBundle"
+}

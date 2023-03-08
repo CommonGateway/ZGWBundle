@@ -1,0 +1,8 @@
+{
+    "title": "Besluiten",
+    "$id": "https://vng.opencatalogi.nl/collection/brc.besluiten.collection.json",
+    "$schema": "https://docs.commongateway.nl/schemas/CollectionEntity.schema.json",
+    "version": "0.0.1",
+    "prefix": "brc/v1",
+    "plugin": "ZgwBundle"
+}

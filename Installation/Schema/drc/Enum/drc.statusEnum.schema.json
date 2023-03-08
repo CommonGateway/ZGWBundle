@@ -1,0 +1,12 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.statusEnum.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "StatusEnum",
+  "enum": [
+    "in_bewerking",
+    "ter_vaststelling",
+    "definitief",
+    "gearchiveerd"
+  ],
+  "type": "string"
+}

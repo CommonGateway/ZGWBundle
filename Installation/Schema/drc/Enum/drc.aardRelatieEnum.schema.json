@@ -1,0 +1,10 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.aardRelatieEnum.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "AardRelatieEnum",
+  "enum": [
+    "afzender",
+    "geadresseerde"
+  ],
+  "type": "string"
+}

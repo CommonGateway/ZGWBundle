@@ -1,0 +1,122 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "Verzending",
+  "type": "object",
+  "description": "Set gegevensgroepdata from validated nested data.\n\nUsage: include the mixin on the ModelSerializer that has gegevensgroepen.",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "title": "url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "betrokkene": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar de betrokkene waarvan het informatieobject is ontvangen of waaraan dit is verzonden.",
+      "title": "betrokkene",
+      "maxLength": 200
+    },
+    "informatieobject": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar het informatieobject dat is ontvangen of verzonden.",
+      "title": "informatieobject"
+    },
+    "aardRelatie": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.aardRelatieEnum.schema.json"
+        }
+      ],
+      "description": "Omschrijving van de aard van de relatie van de BETROKKENE tot het INFORMATIEOBJECT.",
+      "title": "aard relatie"
+    },
+    "toelichting": {
+      "type": "string",
+      "description": "Verduidelijking van de afzender- of geadresseerde-relatie.",
+      "title": "toelichting",
+      "maxLength": 200
+    },
+    "ontvangstdatum": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum waarop het INFORMATIEOBJECT ontvangen is. Verplicht te registreren voor INFORMATIEOBJECTen die van buiten de zaakbehandelende organisatie(s) ontvangen zijn. Ontvangst en verzending is voorbehouden aan documenten die van of naar andere personen ontvangen of verzonden zijn waarbij die personen niet deel uit maken van de behandeling van de zaak waarin het document een rol speelt. Vervangt het gelijknamige attribuut uit Informatieobject. Verplicht gevuld wanneer aardRelatie de waarde 'afzender' heeft.",
+      "title": "ontvangstdatum"
+    },
+    "verzenddatum": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum waarop het INFORMATIEOBJECT verzonden is, zoals deze op het INFORMATIEOBJECT vermeld is. Dit geldt voor zowel inkomende als uitgaande INFORMATIEOBJECTen. Eenzelfde informatieobject kan niet tegelijk inkomend en uitgaand zijn. Ontvangst en verzending is voorbehouden aan documenten die van of naar andere personen ontvangen of verzonden zijn waarbij die personen niet deel uit maken van de behandeling van de zaak waarin het document een rol speelt. Vervangt het gelijknamige attribuut uit Informatieobject. Verplicht gevuld wanneer aardRelatie de waarde 'geadresseerde' heeft.",
+      "title": "verzenddatum"
+    },
+    "contactPersoon": {
+      "type": "string",
+      "format": "uri",
+      "title": "Contactpersoon",
+      "description": "URL-referentie naar de persoon die als aanspreekpunt fungeert voor de BETROKKENE inzake het ontvangen of verzonden INFORMATIEOBJECT.",
+      "maxLength": 1000
+    },
+    "contactpersoonnaam": {
+      "type": "string",
+      "description": "De opgemaakte naam van de persoon die als aanspreekpunt fungeert voorde BETROKKENE inzake het ontvangen of verzonden INFORMATIEOBJECT.",
+      "title": "contactpersoonnaam",
+      "maxLength": 40
+    },
+    "binnenlandsCorrespondentieadres": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.binnenlandsCorrespondentieadresVerzending.schema.json"
+        }
+      ],
+      "nullable": true,
+      "description": "Het correspondentieadres, betreffende een adresseerbaar object, van de BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT indien dat afwijkt van het reguliere binnenlandse correspondentieadres van BETROKKENE.",
+      "title": "binnenlandsCorrespondentieadres"
+    },
+    "buitenlandsCorrespondentieadres": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json"
+        }
+      ],
+      "nullable": true,
+      "description": "De gegevens van het adres in het buitenland van BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT en dat afwijkt van de reguliere correspondentiegegevens van BETROKKENE.",
+      "title": "buitenlandsCorrespondentieadres"
+    },
+    "correspondentiePostadres": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json"
+        }
+      ],
+      "nullable": true,
+      "description": "De gegevens die tezamen een postbusadres of antwoordnummeradres vormen van BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT en dat afwijkt van de reguliere correspondentiegegevens van BETROKKENE.",
+      "title": "correspondentiePostadres"
+    },
+    "faxnummer": {
+      "type": "string",
+      "nullable": true,
+      "description": "Faxnummer van de afzender.",
+      "title": "faxnummer",
+      "maxLength": 15
+    },
+    "emailadres": {
+      "type": "string",
+      "nullable": true,
+      "description": "emailadres van de afzender.",
+      "title": "emailadres",
+      "maxLength": 100
+    },
+    "mijnOverheid": {
+      "type": "boolean",
+      "description": "mijnOverheid van de afzender.",
+      "title": "mijn overheid"
+    }
+  }
+}

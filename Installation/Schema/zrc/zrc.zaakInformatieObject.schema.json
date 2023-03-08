@@ -1,0 +1,62 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.2",
+    "title": "ZaakInformatieObject",
+    "type": "object",
+    "properties": {
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "informatieobject": {
+        "description": "URL-referentie naar het INFORMATIEOBJECT (in de Documenten API), waar ook de relatieinformatie opgevraagd kan worden.",
+        "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+        "type": "string",
+        "required": true
+      },
+      "zaak": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+        "type": "string",
+        "required": true,
+        "inversedBy": "zaakinformatieobjecten"
+      },
+      "aardRelatieWeergave": {
+        "type": "string",
+        "enum": [
+          "Hoort bij, omgekeerd: kent",
+          "Legt vast, omgekeerd: kan vastgelegd zijn als"
+        ],
+        "readOnly": true
+      },
+      "titel": {
+        "description": "De naam waaronder het INFORMATIEOBJECT binnen het OBJECT bekend is.",
+        "type": "string",
+        "maxLength": 200
+      },
+      "beschrijving": {
+        "type": "string",
+        "description": "Een op het object gerichte beschrijving van de inhoud vanhet INFORMATIEOBJECT."
+      },
+      "registratiedatum": {
+        "type": "string",
+        "description": "De datum waarop de behandelende organisatie het INFORMATIEOBJECT heeft geregistreerd bij het OBJECT. Geldige waardes zijn datumtijden gelegen op of voor de huidige datum en tijd.",
+        "format": "datetime",
+        "readOnly": true
+      }
+    },
+    "required": [
+      "zaak",
+      "aardRelatieWeergave"
+    ]
+  }

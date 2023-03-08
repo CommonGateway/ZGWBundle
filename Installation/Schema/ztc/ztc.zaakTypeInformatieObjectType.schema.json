@@ -1,0 +1,60 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1",
+  "type": "object",
+  "title": "ZaakTypeInformatieObjectType",
+  "properties": {
+    "url": {
+      "title": "Url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "maxLength": 1000,
+      "minLength": 1
+    },
+    "zaaktype": {
+      "title": "Zaaktype",
+      "description": "URL-referentie naar het ZAAKTYPE.",
+      "type": "string",
+      "format": "uri"
+    },
+    "informatieobjecttype": {
+      "title": "Informatie object type",
+      "description": "URL-referentie naar het INFORMATIEOBJECTTYPE.",
+      "type": "string",
+      "format": "uri"
+    },
+    "volgnummer": {
+      "title": "Volgnummer",
+      "description": "Uniek volgnummer van het ZAAK-INFORMATIEOBJECTTYPE binnen het ZAAKTYPE.",
+      "type": "integer",
+      "maximum": 999,
+      "minimum": 1
+    },
+    "richting": {
+      "title": "Richting",
+      "description": "Aanduiding van de richting van informatieobjecten van het gerelateerde INFORMATIEOBJECTTYPE bij zaken van het gerelateerde ZAAKTYPE.\n\nUitleg bij mogelijke waarden:\n\n* `inkomend` - Inkomend\n* `intern` - Intern\n* `uitgaand` - Uitgaand",
+      "type": "string",
+      "enum": [
+        "inkomend",
+        "intern",
+        "uitgaand"
+      ]
+    },
+    "statustype": {
+      "title": "Status type",
+      "description": "URL-referentie naar het STATUSTYPE waarbij deze INFORMATIEOBJECTTYPEn verplicht aanwezig moeten zijn.",
+      "type": "string",
+      "format": "uri",
+      "nullable": true
+    }
+  },
+  "required": [
+    "zaaktype",
+    "informatieobjecttype",
+    "volgnummer",
+    "richting"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "ObjectInformatieObject",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "title": "url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "informatieobject": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar het INFORMATIEOBJECT.",
+      "title": "informatieobject",
+      "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json"
+    },
+    "object": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar het gerelateerde OBJECT (in deze of een andere API).",
+      "title": "object",
+      "maxLength": 1000
+    },
+    "objectType": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.objectTypeEnum.schema.json"
+        }
+      ],
+      "title": "Objecttype",
+      "description": "Het type van het gerelateerde OBJECT.\n\nUitleg bij mogelijke waarden:\n\n* `besluit` - Besluit\n* `zaak` - Zaak"
+    }
+  },
+  "required": [
+    "informatieobject",
+    "object",
+    "objectType",
+    "url"
+  ]
+}
