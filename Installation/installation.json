@@ -53,7 +53,21 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
                 "path": "zaken",
-                "methods": []
+                "methods": [],
+                "subSchemaEndpoints": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
+                        "path": "zaakeigenschappen",
+                        "methods": [],
+                        "throws": ["zrc.post.zaakeigenschap"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
+                        "path": "zaakbesluiten",
+                        "methods": [],
+                        "throws": ["zrc.post.zaakbesluit"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
@@ -73,7 +87,15 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
                 "path": "besluittypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
@@ -83,37 +105,93 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
                 "path": "eigenschappen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
                 "path": "informatieobjecttypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
                 "path": "resultaattypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json",
                 "path": "roltypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
                 "path": "statustypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
                 "path": "zaaktypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
                 "path": "zaaktype-informatieobjecttypen",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Publishes the resource (sets concept to false)",
+                        "path": "publish",
+                        "methods": ["PUT"],
+                        "throws": ["zgw.ztc.publish"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json",
@@ -128,7 +206,21 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
                 "path": "enkelvoudiginformatieobjecten",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "description": "Locks the resource (sets concept to false)",
+                        "path": "lock",
+                        "methods": ["POST"],
+                        "throws": ["zgw.drc.lock"]
+                    },
+                    {
+                        "description": "Releases the resource",
+                        "path": "release",
+                        "methods": ["POST"],
+                        "throws": ["zgw.drc.release"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
@@ -149,79 +241,6 @@
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
                 "path": "verzendingen",
                 "methods": ["PUT"]
-            }
-        ],
-        "subEndpoints": [
-            {
-                "path": "publish",
-                "description": "Publishes the resource (sets concept to false)",
-                "throws": ["zgw.ztc.publish"],
-                "schemas": [
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
-                        "path": "besluittypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
-                        "path": "eigenschappen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
-                        "path": "informatieobjecttypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
-                        "path": "resultaattypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json",
-                        "path": "roltypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
-                        "path": "statustypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
-                        "path": "zaaktype-informatieobjecttypen",
-                        "methods": ["PUT"]
-                    },
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-                        "path": "zaaktypen",
-                        "methods": ["PUT"]
-                    }
-                ]
-            },
-            {
-                "path": "lock",
-                "description": "Locks the resource (sets concept to false)",
-                "throws": ["zgw.drc.lock"],
-                "schemas": [
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
-                        "path": "enkelvoudiginformatieobjecten",
-                        "methods": ["POST"]
-                    }
-                ]
-            },
-            {
-                "path": "release",
-                "description": "Releases the resource",
-                "throws": ["zgw.drc.release"],
-                "schemas": [
-                    {
-                        "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
-                        "path": "enkelvoudiginformatieobjecten",
-                        "methods": ["POST"]
-                    }
-                ]
             }
         ]
     },
