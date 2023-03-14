@@ -15,7 +15,7 @@
       },
       "zaaktype": {
         "type": "string",
-        "format": "uri"
+        "format": "url"
       },
       "omschrijving": {
         "description": "Omschrijving van de aard van de ROL.",

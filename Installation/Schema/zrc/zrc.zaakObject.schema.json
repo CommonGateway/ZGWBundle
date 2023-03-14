@@ -29,6 +29,7 @@
       "title": "Zaak",
       "description": "URL-referentie naar de ZAAK.",
       "type": "string",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
     },
     "object": {

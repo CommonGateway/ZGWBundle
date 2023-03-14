@@ -40,6 +40,7 @@
       "maxLength": 1000
     },
     "zaaktype": {
+      "format": "url",
       "description": "ZaakType from ZaakTypeCatalogus",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
     },
