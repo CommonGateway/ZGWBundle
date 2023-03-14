@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "type": "object",
     "title": "ResultaatType",
     "properties": {
