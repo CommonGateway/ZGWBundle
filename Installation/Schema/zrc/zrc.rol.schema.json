@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.2",
+    "version": "0.2.1",
     "title": "Rol",
     "type": "object",
     "properties": {
