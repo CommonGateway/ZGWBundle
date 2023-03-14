@@ -20,12 +20,14 @@
         "readOnly": true
       },
       "informatieobject": {
+        "format": "url",
         "description": "URL-referentie naar het INFORMATIEOBJECT (in de Documenten API), waar ook de relatieinformatie opgevraagd kan worden.",
         "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
         "type": "string",
         "required": true
       },
       "zaak": {
+        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "type": "string",
         "required": true,

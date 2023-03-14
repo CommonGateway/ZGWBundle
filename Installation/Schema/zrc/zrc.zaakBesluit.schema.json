@@ -32,6 +32,7 @@
       "minLength": 1
     },
     "zaak": {
+      "format": "url",
       "title": "Zaak",
       "description": "URL-referentie naar de ZAAK (in de Zaken API) waarvan dit besluit uitkomst is.",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"

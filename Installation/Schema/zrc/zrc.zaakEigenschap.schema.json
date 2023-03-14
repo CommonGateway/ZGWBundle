@@ -20,9 +20,11 @@
         "readOnly": true
       },
       "zaak": {
+        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
       },
       "eigenschap": {
+        "format": "url",
         "description": "URL-referentie naar de EIGENSCHAP (in de Catalogi API).",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
       },

@@ -15,7 +15,7 @@
     },
     "informatieobject": {
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "description": "URL-referentie naar het INFORMATIEOBJECT.",
       "title": "informatieobject",
       "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json"

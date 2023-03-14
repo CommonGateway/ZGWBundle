@@ -172,9 +172,11 @@
       "maxLength": 200
     },
     "referentieproces": {
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.referentieProces.schema.json"
     },
     "catalogus": {
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
     },
     "statustypen": {
@@ -189,6 +191,7 @@
       "type": "array",
       "description": "URL-referenties naar de RESULTAATTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
       "uniqueItems": true,
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
       }
@@ -197,6 +200,7 @@
       "type": "array",
       "description": "URL-referenties naar de EIGENSCHAPPEN die aanwezig moeten zijn in ZAKEN van dit ZAAKTYPE.",
       "uniqueItems": true,
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
       }
@@ -205,6 +209,7 @@
       "type": "array",
       "description": "URL-referenties naar de INFORMATIEOBJECTTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
       "uniqueItems": true,
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
       }
@@ -213,6 +218,7 @@
       "type": "array",
       "description": "URL-referenties naar de ROLTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
       "uniqueItems": true,
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
       }
@@ -221,6 +227,7 @@
       "description": "URL-referenties naar de BESLUITTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
       "type": "array",
       "uniqueItems": true,
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
       }
@@ -228,6 +235,7 @@
     "gerelateerdeZaaktypen": {
       "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
       "type": "array",
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       }

@@ -21,7 +21,7 @@
       "title": "Informatieobject",
       "description": "URL-referentie naar het INFORMATIEOBJECT (in de Documenten API) waarin (een deel van) het besluit beschreven is.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "maxLength": 1000,
       "minLength": 1,
       "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json"
@@ -30,7 +30,7 @@
       "title": "Besluit",
       "description": "URL-referentie naar het BESLUIT.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json"
     }
   }
