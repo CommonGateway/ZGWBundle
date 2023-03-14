@@ -58,13 +58,13 @@
       "maxLength": 18
     },
     "verblijfsadres": {
-        "format": "url",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.verblijfsAdres.schema.json",
       "nullable": true,
       "title": "verblijfsadres"
     },
     "subVerblijfBuitenland": {
-        "format": "url",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
       "nullable": true,
       "title": "subVerblijfBuitenland"
