@@ -6,6 +6,11 @@
     "description": "Een lijst van relevante andere zaken.",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "url": {
         "type": "string",
         "required": true,

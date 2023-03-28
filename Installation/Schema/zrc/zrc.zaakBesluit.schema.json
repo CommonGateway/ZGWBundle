@@ -8,6 +8,11 @@
   "type": "object",
   "version": "0.0.1",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "url": {
       "title": "Url",
       "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",

@@ -4,6 +4,11 @@
   "title": "BestandsDeel",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "url": {
       "type": "string",
       "format": "uri",

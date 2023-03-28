@@ -5,6 +5,11 @@
     "type": "object",
     "title": "Eigenschap",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "url": {
         "type": "string",
         "title": "Url",

@@ -6,6 +6,11 @@
     "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via ZaakObject.",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "kenmerk": {
         "description": "Identificeert uniek de zaak in een andere administratie.",
         "type": "string",

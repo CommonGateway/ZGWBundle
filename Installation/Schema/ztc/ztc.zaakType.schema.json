@@ -5,6 +5,11 @@
   "type": "object",
   "title": "ZaakType",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "url": {
       "type": "string",
       "title": "Url",

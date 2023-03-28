@@ -6,6 +6,11 @@
     "title": "ReferentieProces",
     "description": "Het Referentieproces dat ten grondslag ligt aan dit ZAAKTYPE.",
     "properties": {
+        "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+        },
         "naam": {
             "type": "string",
             "description": "De naam van het Referentieproces.",
