@@ -5,6 +5,11 @@
     "title": "GeoJSONGeometry",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "type": {
         "description": "The geometry type",
         "type": "string",

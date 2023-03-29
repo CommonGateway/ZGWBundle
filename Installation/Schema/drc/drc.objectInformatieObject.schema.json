@@ -5,6 +5,11 @@
   "type": "object",
   "version": "0.0.1",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "url": {
       "type": "string",
       "format": "uri",

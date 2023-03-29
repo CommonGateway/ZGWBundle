@@ -5,6 +5,11 @@
   "type": "object",
   "description": "Uitdrukking van mate van volledigheid en onbeschadigd zijn van digitaal bestand.",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "algoritme": {
       "allOf": [
         {

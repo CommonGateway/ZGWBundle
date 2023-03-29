@@ -5,6 +5,11 @@
     "type": "object",
     "title": "ZaakTypenRelatie",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "zaaktype": {
         "type": "string",
         "format": "uri",

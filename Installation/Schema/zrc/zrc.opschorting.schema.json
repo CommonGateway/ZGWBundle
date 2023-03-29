@@ -6,6 +6,11 @@
     "description": "Gegevens omtrent het tijdelijk opschorten van de behandeling van de ZAAK",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "indicatie": {
         "description": "Aanduiding of de behandeling van de ZAAK tijdelijk is opgeschort.",
         "type": "boolean",

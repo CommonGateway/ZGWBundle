@@ -1,6 +1,3 @@
-
-
-
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
@@ -8,6 +5,11 @@
     "title": "StatusType",
     "type": "object",
     "properties": {
+        "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+        },
         "url": {
             "type": "string",
             "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",

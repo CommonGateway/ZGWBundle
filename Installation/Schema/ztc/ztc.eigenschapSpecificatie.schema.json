@@ -5,6 +5,11 @@
     "type": "object",
     "title": "EigenschapSpecificatie",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "groep": {
         "type": "string",
         "description": "Benaming van het object of groepattribuut waarvan de EIGENSCHAP een inhoudelijk gegeven specificeert.",

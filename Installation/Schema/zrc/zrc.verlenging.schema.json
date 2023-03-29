@@ -5,6 +5,11 @@
     "title": "Verlenging",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
       "reden": {
         "description": "Omschrijving van de reden voor het verlengen van de behandeling van de zaak.",
         "type": "string",

@@ -5,6 +5,11 @@
   "type": "object",
   "description": "Serializer for the EnkelvoudigInformatieObject model",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "url": {
       "type": "string",
       "format": "uri",

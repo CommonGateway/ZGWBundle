@@ -5,6 +5,11 @@
   "title": "RolNatuurlijkPersoon",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
     "inpBsn": {
       "type": "string",
       "description": "Het burgerservicenummer, bedoeld in artikel 1.1 van de Wet algemene bepalingen burgerservicenummer.",
