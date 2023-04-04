@@ -8,6 +8,7 @@ use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ZGWService
 {
