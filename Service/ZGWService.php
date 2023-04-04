@@ -9,6 +9,7 @@ use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class ZGWService
 {
@@ -162,13 +163,15 @@ class ZGWService
     {
         $this->data = $data;
         if(!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
-            return $this->$data;
+            return $this->data;
         }
-        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpoint']]);
+        $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
+
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
+        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpointId']]);
         if(
             $objectEntity instanceof ObjectEntity &&
-            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
             $data = $objectEntity->toArray();
 
@@ -193,6 +196,12 @@ class ZGWService
             $this->entityManager->persist($file);
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );
         }
 
         return $this->data;
@@ -204,16 +213,15 @@ class ZGWService
         if(!$configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->$data;
         }
-        $parameters = $this->data['parameters'];
-        $pathDefintion = $this->data['path'];
-        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
+        $parameters = $this->data;
+        $path = $this->data['path'];
 
-        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
         if(
             $objectEntity instanceof ObjectEntity &&
-            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
-            $this->data['response'] = new Response($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64(), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+            $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
         }
 
         return $this->data;
@@ -223,7 +231,7 @@ class ZGWService
     {
         $this->data = $data;
 
-        $parameters = $this->data['parameters'];
+        $parameters = $this->data;
         $pathDefintion = $this->data['path'];
         $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
