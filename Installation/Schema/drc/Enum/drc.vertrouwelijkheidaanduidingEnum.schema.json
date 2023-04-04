@@ -1,0 +1,16 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.vertrouwelijkheidaanduidingEnum.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "VertrouwelijkheidaanduidingEnum",
+  "enum": [
+    "openbaar",
+    "beperkt_openbaar",
+    "intern",
+    "zaakvertrouwelijk",
+    "vertrouwelijk",
+    "confidentieel",
+    "geheim",
+    "zeer_geheim"
+  ],
+  "type": "string"
+}

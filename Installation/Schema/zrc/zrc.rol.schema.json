@@ -1,0 +1,95 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.2.1",
+    "title": "Rol",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "zaak": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+      },
+      "betrokkene": {
+        "description": "URL-referentie naar een betrokkene gerelateerd aan de ZAAK.",
+        "type": "string",
+        "maxLength": 1000,
+        "required": true
+      },
+      "betrokkeneType": {
+        "description": "Type van de betrokkene.\n\nUitleg bij mogelijke waarden:\n\nnatuurlijk_persoon - Natuurlijk persoon\nniet_natuurlijk_persoon - Niet-natuurlijk persoon\nvestiging - Vestiging\norganisatorische_eenheid - Organisatorische eenheid\nmedewerker - Medewerker",
+        "type": "string",
+        "enum": [
+          "natuurlijk_persoon",
+          "niet_natuurlijk_persoon",
+          "vestiging",
+          "organisatorische_eenheid",
+          "medewerker"
+        ],
+        "required": true
+      },
+      "roltype": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
+      },
+      "omschrijving": {
+        "type": "string",
+        "description": "Omschrijving van de aard van de ROL, afgeleid uit het ROLTYPE.",
+        "minLength": 1,
+        "readOnly": true
+      },
+      "omschrijvingGeneriek": {
+        "type": "string",
+        "description": "Algemeen gehanteerde benaming van de aard van de ROL, afgeleid uit het ROLTYPE.\n\nUitleg bij mogelijke waarden:\n\nadviseur - (Adviseur) Kennis in dienst stellen van de behandeling van (een deel van) een zaak.\nbehandelaar - (Behandelaar) De vakinhoudelijke behandeling doen van (een deel van) een zaak.\nbelanghebbende - (Belanghebbende) Vanuit eigen en objectief belang rechtstreeks betrokken zijn bij de behandeling en/of de uitkomst van een zaak.\nbeslisser - (Beslisser) Nemen van besluiten die voor de uitkomst van een zaak noodzakelijk zijn.\ninitiator - (Initiator) Aanleiding geven tot de start van een zaak ..\nklantcontacter - (Klantcontacter) Het eerste aanspreekpunt zijn voor vragen van burgers en bedrijven ..\nzaakcoordinator - (Zaakcoördinator) Er voor zorg dragen dat de behandeling van de zaak in samenhang uitgevoerd wordt conform de daarover gemaakte afspraken.\nmede_initiator - Mede-initiator",
+        "minLength": 1,
+        "readOnly": true
+      },
+      "roltoelichting": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000,
+        "required": true
+      },
+      "registratiedatum": {
+        "type": "string",
+        "description": "De datum waarop dit object is geregistreerd.",
+        "format": "datetime",
+        "readOnly": true
+      },
+      "indicatieMachtiging": {
+        "type": "string",
+        "description": "Uitleg bij mogelijke waarden:\n\ngemachtigde - De betrokkene in de rol bij de zaak is door een andere betrokkene bij dezelfde zaak gemachtigd om namens hem of haar te handelen\nmachtiginggever - De betrokkene in de rol bij de zaak heeft een andere betrokkene bij dezelfde zaak gemachtigd om namens hem of haar te handelen",
+        "enum": [
+          "gemachtigde",
+          "machtiginggever"
+        ]
+      },
+      "betrokkeneIdentificatie": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json"
+      }
+    },
+    "required": [
+      "betrokkeneType",
+      "roltype",
+      "roltoelichting"
+    ]
+  }

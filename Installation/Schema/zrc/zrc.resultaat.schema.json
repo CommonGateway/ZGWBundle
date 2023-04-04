@@ -1,0 +1,48 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.1.1",
+    "title": "Resultaat",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "zaak": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+        "required": true
+      },
+      "resultaattype": {
+        "format": "url",
+        "description": "URL-referentie naar het RESULTAATTYPE (in de Catalogi API).",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
+        "required": true
+      },
+      "toelichting": {
+        "type": "string",
+        "description": "Een toelichting op wat het resultaat van de zaak inhoudt.",
+        "maxLength": 1000
+      }
+    },
+    "required": [
+      "zaak",
+      "resultaattype"
+    ]
+  }

@@ -1,0 +1,8 @@
+{
+    "title": "Documenten",
+    "$id": "https://vng.opencatalogi.nl/collection/drc.documenten.collection.json",
+    "$schema": "https://docs.commongateway.nl/schemas/CollectionEntity.schema.json",
+    "version": "0.0.1",
+    "prefix": "drc/v1",
+    "plugin": "ZgwBundle"
+}

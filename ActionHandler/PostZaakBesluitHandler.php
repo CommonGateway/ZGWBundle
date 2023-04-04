@@ -27,7 +27,7 @@ class PostZaakBesluitHandler implements ActionHandlerInterface
     {
         return [
             '$id'         => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => 'Post ZaakBesluit Action',
             'description' => 'This handler sets the zaak to the besluit body',
             'required'    => [],

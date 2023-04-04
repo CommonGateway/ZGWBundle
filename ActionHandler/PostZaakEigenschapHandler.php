@@ -27,7 +27,7 @@ class PostZaakEigenschapHandler implements ActionHandlerInterface
     {
         return [
             '$id'         => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => 'Post ZaakEigenschap Action',
             'description' => 'This handler sets the zaak to the zaakeigenschap body',
             'required'    => [],

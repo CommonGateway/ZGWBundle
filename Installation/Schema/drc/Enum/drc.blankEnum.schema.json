@@ -1,0 +1,9 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.blankEnum.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "BlankEnum",
+  "enum": [
+    ""
+  ],
+  "type": "string"
+}

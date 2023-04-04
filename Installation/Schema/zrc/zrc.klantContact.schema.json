@@ -1,0 +1,71 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.1",
+    "title": "KlantContact",
+  "required": [
+    "zaak",
+    "datumtijd"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
+    "url": {
+      "title": "Url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "maxLength": 1000,
+      "minLength": 1
+    },
+    "uuid": {
+      "title": "Uuid",
+      "description": "Unieke resource identifier (UUID4)",
+      "type": "string",
+      "format": "uuid",
+      "readOnly": true
+    },
+    "zaak": {
+      "title": "Zaak",
+      "description": "URL-referentie naar de ZAAK.",
+      "type": "string",
+      "format": "uri"
+    },
+    "identificatie": {
+      "title": "Identificatie",
+      "description": "De unieke aanduiding van een KLANTCONTACT",
+      "type": "string",
+      "maxLength": 14,
+      "minLength": 1
+    },
+    "datumtijd": {
+      "title": "Datumtijd",
+      "description": "De datum en het tijdstip waarop het KLANTCONTACT begint",
+      "type": "string",
+      "format": "date-time"
+    },
+    "kanaal": {
+      "title": "Kanaal",
+      "description": "Het communicatiekanaal waarlangs het KLANTCONTACT gevoerd wordt",
+      "type": "string",
+      "maxLength": 20
+    },
+    "onderwerp": {
+      "title": "Onderwerp",
+      "description": "Het onderwerp waarover contact is geweest met de klant.",
+      "type": "string",
+      "maxLength": 200
+    },
+    "toelichting": {
+      "title": "Toelichting",
+      "description": "Een toelichting die inhoudelijk het contact met de klant beschrijft.",
+      "type": "string",
+      "maxLength": 1000
+    }
+  }
+}

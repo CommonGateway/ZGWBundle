@@ -1,0 +1,41 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/drc.integriteit.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "Integriteit",
+  "type": "object",
+  "description": "Uitdrukking van mate van volledigheid en onbeschadigd zijn van digitaal bestand.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
+    "algoritme": {
+      "allOf": [
+        {
+          "$ref": "https://vng.opencatalogi.nl/schemas/drc.algoritmeEnum.schema.json"
+        }
+      ],
+      "description": "Aanduiding van algoritme, gebruikt om de checksum te maken.\n\nUitleg bij mogelijke waarden:\n\n* `crc_16` - CRC-16\n* `crc_32` - CRC-32\n* `crc_64` - CRC-64\n* `fletcher_4` - Fletcher-4\n* `fletcher_8` - Fletcher-8\n* `fletcher_16` - Fletcher-16\n* `fletcher_32` - Fletcher-32\n* `hmac` - HMAC\n* `md5` - MD5\n* `sha_1` - SHA-1\n* `sha_256` - SHA-256\n* `sha_512` - SHA-512\n* `sha_3` - SHA-3",
+      "title": "integriteit algoritme"
+    },
+    "waarde": {
+      "type": "string",
+      "description": "De waarde van de checksum.",
+      "title": "integriteit waarde",
+      "maxLength": 128
+    },
+    "datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Datum waarop de checksum is gemaakt.",
+      "title": "integriteit datum"
+    }
+  },
+  "required": [
+    "algoritme",
+    "datum",
+    "waarde"
+  ],
+  "nullable": true
+}

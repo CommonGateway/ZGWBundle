@@ -1,0 +1,53 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.1.1",
+    "title": "ZaakEigenschap",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "nullable": true
+      },
+      "url": {
+        "title": "Url",
+        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+        "type": "string",
+        "format": "uri",
+        "readOnly": true
+      },
+      "uuid": {
+        "title": "Uuid",
+        "description": "Unieke resource identifier (UUID4)",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true
+      },
+      "zaak": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+      },
+      "eigenschap": {
+        "format": "url",
+        "description": "URL-referentie naar de EIGENSCHAP (in de Catalogi API).",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
+      },
+      "naam": {
+        "description": "De naam van de EIGENSCHAP (overgenomen uit de Catalogi API).",
+        "type": "string",
+        "minLength": 1,
+        "readOnly": true
+      },
+      "waarde": {
+        "type": "string",
+        "minLength": 1,
+        "required": true
+      }
+    },
+    "required": [
+      "zaak",
+      "eigenschap",
+      "waarde"
+    ]
+  }

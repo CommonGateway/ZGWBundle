@@ -1,0 +1,8 @@
+{
+    "title": "Catalogi",
+    "$id": "https://vng.opencatalogi.nl/collection/ztc.catalogi.collection.json",
+    "$schema": "https://docs.commongateway.nl/schemas/CollectionEntity.schema.json",
+    "version": "0.0.1",
+    "prefix": "ztc/v1",
+    "plugin": "ZgwBundle"
+}
