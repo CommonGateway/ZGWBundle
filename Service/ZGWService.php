@@ -165,7 +165,7 @@ class ZGWService
             return $this->$data;
         }
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->find($configuration['downloadEndpoint']);
+        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpoint']]);
         if(
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntity']

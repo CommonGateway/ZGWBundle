@@ -31,16 +31,13 @@ class InhoudHandler implements ActionHandlerInterface
                 'enkelvoudigInformatieObjectEntityId' => [
                     'type'        => 'uuid',
                     'description' => 'The id of the huwelijks entity',
-                    'example'     => 'b484ba0b-0fb7-4007-a303-1ead3ab48846',
                     'nullable'    => true,
                     '$ref'        => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',
                 ],
                 'downloadEndpointId' => [
-                    'type'        => 'uuid',
-                    'description' => 'The id of the huwelijks entity',
-                    'example'     => 'b484ba0b-0fb7-4007-a303-1ead3ab48846',
-                    'nullable'    => true,
-                    '$ref'        => "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json"
+                    'type'        => 'string',
+                    'description' => 'The reference of the download endpoint',
+                    'example'     => 'https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json',
                 ],
             ],
         ];
