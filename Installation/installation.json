@@ -207,6 +207,7 @@
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
                 "path": "enkelvoudiginformatieobjecten",
                 "methods": [],
+                "throws": ["zgw.drc.enkelvoudigInformatieObject"],
                 "subEndpoints": [
                     {
                         "description": "Locks the resource (sets concept to false)",
