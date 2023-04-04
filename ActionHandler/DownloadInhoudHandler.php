@@ -3,8 +3,9 @@
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
 use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
-class DownloadInhoudHandler
+class DownloadInhoudHandler implements ActionHandlerInterface
 {
     private ZGWService $zgwService;
 

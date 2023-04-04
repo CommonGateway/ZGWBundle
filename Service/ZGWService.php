@@ -183,6 +183,7 @@ class ZGWService
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
             } elseif ($data['link']) {
+                // @TODO use guzzle or the callservice to retrieve the file
                 $linkedData = file_get_contents($data['link']);
                 $file->setSize(mb_strlen($linkedData));
                 $file->setBase64(base64_encode($linkedData));
