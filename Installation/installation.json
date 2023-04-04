@@ -219,6 +219,13 @@
                         "path": "release",
                         "methods": ["POST"],
                         "throws": ["zgw.drc.release"]
+                    },
+                    {
+                        "description": "Downloads the resource",
+                        "path": "download",
+                        "methods": ["GET"],
+                        "throws": ["zgw.drc.download"],
+                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json"
                     }
                 ]
             },
@@ -271,10 +278,28 @@
           "listens": ["commongateway.response.pre"]
         },
         {
-          "name": "ZtcPublishAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
-          "listens": ["commongateway.response.pre"]
+            "name": "ZtcPublishAction",
+            "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
+            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
+            "listens": [
+                "commongateway.response.pre"
+            ]
+        },
+        {
+            "name": "DrcDownloadAction",
+            "reference":"https://vng.opencatalogi.nl/action/drc.DrcDownloadAction.action.json",
+            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DownloadInhoudHandler",
+            "listens": [
+                "zgw.drc.download"
+            ]
+        },
+        {
+            "name": "DrcInhoudAction",
+            "reference":"https://vng.opencatalogi.nl/action/drc.DrcInhoudAction.action.json",
+            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
+            "listens": [
+                "zgw.drc.enkelvoudigInformatieObject"
+            ]
         }
       ]
     }
