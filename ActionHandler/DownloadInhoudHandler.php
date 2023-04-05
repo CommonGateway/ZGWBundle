@@ -22,8 +22,8 @@ class DownloadInhoudHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.downloadContent.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/drc.DownloadInhoudHandler.ActionHandler.json',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => '',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
@@ -44,11 +44,6 @@ class DownloadInhoudHandler implements ActionHandlerInterface
      *
      * @param array $data          The data from the call
      * @param array $configuration The configuration of the action
-     *
-     * @throws GatewayException
-     * @throws CacheException
-     * @throws InvalidArgumentException
-     * @throws ComponentException
      *
      * @return array
      */

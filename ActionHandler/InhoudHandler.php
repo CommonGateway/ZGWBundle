@@ -22,8 +22,8 @@ class InhoudHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.saveContent.schema.json',
-            '$schema'     => 'https://json-schema.org/draft/2020-12/schema',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/drc.InhoudHandler.ActionHandler.json',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
             'title'       => '',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
