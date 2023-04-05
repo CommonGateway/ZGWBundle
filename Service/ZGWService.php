@@ -211,6 +211,7 @@ class ZGWService
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
             if($objectEntity->getLock() !== null
+                && key_exists('lock', $this->data['body'])
                 && $objectEntity->getLock() !== $this->data['body']['lock']
                 && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
             ) {
