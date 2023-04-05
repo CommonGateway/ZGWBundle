@@ -257,6 +257,8 @@ class ZGWService
 //
 //        $parameters = $this->data;
 //        $pathDefintion = $this->data['path'];
+//
+//        // Get the id of the enkelvoudig informatie object.
 //        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
 //        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
 //
