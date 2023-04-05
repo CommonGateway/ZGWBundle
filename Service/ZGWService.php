@@ -185,10 +185,18 @@ class ZGWService
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
         $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpointId']]);
+
         if(
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
+            if($objectEntity->getLock() !== null
+                && $objectEntity->getLock() !== $this->data['lock']
+                && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
+            ) {
+                throw new \HttpException('Lock not valid', 400);
+            }
+
             $data = $objectEntity->toArray();
 
             $file = new File();
@@ -275,7 +283,7 @@ class ZGWService
             return $this->data;
         }
 
-        if(!$objectEntity->getLock() !== $this->data['post']['lock']) {
+        if($objectEntity->getLock() !== $this->data['post']['lock']) {
             throw new \HttpException('Lock not valid', 400);
         }
 
