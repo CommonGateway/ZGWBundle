@@ -202,7 +202,7 @@ class ZGWService
     public function inhoudHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
+        if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId'] || $data['method'] == 'GET') {
             return $this->data;
         }
         $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
@@ -228,6 +228,8 @@ class ZGWService
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setBase64('');
+            $file->setSize(0);
             if ($data['inhoud']) {
                 if (filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
                     return $this->data;
@@ -295,7 +297,7 @@ class ZGWService
         }
 
         if($objectEntity->getLock() !== $this->data['post']['lock']) {
-            throw new \HttpException('Lock not valid', 400);
+            throw new HttpException(400, 'Lock not valid');
         }
 
         $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
