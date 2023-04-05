@@ -275,18 +275,22 @@ class ZGWService
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
-//            var_dump($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64());
-
             $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
         }
 
         return $this->data;
     }
 
+    /**
+     * Upload a part of a file.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration of the action.
+     * @return array
+     */
     public function uploadFilePartHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        $parameters = $this->data;
 
         $path = $data['path'];
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
