@@ -258,17 +258,17 @@
           "name": "DrcLockAction",
           "reference": "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
           "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcLockHandler",
-          "listens": ["commongateway.response.pre"]
-        },
-        {
-          "name": "PostZaakBesluitAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
-          "listens": ["commongateway.response.pre"]
+          "listens": ["zgw.drc.lock"]
         },
         {
           "name": "DrcReleaseAction",
           "reference": "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
+          "listens": ["zgw.drc.release"]
+        },
+        {
+          "name": "PostZaakBesluitAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
           "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakBesluitHandler",
           "listens": ["commongateway.response.pre"]
         },

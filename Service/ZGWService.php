@@ -8,8 +8,10 @@ use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ZGWService
 {
@@ -120,30 +122,49 @@ class ZGWService
 
     public function drcLockHandler(array $data, array $configuration): array
     {
-        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        if(!$object instanceof ObjectEntity) {
-            return $data;
-        }
-        $object->hydrate(['lock' => '{{ generated_uuid() }}']);
-        $this->entityManager->persist($object);
-        $this->entityManager->flush();
+        $this->data = $data;
+        $path = $this->data['path'];
 
-        $data['response'] = $object->toArray();
-        return $data;
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        if(
+            $objectEntity instanceof ObjectEntity
+        ) {
+            $lockId = Uuid::uuid4()->toString();
+            $objectEntity->hydrate(['lock' => $lockId, 'locked' => true]);
+            $objectEntity->setLock($lockId);
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );        }
+
+        return $this->data;
     }
 
     public function drcReleaseHandler(array $data, array $configuration): array
     {
-        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        if(!$object instanceof ObjectEntity) {
-            return $data;
-        }
-        $object->hydrate(['lock' => null]);
-        $this->entityManager->persist($object);
-        $this->entityManager->flush();
+        $this->data = $data;
+        $path = $this->data['path'];
 
-        $data['response'] = $object->toArray();
-        return $data;
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        if(
+            $objectEntity instanceof ObjectEntity
+        ) {
+            $objectEntity->hydrate(['lock' => null, 'locked' => false]);
+            $objectEntity->setLock(null);
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );        }
+
+        return $this->data;
     }
 
     /**
@@ -189,6 +210,13 @@ class ZGWService
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
+            if($objectEntity->getLock() !== null
+                && $objectEntity->getLock() !== $this->data['body']['lock']
+                && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
+            ) {
+                throw new HttpException(400, 'Lock not valid');
+            }
+
             $data = $objectEntity->toArray();
 
             $file = new File();
@@ -257,8 +285,6 @@ class ZGWService
 //
 //        $parameters = $this->data;
 //        $pathDefintion = $this->data['path'];
-//
-//        // Get the id of the enkelvoudig informatie object.
 //        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
 //        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
 //
