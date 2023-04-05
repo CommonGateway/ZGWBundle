@@ -215,8 +215,8 @@ class ZGWService
         ) {
             if ($objectEntity->getLock() !== null
                 && (key_exists('lock', $this->data['body']) === false
-                || key_exists('lock', $this->data['body']) === true
-                && $objectEntity->getLock() !== $this->data['body']['lock'])
+                    || key_exists('lock', $this->data['body']) === true
+                    && $objectEntity->getLock() !== $this->data['body']['lock'])
                 && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
             ) {
                 throw new HttpException(400, 'Lock not valid');
@@ -281,26 +281,10 @@ class ZGWService
         return $this->data;
     }
 
-//    public function uploadFilePartHandler(array $data, array $configuration): array
-//    {
-//        $this->data = $data;
-//
-//        $parameters = $this->data;
-//        $pathDefintion = $this->data['path'];
-//        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
-//        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
-//
-//        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
-//            return $this->data;
-//        }
-////          @TODO: Uncomment this once lock and release are proven to work
-////        if(!$objectEntity->toArray()['lock'] !== $this->data['lock']) {
-////            throw new \HttpException('Lock not valid', 400);
-////        }
-//
-//        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
-//        $file->setBase64($file->getBase64().$data['inhoud']);
-//        $file->setSize(mb_strlen($file->getBase64()));
+    public function uploadFilePartHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        $parameters = $this->data;
 
         $path = $data['path'];
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
