@@ -202,7 +202,7 @@ class ZGWService
     public function inhoudHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
+        if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId'] || $data['method'] == 'GET') {
             return $this->data;
         }
         $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
@@ -215,8 +215,8 @@ class ZGWService
         ) {
             if ($objectEntity->getLock() !== null
                 && (key_exists('lock', $this->data['body']) === false
-                || key_exists('lock', $this->data['body']) === true
-                && $objectEntity->getLock() !== $this->data['body']['lock'])
+                    || key_exists('lock', $this->data['body']) === true
+                    && $objectEntity->getLock() !== $this->data['body']['lock'])
                 && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
             ) {
                 throw new HttpException(400, 'Lock not valid');
@@ -228,17 +228,14 @@ class ZGWService
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setBase64('');
+            $file->setSize(0);
             if ($data['inhoud']) {
                 if (filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
                     return $this->data;
                 }
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
-            } elseif ($data['link']) {
-                // @TODO use guzzle or the callservice to retrieve the file
-                $linkedData = file_get_contents($data['link']);
-                $file->setSize(mb_strlen($linkedData));
-                $file->setBase64(base64_encode($linkedData));
             }
             $file->setValue($objectEntity->getValueObject('inhoud'));
             $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
@@ -278,32 +275,53 @@ class ZGWService
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
+//            var_dump($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64());
+
             $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
         }
 
         return $this->data;
     }
 
-//    public function uploadFilePartHandler(array $data, array $configuration): array
-//    {
-//        $this->data = $data;
-//
-//        $parameters = $this->data;
-//        $pathDefintion = $this->data['path'];
-//        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
-//        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
-//
-//        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
-//            return $this->data;
-//        }
-////          @TODO: Uncomment this once lock and release are proven to work
-////        if(!$objectEntity->toArray()['lock'] !== $this->data['lock']) {
-////            throw new \HttpException('Lock not valid', 400);
-////        }
-//
-//        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
-//        $file->setBase64($file->getBase64().$data['inhoud']);
-//        $file->setSize(mb_strlen($file->getBase64()));
+    public function uploadFilePartHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        $parameters = $this->data;
 
-//    }
+        $path = $data['path'];
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        $filePartEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json']);
+
+        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
+            return $this->data;
+        }
+
+        if($objectEntity->getLock() !== $this->data['post']['lock']) {
+            throw new HttpException(400, 'Lock not valid');
+        }
+
+        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+        $file->setBase64($file->getBase64().$data['post']['inhoud']);
+        $file->setSize(mb_strlen($file->getBase64()));
+
+        $responseObject = new ObjectEntity($filePartEntity);
+        $responseObject->hydrate([
+            'url'    => $objectEntity->getSelf(),
+            'lock'      => $this->data['post']['lock'],
+            'omvang'     => mb_strlen(\Safe\base64_decode($data['post']['inhoud'])),
+            'voltooid'   => true,
+            'volgnummer' => count($objectEntity->getValue('bestandsdelen')),
+        ]);
+
+        $fileParts = $objectEntity->getValueObject('bestandsdelen');
+        $fileParts->addObject($responseObject);
+
+        $this->entityManager->persist($objectEntity);
+        $this->entityManager->persist($file);
+        $this->entityManager->flush();
+
+        $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray()), 200, ['content-type' => 'application/json']);
+
+        return $this->data;
+    }
 }
