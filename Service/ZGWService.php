@@ -265,6 +265,7 @@ class ZGWService
         $this->data = $data;
 
         $path = $data['path'];
+//        // Get the id of the enkelvoudig informatie object.
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
         $filePartEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json']);
 
