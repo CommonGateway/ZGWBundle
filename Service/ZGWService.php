@@ -8,8 +8,10 @@ use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ZGWService
 {
@@ -18,6 +20,7 @@ class ZGWService
 
     private EntityManagerInterface $entityManager;
     private ParameterBagInterface $parameterBag;
+
     public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag)
     {
         $this->entityManager = $entityManager;
@@ -40,12 +43,12 @@ class ZGWService
             $zaakId = $explodedZaakId[0];
 
             $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
-            if(!$zaak instanceof ObjectEntity) {
+            if (!$zaak instanceof ObjectEntity) {
                 return $this->data;
             }
 
             $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
-            if(!$zaakBesluit instanceof ObjectEntity) {
+            if (!$zaakBesluit instanceof ObjectEntity) {
                 return $this->data;
             }
 
@@ -75,12 +78,12 @@ class ZGWService
             $zaakId = $explodedZaakId[0];
 
             $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
-            if(!$zaak instanceof ObjectEntity) {
+            if (!$zaak instanceof ObjectEntity) {
                 return $this->data;
             }
 
             $zaakeigenschap = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
-            if(!$zaakeigenschap instanceof ObjectEntity) {
+            if (!$zaakeigenschap instanceof ObjectEntity) {
                 return $this->data;
             }
 
@@ -107,7 +110,7 @@ class ZGWService
     public function ztcPublishHandler(array $data, array $configuration): array
     {
         $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        if(!$object instanceof ObjectEntity) {
+        if (!$object instanceof ObjectEntity) {
             return $data;
         }
         $object->hydrate(['concept' => false]);
@@ -120,36 +123,57 @@ class ZGWService
 
     public function drcLockHandler(array $data, array $configuration): array
     {
-        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        if(!$object instanceof ObjectEntity) {
-            return $data;
-        }
-        $object->hydrate(['lock' => '{{ generated_uuid() }}']);
-        $this->entityManager->persist($object);
-        $this->entityManager->flush();
+        $this->data = $data;
+        $path = $this->data['path'];
 
-        $data['response'] = $object->toArray();
-        return $data;
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        if (
+            $objectEntity instanceof ObjectEntity
+        ) {
+            $lockId = Uuid::uuid4()->toString();
+            $objectEntity->hydrate(['lock' => $lockId, 'locked' => true]);
+            $objectEntity->setLock($lockId);
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );
+        }
+
+        return $this->data;
     }
 
     public function drcReleaseHandler(array $data, array $configuration): array
     {
-        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
-        if(!$object instanceof ObjectEntity) {
-            return $data;
-        }
-        $object->hydrate(['lock' => null]);
-        $this->entityManager->persist($object);
-        $this->entityManager->flush();
+        $this->data = $data;
+        $path = $this->data['path'];
 
-        $data['response'] = $object->toArray();
-        return $data;
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        if (
+            $objectEntity instanceof ObjectEntity
+        ) {
+            $objectEntity->hydrate(['lock' => null, 'locked' => false]);
+            $objectEntity->setLock(null);
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );
+        }
+
+        return $this->data;
     }
 
     /**
      * Generates a download endpoint from the id of an 'Enkelvoudig Informatie Object' and the endpoint for downloads.
      *
-     * @param string   $id               The id of the Enkelvoudig Informatie Object.
+     * @param string $id The id of the Enkelvoudig Informatie Object.
      * @param Endpoint $downloadEndpoint The endpoint for downloads.
      *
      * @return string The endpoint to download the document from.
@@ -158,19 +182,19 @@ class ZGWService
     {
         $baseUrl = $this->parameterBag->get('app_url');
         $pathArray = $downloadEndpoint->getPath();
-        foreach($pathArray as $key => $value) {
-            if($value == 'id' || $value == '[id]' || $value == '{id}') {
+        foreach ($pathArray as $key => $value) {
+            if ($value == 'id' || $value == '[id]' || $value == '{id}') {
                 $pathArray[$key] = $id;
             }
         }
 
-        return $baseUrl.'/api/'.implode('/', $pathArray);
+        return $baseUrl . '/api/' . implode('/', $pathArray);
     }
 
     /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
      *
-     * @param array $data          The data passed by the action.
+     * @param array $data The data passed by the action.
      * @param array $configuration The configuration for the action.
      *
      * @return array
@@ -178,25 +202,34 @@ class ZGWService
     public function inhoudHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        if(!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
+        if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
             return $this->data;
         }
         $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
         $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpointId']]);
-        if(
+        if (
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
+            if ($objectEntity->getLock() !== null
+                && (key_exists('lock', $this->data['body']) === false
+                || key_exists('lock', $this->data['body']) === true
+                && $objectEntity->getLock() !== $this->data['body']['lock'])
+                && ($this->data['method'] === 'PUT' || $this->data['method'] === 'PATCH')
+            ) {
+                throw new HttpException(400, 'Lock not valid');
+            }
+
             $data = $objectEntity->toArray();
 
             $file = new File();
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
-            if($data['inhoud']) {
-                if(filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
+            if ($data['inhoud']) {
+                if (filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
                     return $this->data;
                 }
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
@@ -226,7 +259,7 @@ class ZGWService
     /**
      * Returns the data from an document as a response.
      *
-     * @param array $data          The data passed by the action.
+     * @param array $data The data passed by the action.
      * @param array $configuration The configuration of the action.
      *
      * @return array
@@ -234,14 +267,14 @@ class ZGWService
     public function downloadInhoudHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        if(!$configuration['enkelvoudigInformatieObjectEntityId']) {
+        if (!$configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->$data;
         }
         $parameters = $this->data;
         $path = $this->data['path'];
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
-        if(
+        if (
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
@@ -257,8 +290,6 @@ class ZGWService
 //
 //        $parameters = $this->data;
 //        $pathDefintion = $this->data['path'];
-//
-//        // Get the id of the enkelvoudig informatie object.
 //        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
 //        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
 //
