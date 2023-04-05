@@ -196,6 +196,7 @@ class ZGWService
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
             $file->setSize(0);
+            $file->setBase64('');
             if($data['link'] !== null) {
 
                 // @TODO use guzzle or the callservice to retrieve the file
@@ -247,6 +248,8 @@ class ZGWService
             $objectEntity instanceof ObjectEntity &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
+//            var_dump($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64());
+
             $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
         }
 
@@ -265,32 +268,32 @@ class ZGWService
         $this->data = $data;
 
         $path = $data['path'];
-//        // Get the id of the enkelvoudig informatie object.
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
         $filePartEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json']);
 
         if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->data;
         }
-//          @TODO: Uncomment this once lock and release are proven to work
-//        if(!$objectEntity->toArray()['lock'] !== $this->data['lock']) {
-//            throw new \HttpException('Lock not valid', 400);
-//        }
+
+        if(!$objectEntity->getLock() !== $this->data['post']['lock']) {
+            throw new \HttpException('Lock not valid', 400);
+        }
 
         $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
-        $file->setBase64($file->getBase64().\Safe\base64_encode($data['inhoud']));
+        $file->setBase64($file->getBase64().$data['post']['inhoud']);
         $file->setSize(mb_strlen($file->getBase64()));
 
         $responseObject = new ObjectEntity($filePartEntity);
         $responseObject->hydrate([
             'url'    => $objectEntity->getSelf(),
-            'lock'      => $this->data['lock'],
-            'omvang'     => mb_strlen($data['inhoud']),
+            'lock'      => $this->data['post']['lock'],
+            'omvang'     => mb_strlen(\Safe\base64_decode($data['post']['inhoud'])),
             'voltooid'   => true,
             'volgnummer' => count($objectEntity->getValue('bestandsdelen')),
         ]);
 
-        $objectEntity->getValue('bestandsdelen')->addObject($responseObject);
+        $fileParts = $objectEntity->getValueObject('bestandsdelen');
+        $fileParts->addObject($responseObject);
 
         $this->entityManager->persist($objectEntity);
         $this->entityManager->persist($file);
