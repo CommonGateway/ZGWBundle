@@ -243,7 +243,8 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json",
                 "path": "bestandsdelen",
-                "methods": []
+                "methods": ["PUT"],
+                "throws": ["zgw.drc.filePart"]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
@@ -258,17 +259,17 @@
           "name": "DrcLockAction",
           "reference": "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
           "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcLockHandler",
-          "listens": ["commongateway.response.pre"]
-        },
-        {
-          "name": "PostZaakBesluitAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
-          "listens": ["commongateway.response.pre"]
+          "listens": ["zgw.drc.lock"]
         },
         {
           "name": "DrcReleaseAction",
           "reference": "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
+          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
+          "listens": ["zgw.drc.release"]
+        },
+        {
+          "name": "PostZaakBesluitAction",
+          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
           "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakBesluitHandler",
           "listens": ["commongateway.response.pre"]
         },
@@ -300,6 +301,14 @@
             "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
             "listens": [
                 "zgw.drc.enkelvoudigInformatieObject"
+            ]
+        },
+        {
+            "name": "DrcUploadFilePartAction",
+            "reference":"https://vng.opencatalogi.nl/action/drc.DrcUploadFilePartAction.action.json",
+            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcUploadFilePartHandler",
+            "listens": [
+                "zgw.drc.filePart"
             ]
         }
       ]

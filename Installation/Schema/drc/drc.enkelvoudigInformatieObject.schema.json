@@ -186,6 +186,12 @@
       "title": "informatieobjecttype",
       "maxLength": 200
     },
+    "lock": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Geeft een uuid weer als het document gelocked is. Met dit uuid kan het object alleen worden aangepast met PUT en PATCH.",
+      "title": "lock"
+    },
     "locked": {
       "type": "boolean",
       "readOnly": true,
