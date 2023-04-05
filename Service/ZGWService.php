@@ -195,6 +195,7 @@ class ZGWService
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setSize(0);
             if($data['link'] !== null) {
 
                 // @TODO use guzzle or the callservice to retrieve the file
