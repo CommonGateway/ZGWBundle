@@ -4,17 +4,24 @@
 
 namespace CommonGateway\ZGWBundle\Service;
 
+use App\Entity\Endpoint;
+use App\Entity\File;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class ZGWService
 {
     private array $configuration;
     private array $data;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private EntityManagerInterface $entityManager;
+    private ParameterBagInterface $parameterBag;
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag)
     {
         $this->entityManager = $entityManager;
+        $this->parameterBag = $parameterBag;
     }
 
     /*
@@ -138,4 +145,132 @@ class ZGWService
         $data['response'] = $object->toArray();
         return $data;
     }
+
+    /**
+     * Generates a download endpoint from the id of an 'Enkelvoudig Informatie Object' and the endpoint for downloads.
+     *
+     * @param string   $id               The id of the Enkelvoudig Informatie Object.
+     * @param Endpoint $downloadEndpoint The endpoint for downloads.
+     *
+     * @return string The endpoint to download the document from.
+     */
+    private function generateDownloadEndpoint(string $id, Endpoint $downloadEndpoint): string
+    {
+        $baseUrl = $this->parameterBag->get('app_url');
+        $pathArray = $downloadEndpoint->getPath();
+        foreach($pathArray as $key => $value) {
+            if($value == 'id' || $value == '[id]' || $value == '{id}') {
+                $pathArray[$key] = $id;
+            }
+        }
+
+        return $baseUrl.'/api/'.implode('/', $pathArray);
+    }
+
+    /**
+     * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration for the action.
+     *
+     * @return array
+     */
+    public function inhoudHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        if(!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId']) {
+            return $this->data;
+        }
+        $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
+
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
+        $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpointId']]);
+        if(
+            $objectEntity instanceof ObjectEntity &&
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
+        ) {
+            $data = $objectEntity->toArray();
+
+            $file = new File();
+            $file->setName($data['titel']);
+            $file->setExtension('');
+            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            if($data['inhoud']) {
+                if(filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
+                    return $this->data;
+                }
+                $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
+                $file->setBase64($data['inhoud']);
+            } elseif ($data['link']) {
+                // @TODO use guzzle or the callservice to retrieve the file
+                $linkedData = file_get_contents($data['link']);
+                $file->setSize(mb_strlen($linkedData));
+                $file->setBase64(base64_encode($linkedData));
+            }
+            $file->setValue($objectEntity->getValueObject('inhoud'));
+            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
+            $this->entityManager->persist($file);
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray()),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * Returns the data from an document as a response.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration of the action.
+     *
+     * @return array
+     */
+    public function downloadInhoudHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+        if(!$configuration['enkelvoudigInformatieObjectEntityId']) {
+            return $this->$data;
+        }
+        $parameters = $this->data;
+        $path = $this->data['path'];
+
+        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        if(
+            $objectEntity instanceof ObjectEntity &&
+            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
+        ) {
+            $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+        }
+
+        return $this->data;
+    }
+
+//    public function uploadFilePartHandler(array $data, array $configuration): array
+//    {
+//        $this->data = $data;
+//
+//        $parameters = $this->data;
+//        $pathDefintion = $this->data['path'];
+//        $path = array_combine($pathDefintion, explode('/', $parameters->getPathInfo()));
+//        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['{id}']);
+//
+//        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
+//            return $this->data;
+//        }
+////          @TODO: Uncomment this once lock and release are proven to work
+////        if(!$objectEntity->toArray()['lock'] !== $this->data['lock']) {
+////            throw new \HttpException('Lock not valid', 400);
+////        }
+//
+//        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+//        $file->setBase64($file->getBase64().$data['inhoud']);
+//        $file->setSize(mb_strlen($file->getBase64()));
+
+//    }
 }
