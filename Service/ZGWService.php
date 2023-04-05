@@ -24,46 +24,63 @@ class ZGWService
         $this->parameterBag = $parameterBag;
     }
 
-    /*
-   * Returns a welcoming string
-   *
-   * @return array
-   */
+    /** 
+     * Returns a updated zaak with a new besluit.
+     * 
+     * @param array $data 
+     * @param array $configuration 
+     *
+     * @return array Zaak.
+     */
     public function postZaakBesluitHandler(array $data, array $configuration): array
     {
         $this->data = $data;
         $this->configuration = $configuration;
+        $method = $this->data['parameters']->getMethod();
 
-        if ($this->data['parameters']->getMethod() == 'POST' || $this->data['parameters']->getMethod() == 'PUT') {
-            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
-            $explodedZaakId = explode('/zaakbesluiten', $explodedArray[1]);
-            $zaakId = $explodedZaakId[0];
+        switch ($method) {
+            case 'POST':
+            case 'PUT':
+            case 'PATCH':
+                $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
+                $explodedZaakId = explode('/zaakbesluiten', $explodedArray[1]);
+                $zaakId = $explodedZaakId[0];
+    
+                $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
+                if($zaak instanceof ObjectEntity === false) {
 
-            $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
-            if(!$zaak instanceof ObjectEntity) {
-                return $this->data;
-            }
+                    return $this->data;
+                }//end if
 
-            $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
-            if(!$zaakBesluit instanceof ObjectEntity) {
-                return $this->data;
-            }
+                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
+                if($zaakBesluit instanceof ObjectEntity === false) {
 
-            $zaakBesluit->hydrate(['zaak' => $zaak]);
-            $this->entityManager->persist($zaakBesluit);
-            $this->entityManager->flush();
+                    return $this->data;
+                }//end if
 
-            $this->data['response'] = $zaakBesluit->toArray();
-        }
+                $zaakBesluit->hydrate(['zaak' => $zaak]);
+                $this->entityManager->persist($zaakBesluit);
+                $this->entityManager->flush();
+
+                $this->data['response'] = $zaakBesluit->toArray();
+                break;
+
+            case 'GET':
+                // @todo if method is GET with ID in param get and return that besluit
+                // @todo if method is GET without ID in param get and return all besluiten that are connected to this zaak
+                break;
+        }//end switch
+
 
         return $this->data;
-    }
 
-    /*
-    * Returns a welcoming string
-    *
-    * @return array
-    */
+    }//end postZaakBesluitHandler()
+
+    /** 
+     * Returns a welcoming string
+     *
+     * @return array
+     */
     public function postZaakEigenschapHandler(array $data, array $configuration): array
     {
         $this->data = $data;
@@ -94,7 +111,7 @@ class ZGWService
         return $this->data;
     }
 
-    /*
+    /** 
      * Returns a welcoming string
      *
      * @return array

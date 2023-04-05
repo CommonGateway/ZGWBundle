@@ -63,7 +63,7 @@
                     },
                     {
                         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
-                        "path": "zaakbesluiten",
+                        "path": "besluiten",
                         "methods": [],
                         "throws": ["zrc.post.zaakbesluit"]
                     }
