@@ -56,7 +56,8 @@
             "items": {
                 "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
             },
-            "readOnly": true
+            "readOnly": true,
+            "inversedBy": "catalogus"
         },
         "besluittypen": {
             "type": "array",
