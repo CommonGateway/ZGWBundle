@@ -12,6 +12,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use CommonGateway\CoreBundle\Service\CacheService;
 
 class ZGWService
 {
@@ -20,15 +21,17 @@ class ZGWService
 
     private EntityManagerInterface $entityManager;
     private ParameterBagInterface $parameterBag;
+    private CacheService $cacheService;
 
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService)
     {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
+        $this->cacheService = $cacheService;
     }
 
     /** 
-     * Returns a updated zaak with a new besluit.
+     * Returns a new besluit, existing besluit or all besluiten of a zaak.
      * 
      * @param array $data 
      * @param array $configuration 
@@ -39,23 +42,25 @@ class ZGWService
     {
         $this->data = $data;
         $this->configuration = $configuration;
-        $method = $this->data['parameters']->getMethod();
+        $method = $this->data['method'];
+
+        $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
+        $explodedZaakId = explode('/besluiten', $explodedArray[1]);
+        $zaakId = $explodedZaakId[0];
+    
+        $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
+        if($zaak instanceof ObjectEntity === false) {
+
+            return $this->data;
+        }//end if
+
+        // var_dump($zaak->toArray()['besluiten']);
 
         switch ($method) {
             case 'POST':
             case 'PUT':
             case 'PATCH':
-                $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
-                $explodedZaakId = explode('/zaakbesluiten', $explodedArray[1]);
-                $zaakId = $explodedZaakId[0];
-    
-                $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
-                if($zaak instanceof ObjectEntity === false) {
-
-                    return $this->data;
-                }//end if
-
-                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
+                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find(json_decode($this->data['response']->getContent(), true)['_id']);
                 if($zaakBesluit instanceof ObjectEntity === false) {
 
                     return $this->data;
@@ -65,13 +70,41 @@ class ZGWService
                 $this->entityManager->persist($zaakBesluit);
                 $this->entityManager->flush();
 
-                $this->data['response'] = $zaakBesluit->toArray();
+                $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
                 break;
 
             case 'GET':
-                // @todo if method is GET with ID in param get and return that besluit
-                // @todo if method is GET without ID in param get and return all besluiten that are connected to this zaak
-                break;
+                // Get besluit id.
+                $cutPath = explode('/', $this->data['pathRaw']);
+                $possibleBesluitId = end($cutPath);
+
+                if (Uuid::isValid($possibleBesluitId) === true) {
+                    $besluitId = $possibleBesluitId;
+                }//end if
+
+                // Get single besluit.
+                if (isset($besluitId) === true) {
+                    $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($besluitId);
+                    if ($zaakBesluit instanceof ObjectEntity === true) {
+
+                        $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
+                    }
+                } else { // else get all besluiten from this zaak.
+                    $zaakBesluitEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
+                    $zaakBesluitZaakAttribute = $this->entityManager->getRepository('App:Attribute')->findOneBy(['entity' => $zaakBesluitEntity, 'name' => 'zaak']);
+                    // Get all values from the correct attribute that have the current zaak as stringValue.
+                    $zaakBesluitValues = $this->entityManager->getRepository('App:Value')->findBy(['attribute' => $zaakBesluitZaakAttribute, 'stringValue' => $zaakId]);
+
+                    $zaakBesluiten = [];
+                    // Get object of each value so we can return it.
+                    foreach ($zaakBesluitValues as $value) {
+                        $zaakBesluiten[] = $value->getObjectEntity()->toArray();
+                    }
+
+                    $resultArray = $this->cacheService->handleResultPagination([], $zaakBesluiten, count($zaakBesluiten));
+
+                    $this->data['response'] = new Response(json_encode($resultArray), 200);
+                }
         }//end switch
 
 
