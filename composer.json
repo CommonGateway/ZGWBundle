@@ -16,7 +16,8 @@
     "minimum-stability" : "dev",
     "require": {
         "php": ">=7.4",
-		"commongateway/corebundle": ">=1.0.37"
+		"commongateway/corebundle": ">=1.0.58",
+		"common-gateway/klanten-bundle": ">=0.1.3"
     },
 	"require-dev" : {
 		"symfony/dependency-injection" : "~3.4|~4.1|~5.0"
