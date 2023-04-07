@@ -1,0 +1,9 @@
+{
+    "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json": [
+        {
+            "rsin": "000000000",
+            "domein": "ZGWT",
+            "contactpersoonBeheerNaam": "Conduction"
+        }
+    ]
+}
