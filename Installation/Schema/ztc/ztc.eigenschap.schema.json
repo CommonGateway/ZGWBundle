@@ -17,7 +17,7 @@
         "format": "uri",
         "maxLength": 1000,
         "minLength": 1,
-        "defaultValue": "{{ selfUrl(object) }}"
+        "default": "{{ selfUrl(object) }}"
       },
       "naam": {
         "description": "De naam van de EIGENSCHAP",

@@ -18,7 +18,7 @@
       "maxLength": 1000,
       "minLength": 1,
       "readOnly": true,
-      "defaultValue": "{{ selfUrl(object) }}"
+      "default": "{{ selfUrl(object) }}"
     },
     "uuid": {
       "title": "Uuid",

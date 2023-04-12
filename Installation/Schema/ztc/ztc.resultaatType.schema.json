@@ -16,7 +16,7 @@
             "format": "uri",
             "minLength": 1,
             "maxLength": 1000,
-            "defaultValue": "{{ selfUrl(object) }}"
+            "default": "{{ selfUrl(object) }}"
         },
         "zaaktype": {
             "type": "string",

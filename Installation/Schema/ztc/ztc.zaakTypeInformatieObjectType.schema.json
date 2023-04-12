@@ -18,7 +18,7 @@
       "readOnly": true,
       "maxLength": 1000,
       "minLength": 1,
-      "defaultValue": "{{ selfUrl(object) }}"
+      "default": "{{ selfUrl(object) }}"
     },
     "zaaktype": {
       "title": "Zaaktype",
