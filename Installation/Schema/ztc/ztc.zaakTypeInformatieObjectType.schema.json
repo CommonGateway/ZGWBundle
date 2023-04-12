@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1",
+  "version": "0.1.1",
   "type": "object",
   "title": "ZaakTypeInformatieObjectType",
   "properties": {
@@ -17,7 +17,8 @@
       "format": "uri",
       "readOnly": true,
       "maxLength": 1000,
-      "minLength": 1
+      "minLength": 1,
+      "defaultValue": "{{ selfUrl(object) }}"
     },
     "zaaktype": {
       "title": "Zaaktype",

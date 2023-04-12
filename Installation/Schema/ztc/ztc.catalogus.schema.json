@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "type": "object",
     "title": "Catalogus",
     "properties": {
@@ -15,7 +15,8 @@
             "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
             "format": "uri",
             "minLength": 1,
-            "maxLength": 1000
+            "maxLength": 1000,
+            "defaultValue": "{{ selfUrl(object) }}"
         },
         "domein": {
             "type": "string",

@@ -3,7 +3,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "ObjectInformatieObject",
   "type": "object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
@@ -17,7 +17,8 @@
       "title": "url",
       "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
       "minLength": 1,
-      "maxLength": 1000
+      "maxLength": 1000,
+      "defaultValue": "{{ selfUrl(object) }}"
     },
     "informatieobject": {
       "type": "string",

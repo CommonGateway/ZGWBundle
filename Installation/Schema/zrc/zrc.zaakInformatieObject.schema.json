@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "title": "ZaakInformatieObject",
     "type": "object",
     "properties": {
@@ -15,7 +15,8 @@
         "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
         "type": "string",
         "format": "uri",
-        "readOnly": true
+        "readOnly": true,
+        "defaultValue": "{{ selfUrl(object) }}"
       },
       "uuid": {
         "title": "Uuid",
