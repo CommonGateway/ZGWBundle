@@ -9,6 +9,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Besluit",
   "type": "object",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
@@ -22,7 +23,8 @@
       "format": "uri",
       "readOnly": true,
       "maxLength": 1000,
-      "minLength": 1
+      "minLength": 1,
+      "default": "{{ selfUrl(object) }}"
     },
     "identificatie": {
       "title": "Identificatie",

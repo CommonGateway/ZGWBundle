@@ -1,102 +1,103 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.1",
-    "title": "ZaakObject",
-    "required": [
-        "zaak",
-        "objectType"
-    ],
-    "type": "object",
-    "properties": {
-        "id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-        },
-        "url": {
-        "title": "Url",
-        "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
-        "type": "string",
-        "format": "uri",
-        "readOnly": true,
-        "maxLength": 1000,
-        "minLength": 1
-        },
-        "uuid": {
-        "title": "Uuid",
-        "description": "Unieke resource identifier (UUID4)",
-        "type": "string",
-        "format": "uuid",
-        "readOnly": true
-        },
-        "zaak": {
-        "title": "Zaak",
-        "description": "URL-referentie naar de ZAAK.",
-        "type": "string",
-        "format": "url",
-        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
-        },
-        "object": {
-        "title": "Object",
-        "description": "URL-referentie naar de resource die het OBJECT beschrijft.",
-        "type": "string",
-        "format": "uri",
-        "maxLength": 1000
-        },
-        "objectType": {
-        "title": "Object type",
-        "description": "Beschrijft het type OBJECT gerelateerd aan de ZAAK. Als er geen passend type is, dan moet het type worden opgegeven onder `objectTypeOverige`.\n\nUitleg bij mogelijke waarden:\n\n* `adres` - Adres\n* `besluit` - Besluit\n* `buurt` - Buurt\n* `enkelvoudig_document` - Enkelvoudig document\n* `gemeente` - Gemeente\n* `gemeentelijke_openbare_ruimte` - Gemeentelijke openbare ruimte\n* `huishouden` - Huishouden\n* `inrichtingselement` - Inrichtingselement\n* `kadastrale_onroerende_zaak` - Kadastrale onroerende zaak\n* `kunstwerkdeel` - Kunstwerkdeel\n* `maatschappelijke_activiteit` - Maatschappelijke activiteit\n* `medewerker` - Medewerker\n* `natuurlijk_persoon` - Natuurlijk persoon\n* `niet_natuurlijk_persoon` - Niet-natuurlijk persoon\n* `openbare_ruimte` - Openbare ruimte\n* `organisatorische_eenheid` - Organisatorische eenheid\n* `pand` - Pand\n* `spoorbaandeel` - Spoorbaandeel\n* `status` - Status\n* `terreindeel` - Terreindeel\n* `terrein_gebouwd_object` - Terrein gebouwd object\n* `vestiging` - Vestiging\n* `waterdeel` - Waterdeel\n* `wegdeel` - Wegdeel\n* `wijk` - Wijk\n* `woonplaats` - Woonplaats\n* `woz_deelobject` - Woz deel object\n* `woz_object` - Woz object\n* `woz_waarde` - Woz waarde\n* `zakelijk_recht` - Zakelijk recht\n* `overige` - Overige",
-        "type": "string",
-        "enum": [
-            "adres",
-            "besluit",
-            "buurt",
-            "enkelvoudig_document",
-            "gemeente",
-            "gemeentelijke_openbare_ruimte",
-            "huishouden",
-            "inrichtingselement",
-            "kadastrale_onroerende_zaak",
-            "kunstwerkdeel",
-            "maatschappelijke_activiteit",
-            "medewerker",
-            "natuurlijk_persoon",
-            "niet_natuurlijk_persoon",
-            "openbare_ruimte",
-            "organisatorische_eenheid",
-            "pand",
-            "spoorbaandeel",
-            "status",
-            "terreindeel",
-            "terrein_gebouwd_object",
-            "vestiging",
-            "waterdeel",
-            "wegdeel",
-            "wijk",
-            "woonplaats",
-            "woz_deelobject",
-            "woz_object",
-            "woz_waarde",
-            "zakelijk_recht",
-            "overige"
-        ]
-        },
-        "objectTypeOverige": {
-        "title": "Object type overige",
-        "description": "Beschrijft het type OBJECT als `objectType` de waarde \"overige\" heeft.",
-        "type": "string",
-        "pattern": "[a-z_]+",
-        "maxLength": 100
-        },
-        "relatieomschrijving": {
-        "title": "Relatieomschrijving",
-        "description": "Omschrijving van de betrekking tussen de ZAAK en het OBJECT.",
-        "type": "string",
-        "maxLength": 80
-        }
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.2",
+  "title": "ZaakObject",
+  "required": [
+    "zaak",
+    "objectType"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
     },
-    "discriminator": {
-        "propertyName": "objectType"
+    "url": {
+      "title": "Url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "maxLength": 1000,
+      "minLength": 1,
+      "default": "{{ selfUrl(object) }}"
+    },
+    "uuid": {
+      "title": "Uuid",
+      "description": "Unieke resource identifier (UUID4)",
+      "type": "string",
+      "format": "uuid",
+      "readOnly": true
+    },
+    "zaak": {
+      "title": "Zaak",
+      "description": "URL-referentie naar de ZAAK.",
+      "type": "string",
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+    },
+    "object": {
+      "title": "Object",
+      "description": "URL-referentie naar de resource die het OBJECT beschrijft.",
+      "type": "string",
+      "format": "uri",
+      "maxLength": 1000
+    },
+    "objectType": {
+      "title": "Object type",
+      "description": "Beschrijft het type OBJECT gerelateerd aan de ZAAK. Als er geen passend type is, dan moet het type worden opgegeven onder `objectTypeOverige`.\n\nUitleg bij mogelijke waarden:\n\n* `adres` - Adres\n* `besluit` - Besluit\n* `buurt` - Buurt\n* `enkelvoudig_document` - Enkelvoudig document\n* `gemeente` - Gemeente\n* `gemeentelijke_openbare_ruimte` - Gemeentelijke openbare ruimte\n* `huishouden` - Huishouden\n* `inrichtingselement` - Inrichtingselement\n* `kadastrale_onroerende_zaak` - Kadastrale onroerende zaak\n* `kunstwerkdeel` - Kunstwerkdeel\n* `maatschappelijke_activiteit` - Maatschappelijke activiteit\n* `medewerker` - Medewerker\n* `natuurlijk_persoon` - Natuurlijk persoon\n* `niet_natuurlijk_persoon` - Niet-natuurlijk persoon\n* `openbare_ruimte` - Openbare ruimte\n* `organisatorische_eenheid` - Organisatorische eenheid\n* `pand` - Pand\n* `spoorbaandeel` - Spoorbaandeel\n* `status` - Status\n* `terreindeel` - Terreindeel\n* `terrein_gebouwd_object` - Terrein gebouwd object\n* `vestiging` - Vestiging\n* `waterdeel` - Waterdeel\n* `wegdeel` - Wegdeel\n* `wijk` - Wijk\n* `woonplaats` - Woonplaats\n* `woz_deelobject` - Woz deel object\n* `woz_object` - Woz object\n* `woz_waarde` - Woz waarde\n* `zakelijk_recht` - Zakelijk recht\n* `overige` - Overige",
+      "type": "string",
+      "enum": [
+        "adres",
+        "besluit",
+        "buurt",
+        "enkelvoudig_document",
+        "gemeente",
+        "gemeentelijke_openbare_ruimte",
+        "huishouden",
+        "inrichtingselement",
+        "kadastrale_onroerende_zaak",
+        "kunstwerkdeel",
+        "maatschappelijke_activiteit",
+        "medewerker",
+        "natuurlijk_persoon",
+        "niet_natuurlijk_persoon",
+        "openbare_ruimte",
+        "organisatorische_eenheid",
+        "pand",
+        "spoorbaandeel",
+        "status",
+        "terreindeel",
+        "terrein_gebouwd_object",
+        "vestiging",
+        "waterdeel",
+        "wegdeel",
+        "wijk",
+        "woonplaats",
+        "woz_deelobject",
+        "woz_object",
+        "woz_waarde",
+        "zakelijk_recht",
+        "overige"
+      ]
+    },
+    "objectTypeOverige": {
+      "title": "Object type overige",
+      "description": "Beschrijft het type OBJECT als `objectType` de waarde \"overige\" heeft.",
+      "type": "string",
+      "pattern": "[a-z_]+",
+      "maxLength": 100
+    },
+    "relatieomschrijving": {
+      "title": "Relatieomschrijving",
+      "description": "Omschrijving van de betrekking tussen de ZAAK en het OBJECT.",
+      "type": "string",
+      "maxLength": 80
     }
+  },
+  "discriminator": {
+    "propertyName": "objectType"
+  }
 }

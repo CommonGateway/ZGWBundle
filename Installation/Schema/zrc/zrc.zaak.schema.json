@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "title": "Zaak",
   "type": "object",
   "properties": {
@@ -17,7 +17,8 @@
       "format": "uri",
       "maxLength": 1000,
       "minLength": 1,
-      "readOnly": true
+      "readOnly": true,
+      "default": "{{ selfUrl(object) }}"
     },
     "uuid": {
       "title": "Uuid",

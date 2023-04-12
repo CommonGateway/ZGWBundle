@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1",
+    "version": "0.1.1",
     "title": "KlantContact",
   "required": [
     "zaak",
@@ -21,7 +21,8 @@
       "format": "uri",
       "readOnly": true,
       "maxLength": 1000,
-      "minLength": 1
+      "minLength": 1,
+      "default": "{{ selfUrl(object) }}"
     },
     "uuid": {
       "title": "Uuid",

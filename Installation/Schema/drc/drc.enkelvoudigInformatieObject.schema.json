@@ -4,6 +4,7 @@
   "title": "EnkelvoudigInformatieObject",
   "type": "object",
   "description": "Serializer for the EnkelvoudigInformatieObject model",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
@@ -17,7 +18,8 @@
       "title": "url",
       "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
       "minLength": 1,
-      "maxLength": 1000
+      "maxLength": 1000,
+      "default": "{{ selfUrl(object) }}"
     },
     "identificatie": {
       "type": "string",
