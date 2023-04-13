@@ -92,7 +92,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -110,7 +110,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -123,7 +123,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -136,7 +136,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -149,7 +149,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -162,7 +162,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -175,7 +175,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
@@ -188,7 +188,7 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
+                        "methods": ["POST"],
                         "throws": ["zgw.ztc.publish"]
                     }
                 ]
