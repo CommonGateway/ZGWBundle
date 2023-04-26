@@ -92,8 +92,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -110,8 +111,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -123,8 +125,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -136,8 +139,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -149,8 +153,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -162,8 +167,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -175,8 +181,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -188,8 +195,9 @@
                     {
                         "description": "Publishes the resource (sets concept to false)",
                         "path": "publish",
-                        "methods": ["PUT"],
-                        "throws": ["zgw.ztc.publish"]
+                        "methods": ["POST"],
+                        "throws": ["zgw.ztc.publish"],
+                        "version": "0.0.1"
                     }
                 ]
             },
@@ -213,20 +221,23 @@
                         "description": "Locks the resource (sets concept to false)",
                         "path": "lock",
                         "methods": ["POST"],
-                        "throws": ["zgw.drc.lock"]
+                        "throws": ["zgw.drc.lock"],
+                        "version": "0.0.1"
                     },
                     {
                         "description": "Releases the resource",
                         "path": "release",
                         "methods": ["POST"],
-                        "throws": ["zgw.drc.release"]
+                        "throws": ["zgw.drc.release"],
+                        "version": "0.0.1"
                     },
                     {
                         "description": "Downloads the resource",
                         "path": "download",
                         "methods": ["GET"],
                         "throws": ["zgw.drc.download"],
-                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json"
+                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json",
+                        "version": "0.0.1"
                     }
                 ]
             },
