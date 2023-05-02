@@ -70,6 +70,15 @@
                 ]
             },
             {
+                "$id": "https://vng.opencatalogi.nl/EntityEndpoint/Zaak._zoeken.endpoint.json",
+                "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+                "name": "Zaak _zoeken",
+                "path": "/zaken/_zoeken",
+                "pathRegex": "^zrc/v1/zaken/_zoeken$",
+                "methods": [],
+                "throws": ["zrc.zaak.zoek"]
+            },
+            {
                 "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
                 "path": "zaakobjecten",
                 "methods": ["GET", "POST"]
@@ -265,63 +274,63 @@
         ]
     },
     "actions": {
-      "handlers": [
-        {
-          "name": "DrcLockAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcLockHandler",
-          "listens": ["zgw.drc.lock"]
-        },
-        {
-          "name": "DrcReleaseAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
-          "listens": ["zgw.drc.release"]
-        },
-        {
-          "name": "PostZaakBesluitAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakBesluitHandler",
-          "listens": ["commongateway.response.pre"]
-        },
-        {
-          "name": "PostZaakEigenschapAction",
-          "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakEigenschapAction.action.json",
-          "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakEigenschapHandler",
-          "listens": ["commongateway.response.pre"]
-        },
-        {
-            "name": "ZtcPublishAction",
-            "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
-            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
-            "listens": [
-                "commongateway.response.pre"
-            ]
-        },
-        {
-            "name": "DrcDownloadAction",
-            "reference":"https://vng.opencatalogi.nl/action/drc.DrcDownloadAction.action.json",
-            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DownloadInhoudHandler",
-            "listens": [
-                "zgw.drc.download"
-            ]
-        },
-        {
-            "name": "DrcInhoudAction",
-            "reference":"https://vng.opencatalogi.nl/action/drc.DrcInhoudAction.action.json",
-            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
-            "listens": [
-                "zgw.drc.enkelvoudigInformatieObject"
-            ]
-        },
-        {
-            "name": "DrcUploadFilePartAction",
-            "reference":"https://vng.opencatalogi.nl/action/drc.DrcUploadFilePartAction.action.json",
-            "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcUploadFilePartHandler",
-            "listens": [
-                "zgw.drc.filePart"
-            ]
-        }
-      ]
+        "handlers": [
+            {
+                "name": "DrcLockAction",
+                "reference": "https://vng.opencatalogi.nl/action/kiss.DrcLockAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcLockHandler",
+                "listens": ["zgw.drc.lock"]
+            },
+            {
+                "name": "DrcReleaseAction",
+                "reference": "https://vng.opencatalogi.nl/action/kiss.DrcReleaseAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcReleaseHandler",
+                "listens": ["zgw.drc.release"]
+            },
+            {
+                "name": "PostZaakBesluitAction",
+                "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakBesluitAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakBesluitHandler",
+                "listens": ["commongateway.response.pre"]
+            },
+            {
+                "name": "PostZaakEigenschapAction",
+                "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakEigenschapAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakEigenschapHandler",
+                "listens": ["commongateway.response.pre"]
+            },
+            {
+                "name": "ZtcPublishAction",
+                "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
+                "listens": [
+                    "commongateway.response.pre"
+                ]
+            },
+            {
+                "name": "DrcDownloadAction",
+                "reference":"https://vng.opencatalogi.nl/action/drc.DrcDownloadAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DownloadInhoudHandler",
+                "listens": [
+                    "zgw.drc.download"
+                ]
+            },
+            {
+                "name": "DrcInhoudAction",
+                "reference":"https://vng.opencatalogi.nl/action/drc.DrcInhoudAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
+                "listens": [
+                    "zgw.drc.enkelvoudigInformatieObject"
+                ]
+            },
+            {
+                "name": "DrcUploadFilePartAction",
+                "reference":"https://vng.opencatalogi.nl/action/drc.DrcUploadFilePartAction.action.json",
+                "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcUploadFilePartHandler",
+                "listens": [
+                    "zgw.drc.filePart"
+                ]
+            }
+        ]
     }
 }
