@@ -7,6 +7,7 @@ namespace CommonGateway\ZGWBundle\Service;
 use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
+use CommonGateway\CoreBundle\Service\GatewayResourceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -22,19 +23,25 @@ class ZGWService
     private EntityManagerInterface $entityManager;
     private ParameterBagInterface $parameterBag;
     private CacheService $cacheService;
+    private GatewayResourceService $resourceService;
 
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ParameterBagInterface $parameterBag,
+        CacheService $cacheService,
+        GatewayResourceService $resourceService
+    ) {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
+        $this->resourceService = $resourceService;
     }
 
-    /** 
+    /**
      * Returns a new besluit, existing besluit or all besluiten of a zaak.
-     * 
-     * @param array $data 
-     * @param array $configuration 
+     *
+     * @param array $data
+     * @param array $configuration
      *
      * @return array Zaak.
      */
@@ -47,7 +54,7 @@ class ZGWService
         $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
         $explodedZaakId = explode('/besluiten', $explodedArray[1]);
         $zaakId = $explodedZaakId[0];
-    
+
         $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
         if($zaak instanceof ObjectEntity === false) {
 
@@ -112,7 +119,7 @@ class ZGWService
 
     }//end postZaakBesluitHandler()
 
-    /** 
+    /**
      * Returns a welcoming string
      *
      * @return array
@@ -147,7 +154,7 @@ class ZGWService
         return $this->data;
     }
 
-    /** 
+    /**
      * Returns a welcoming string
      *
      * @return array
@@ -377,5 +384,80 @@ class ZGWService
         $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray()), 200, ['content-type' => 'application/json']);
 
         return $this->data;
+    }
+
+    public function searchHandler(array $data, array $config): array
+    {
+//        var_dump(array_keys($data));
+        $parameters = $data['body'];
+        $filters = [];
+        $order = [];
+        $filters['_self.schema.ref'] = ['$in' => ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']];
+        foreach($parameters as $parameter => $value) {
+            $paramArray = explode('__', $parameter);
+
+            if($parameter === 'zaakgeometrie') {
+                $filters['zaakgeometrie'] = [
+                    '$geoWithin' => [
+                        '$geometry' => [
+                            $value['within'],
+                        ],
+                    ],
+                ];
+
+                continue;
+            }
+
+            switch (end($paramArray)) {
+                case 'in':
+                    array_pop($paramArray);
+                    $filters[implode('.', $paramArray)] = ['$in' => $value];
+                    break;
+                case 'isnull':
+                    array_pop($paramArray);
+                    if ($value === false) {
+                        $filters[implode('.', $paramArray)] = ['$ne' => null];
+                    } else {
+                        $filters[implode('.', $paramArray)] = null;
+                    }
+                    break;
+                case 'gt':
+                    array_pop($paramArray);
+                    $filters[implode('.', $paramArray)] = ['$gt' => $value];
+                    break;
+                case 'gte':
+                    array_pop($paramArray);
+                    $filters[implode('.', $paramArray)] = ['$gte' => $value];
+                    break;
+                case 'lt':
+                    array_pop($paramArray);
+
+                    $filters[implode('.', $paramArray)] = ['$lt' => $value];
+                    break;
+                case 'lte':
+                    array_pop($paramArray);
+                    $filters[implode('.', $paramArray)] = ['$lte' => $value];
+                    break;
+                case 'ordering':
+                    if (substr($value, 0, 1) === '-') {
+                        $order[substr($value, 1)] = -1;
+                    } else {
+                        $order[$value] = 1;
+                    }
+                default:
+                    $filters[implode('.', $paramArray)] = $value;
+                    break;
+            }
+        }
+
+
+        $objects  = $this->cacheService->retrieveObjectsFromCache(
+            $filters,
+            ['sort' => $order]
+        );
+
+        $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
+
+        return $data;
     }
 }
