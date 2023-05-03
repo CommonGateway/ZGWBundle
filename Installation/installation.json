@@ -248,7 +248,7 @@
                         "path": "download",
                         "methods": ["GET"],
                         "throws": ["zgw.drc.download"],
-                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json"
+                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json",
                         "version": "0.0.1"
                     },
                     {
