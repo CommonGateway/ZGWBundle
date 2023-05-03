@@ -66,6 +66,11 @@
                         "path": "besluiten",
                         "methods": [],
                         "throws": ["zrc.post.zaakbesluit"]
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+                        "path": "audit_trail",
+                        "methods": ["GET"]
                     }
                 ]
             },
@@ -204,7 +209,14 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json",
                 "path": "besluiten",
-                "methods": []
+                "methods": [],
+                "subEndpoints": [
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+                        "path": "audit_trail",
+                        "methods": ["GET"]
+                    }
+                ]
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/brc.besluitInformatieObject.schema.json",
@@ -236,8 +248,13 @@
                         "path": "download",
                         "methods": ["GET"],
                         "throws": ["zgw.drc.download"],
-                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json",
+                        "$id": "https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json"
                         "version": "0.0.1"
+                    },
+                    {
+                        "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+                        "path": "audit_trail",
+                        "methods": ["GET"]
                     }
                 ]
             },

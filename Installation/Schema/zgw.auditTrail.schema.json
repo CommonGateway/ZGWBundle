@@ -1,0 +1,79 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "Audit Trail",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
+    "uuid": {
+      "title": "Uuid",
+      "type": "string",
+      "format": "uuid"
+    },
+    "bron": {
+      "title": "Bron",
+      "description": "De collection entity van de audit trail",
+      "type": "string"
+    },
+    "applicatieId": {
+      "title": "Applicatie id",
+      "type": "string"
+    },
+    "applicatieWeergave": {
+      "title": "Applicatie weergave",
+      "type": "string"
+    },
+    "gebruikersId": {
+      "title": "Gebruikers id",
+      "type": "string"
+    },
+    "gebruikersWeergave": {
+      "title": "Gebruikers weergave",
+      "type": "string"
+    },
+    "actie": {
+      "title": "Actie",
+      "type": "string"
+    },
+    "actieWeergave": {
+      "title": "Actie weergave",
+      "type": "string"
+    },
+    "resultaat": {
+      "title": "Resultaat",
+      "type": "integer"
+    },
+    "hoofdObject": {
+      "title": "Hoofd object",
+      "type": "string"
+    },
+    "resource": {
+      "title": "Resource",
+      "type": "string"
+    },
+    "resourceUrl": {
+      "title": "Resource url",
+      "type": "string"
+    },
+    "toelichting": {
+      "title": "Toelichting",
+      "type": "string"
+    },
+    "resourceWeergave": {
+      "title": "Resource weergave",
+      "type": "string"
+    },
+    "aanmaakdatum": {
+      "title": "Aanmaakdatum",
+      "type": "datetime"
+    },
+    "wijzigingen": {
+      "title": "Wijzigingen",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zgw.wijzigingen.schema.json"
+    }
+  }
+}
