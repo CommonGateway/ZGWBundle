@@ -270,7 +270,8 @@
       "title": "Concept",
       "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
       "type": "boolean",
-      "readOnly": true
+      "readOnly": true,
+      "defaultValue":  "false"
     }
   },
   "required": [
