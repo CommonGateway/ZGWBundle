@@ -386,9 +386,18 @@ class ZGWService
         return $this->data;
     }
 
+    /**
+     * Searches a case based on the search endpoint, includes GeoJSON
+     *
+     * @param array $data   The input data for the action.
+     * @param array $config The configuration for the action.
+     *
+     * @return array The objects found in the cache.
+     *
+     * @throws \Safe\Exceptions\JsonException
+     */
     public function searchHandler(array $data, array $config): array
     {
-//        var_dump(array_keys($data));
         $parameters = $data['body'];
         $filters = [];
         $order = [];
@@ -396,47 +405,50 @@ class ZGWService
         foreach($parameters as $parameter => $value) {
             $paramArray = explode('__', $parameter);
 
+            // First catch GeoJSON field and create the mongoDB filter for that.
             if($parameter === 'zaakgeometrie') {
-                $filters['zaakgeometrie'] = [
+                $filters['embedded.zaakgeometrie'] = [
                     '$geoWithin' => [
-                        '$geometry' => [
-                            $value['within'],
-                        ],
+                        '$geometry' => $value['within'],
                     ],
                 ];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][] =
+                    $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][0];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'] =
+                    [$filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']];
 
                 continue;
             }
 
+            // Otherwise, create the mongoDB filters for the other fields.
             switch (end($paramArray)) {
                 case 'in':
                     array_pop($paramArray);
-                    $filters[implode('.', $paramArray)] = ['$in' => $value];
+                    $filter = ['$in' => $value];
                     break;
                 case 'isnull':
                     array_pop($paramArray);
                     if ($value === false) {
-                        $filters[implode('.', $paramArray)] = ['$ne' => null];
+                        $filter = ['$ne' => null];
                     } else {
-                        $filters[implode('.', $paramArray)] = null;
+                        $filter = null;
                     }
                     break;
                 case 'gt':
                     array_pop($paramArray);
-                    $filters[implode('.', $paramArray)] = ['$gt' => $value];
+                    $filter = ['$gt' => $value];
                     break;
                 case 'gte':
                     array_pop($paramArray);
-                    $filters[implode('.', $paramArray)] = ['$gte' => $value];
+                    $filter = ['$gte' => $value];
                     break;
                 case 'lt':
                     array_pop($paramArray);
-
-                    $filters[implode('.', $paramArray)] = ['$lt' => $value];
+                    $filter = ['$lt' => $value];
                     break;
                 case 'lte':
                     array_pop($paramArray);
-                    $filters[implode('.', $paramArray)] = ['$lte' => $value];
+                    $filter = ['$lte' => $value];
                     break;
                 case 'ordering':
                     if (substr($value, 0, 1) === '-') {
@@ -445,8 +457,31 @@ class ZGWService
                         $order[$value] = 1;
                     }
                 default:
-                    $filters[implode('.', $paramArray)] = $value;
+                    $filter = $value;
                     break;
+            }
+
+            // Create a key with embedded in it.
+            // Chosen solution feels a bit sketchy, especially because embedded is not always correctly filled.
+            $key = '';
+            foreach($paramArray as $paramPart)
+            {
+                array_shift($paramArray);
+                if(count($paramArray) === 0 && $key === '') {
+                    $key = $paramPart;
+                    break;
+                }
+
+                if (count($paramArray) > 0 && $key !== '') {
+                    $key .= '.embedded.'.$paramPart;
+                } else if (count($paramArray) > 0) {
+                    $key .= 'embedded.'.$paramPart;
+                } else if (count($paramArray) === 0) {
+                    $key .= '.'.$paramPart;
+                }
+            }
+            if(count($paramArray) > 1) {
+                $filters[$key] = $filter;
             }
         }
 

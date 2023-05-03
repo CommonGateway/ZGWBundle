@@ -1,0 +1,329 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakZoek.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "ZaakZoek",
+  "type": "object",
+  "persist": false,
+  "properties": {
+    "zaakgeometrie": {
+      "$ref": "#/components/schemas/GeoWithin"
+    },
+    "uuid__in": {
+      "description": "Array of unieke resource identifiers (UUID4)",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "identificatie": {
+      "title": "Identificatie",
+      "description": "De unieke identificatie van de ZAAK binnen de organisatie die verantwoordelijk is voor de behandeling van de ZAAK.",
+      "type": "string",
+      "example": "zaak123"
+    },
+    "bronorganisatie": {
+      "title": "Bronorganisatie",
+      "description": "Het RSIN van de Niet-natuurlijk persoon zijnde de organisatie die de zaak heeft gecreeerd. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef",
+      "type": "string",
+      "example": "000000000"
+    },
+    "bronorganisatie__in": {
+      "description": "Array van bronorganisaties.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "string"
+      }
+    },
+    "zaaktype": {
+      "title": "Zaaktype",
+      "description": "URL-referentie naar het ZAAKTYPE (in de Catalogi API) in de CATALOGUS waar deze voorkomt",
+      "type": "string",
+      "example": "https://catalogi-api.test.vng.cloud/api/v1/zaaktypen/e80b7507-199a-484c-ad49-c41a1e43a6e7"
+    },
+    "zaaktype__in": {
+      "description": "Array van zaaktypen.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "archiefnominatie": {
+      "title": "Archiefnominatie",
+      "description": "Aanduiding of het zaakdossier blijvend bewaard of na een bepaalde termijn vernietigd moet worden. Uitleg bij mogelijke waarden: * `blijvend_bewaren` - Het zaakdossier moet bewaard blijven en op de Archiefactiedatum overgedragen worden naar een archiefbewaarplaats. * `vernietigen` - Het zaakdossier moet op of na de Archiefactiedatum vernietigd worden.",
+      "type": "string",
+      "enum": [
+        "blijvend_bewaren",
+        "vernietigen"
+      ],
+      "example": "blijvend_bewaren"
+    },
+    "archiefnominatie__in": {
+      "title": "Archiefnominatie in",
+      "description": "Multiple values may be separated by commas.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "archiefactiedatum": {
+      "title": "Archiefactiedatum",
+      "description": "De datum waarop het gearchiveerde zaakdossier vernietigd moet worden dan wel overgebracht moet worden naar een archiefbewaarplaats. Wordt automatisch berekend bij het aanmaken of wijzigen van een RESULTAAT aan deze ZAAK indien nog leeg.",
+      "type": "string",
+      "example": "2019-01-02"
+    },
+    "archiefactiedatum__isnull": {
+      "title": "Archiefactiedatum is leeg",
+      "type": "boolean",
+      "example": false
+    },
+    "archiefactiedatum__lt": {
+      "title": "Archiefactiedatum kleiner dan",
+      "type": "string",
+      "example": "2020-01-02"
+    },
+    "archiefactiedatum__gt": {
+      "title": "Archiefactiedatum  groter dan",
+      "type": "string",
+      "example": "2018-01-02"
+    },
+    "archiefstatus": {
+      "title": "Archiefstatus",
+      "description": "Aanduiding of het zaakdossier blijvend bewaard of na een bepaalde termijn vernietigd moet worden. Uitleg bij mogelijke waarden: * `nog_te_archiveren` - De zaak cq. het zaakdossier is nog niet als geheel gearchiveerd. * `gearchiveerd` - De zaak cq. het zaakdossier is als geheel niet-wijzigbaar bewaarbaar gemaakt. * `gearchiveerd_procestermijn_onbekend` - De zaak cq. het zaakdossier is als geheel niet-wijzigbaar bewaarbaar gemaakt maar de vernietigingsdatum kan nog niet bepaald worden. * `overgedragen` - De zaak cq. het zaakdossier is overgebracht naar een archiefbewaarplaats.",
+      "type": "string",
+      "enum": [
+        "nog_te_archiveren",
+        "gearchiveerd",
+        "gearchiveerd_procestermijn_onbekend",
+        "overgedragen"
+      ],
+      "example": "nog_te_archiveren"
+    },
+    "archiefstatus__in": {
+      "title": "Archiefstatus in",
+      "description": "Multiple values may be separated by commas.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "startdatum": {
+      "title": "Startdatum",
+      "description": "De datum waarop met de uitvoering van de zaak is gestart",
+      "type": "string",
+      "example": "2017-01-02"
+    },
+    "startdatum__gt": {
+      "title": "Startdatum groter dan",
+      "type": "string",
+      "example": "2018-01-02"
+    },
+    "startdatum__gte": {
+      "title": "Startdatum groter dan of gelijk",
+      "type": "string",
+      "example": "2016-01-02"
+    },
+    "startdatum__lt": {
+      "title": "Startdatum kleiner dan",
+      "type": "string",
+      "example": "2018-01-02"
+    },
+    "startdatum__lte": {
+      "title": "Startdatum kleiner dan of gelijk",
+      "type": "string",
+      "example": "2018-01-02"
+    },
+    "registratiedatum": {
+      "title": "Registratiedatum",
+      "description": "De datum waarop de zaakbehandelende organisatie de ZAAK heeft geregistreerd. Indien deze niet opgegeven wordt, wordt de datum van vandaag gebruikt.",
+      "type": "string",
+      "example": "2015-01-02"
+    },
+    "registratiedatum__gt": {
+      "title": "Registratiedatum groter dan",
+      "type": "string",
+      "example": "2014-01-02"
+    },
+    "registratiedatum__lt": {
+      "title": "Registratiedatum kleiner dan",
+      "type": "string",
+      "example": "2016-01-02"
+    },
+    "einddatum": {
+      "title": "Einddatum",
+      "description": "De datum waarop de uitvoering van de zaak afgerond is.",
+      "type": "string",
+      "example": "2022-01-02"
+    },
+    "einddatum__isnull": {
+      "title": "Einddatum is leeg",
+      "type": "boolean",
+      "example": false
+    },
+    "einddatum__gt": {
+      "title": "Einddatum groter dan",
+      "type": "string",
+      "example": "2021-01-02"
+    },
+    "einddatum__lt": {
+      "title": "Einddatum kleiner dan",
+      "type": "string",
+      "minLength": 1,
+      "example": "2023-01-02"
+    },
+    "einddatumGepland": {
+      "title": "Einddatum gepland",
+      "description": "De datum waarop volgens de planning verwacht wordt dat de zaak afgerond wordt.",
+      "type": "string",
+      "example": "2022-01-02"
+    },
+    "einddatumGepland__gt": {
+      "title": "Einddatum gepland groter dan",
+      "type": "string",
+      "example": "2021-01-02"
+    },
+    "einddatumGepland__lt": {
+      "title": "Einddatum gepland kleiner dan",
+      "type": "string",
+      "example": "2024-01-02"
+    },
+    "uiterlijkeEinddatumAfdoening": {
+      "title": "Uiterlijke einddatumAfdoening",
+      "description": "De laatste datum waarop volgens wet- en regelgeving de zaak afgerond dient te zijn.",
+      "type": "string",
+      "example": "2024-01-02"
+    },
+    "uiterlijkeEinddatumAfdoening__gt": {
+      "title": "Uiterlijke einddatumAfdoening groter dan",
+      "type": "string",
+      "example": "2023-01-02"
+    },
+    "uiterlijkeEinddatumAfdoening__lt": {
+      "title": "Uiterlijke einddatumAfdoening kleiner dan",
+      "type": "string",
+      "example": "2025-01-02"
+    },
+    "rol__betrokkeneType": {
+      "title": "Rol  betrokkenetype",
+      "description": "Type van de `betrokkene`. Uitleg bij mogelijke waarden: * `natuurlijk_persoon` - Natuurlijk persoon * `niet_natuurlijk_persoon` - Niet-natuurlijk persoon * `vestiging` - Vestiging * `organisatorische_eenheid` - Organisatorische eenheid * `medewerker` - Medewerker",
+      "type": "string",
+      "enum": [
+        "natuurlijk_persoon",
+        "niet_natuurlijk_persoon",
+        "vestiging",
+        "organisatorische_eenheid",
+        "medewerker"
+      ],
+      "example": "natuurlijk_persoon"
+    },
+    "rol__betrokkene": {
+      "title": "Rol  betrokkene",
+      "description": "URL-referentie naar een betrokkene gerelateerd aan de ZAAK.",
+      "type": "string",
+      "example": "https://example.com"
+    },
+    "rol__omschrijvingGeneriek": {
+      "title": "Rol  omschrijvinggeneriek",
+      "description": "Algemeen gehanteerde benaming van de aard van de ROL, afgeleid uit het ROLTYPE.",
+      "type": "string",
+      "enum": [
+        "adviseur",
+        "behandelaar",
+        "belanghebbende",
+        "beslisser",
+        "initiator",
+        "klantcontacter",
+        "zaakcoordinator",
+        "mede_initiator"
+      ],
+      "example": "initiator"
+    },
+    "maximaleVertrouwelijkheidaanduiding": {
+      "title": "Maximalevertrouwelijkheidaanduiding",
+      "description": "Zaken met een vertrouwelijkheidaanduiding die beperkter is dan de aangegeven aanduiding worden uit de resultaten gefiltered.",
+      "type": "string",
+      "enum": [
+        "openbaar",
+        "beperkt_openbaar",
+        "intern",
+        "zaakvertrouwelijk",
+        "vertrouwelijk",
+        "confidentieel",
+        "geheim",
+        "zeer_geheim"
+      ],
+      "example": "zaakvertrouwelijk"
+    },
+    "rol__betrokkeneIdentificatie__natuurlijkPersoon__inpBsn": {
+      "title": "Rol  betrokkeneidentificatie  natuurlijkpersoon  inpbsn",
+      "description": "Het burgerservicenummer, bedoeld in artikel 1.1 van de Wet algemene bepalingen burgerservicenummer.",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__natuurlijkPersoon__anpIdentificatie": {
+      "title": "Rol  betrokkeneidentificatie  natuurlijkpersoon  anpidentificatie",
+      "description": "Het door de gemeente uitgegeven unieke nummer voor een ANDER NATUURLIJK PERSOON",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__natuurlijkPersoon__inpA_nummer": {
+      "title": "Rol  betrokkeneidentificatie  natuurlijkpersoon  inpa nummer",
+      "description": "Het administratienummer van de persoon, bedoeld in de Wet BRP",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__nietNatuurlijkPersoon__innNnpId": {
+      "title": "Rol  betrokkeneidentificatie  nietnatuurlijkpersoon  innnnpid",
+      "description": "Het door een kamer toegekend uniek nummer voor de INGESCHREVEN NIET-NATUURLIJK PERSOON",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__nietNatuurlijkPersoon__annIdentificatie": {
+      "title": "Rol  betrokkeneidentificatie  nietnatuurlijkpersoon  annidentificatie",
+      "description": "Het door de gemeente uitgegeven unieke nummer voor een ANDER NIET-NATUURLIJK PERSOON",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__vestiging__vestigingsNummer": {
+      "title": "Rol  betrokkeneidentificatie  vestiging  vestigingsnummer",
+      "description": "Een korte unieke aanduiding van de Vestiging.",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__medewerker__identificatie": {
+      "title": "Rol  betrokkeneidentificatie  medewerker  identificatie",
+      "description": "Een korte unieke aanduiding van de MEDEWERKER.",
+      "type": "string",
+      "example": "123456789"
+    },
+    "rol__betrokkeneIdentificatie__organisatorischeEenheid__identificatie": {
+      "title": "Rol  betrokkeneidentificatie  organisatorischeeenheid  identificatie",
+      "description": "Een korte identificatie van de organisatorische eenheid.",
+      "type": "string",
+      "example": "123456789"
+    },
+    "ordering": {
+      "title": "Ordering",
+      "description": "Het veld waarop de resultaten geordend worden. Het minnetje betekent omgekeerde volgorde.",
+      "type": "string",
+      "enum": [
+        "startdatum",
+        "-startdatum",
+        "einddatum",
+        "-einddatum",
+        "publicatiedatum",
+        "-publicatiedatum",
+        "archiefactiedatum",
+        "-archiefactiedatum",
+        "registratiedatum",
+        "-registratiedatum",
+        "identificatie",
+        "-identificatie"
+      ],
+      "example": "-startdatum"
+    }
+  }
+}
