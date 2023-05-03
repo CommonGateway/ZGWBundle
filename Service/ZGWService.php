@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use CommonGateway\CoreBundle\Service\CacheService;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\Event\ActionEvent;
 
 class ZGWService
 {
@@ -22,12 +24,14 @@ class ZGWService
     private EntityManagerInterface $entityManager;
     private ParameterBagInterface $parameterBag;
     private CacheService $cacheService;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService)
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService, EventDispatcherInterface $eventDispatcher)
     {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /** 
@@ -122,8 +126,8 @@ class ZGWService
         $this->data = $data;
         $this->configuration = $configuration;
 
-        if ($this->data['parameters']->getMethod() == 'POST' || $this->data['parameters']->getMethod() == 'PUT') {
-            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
+        if ($this->data['method'] == 'POST' || $this->data['method'] == 'PUT') {
+            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
             $explodedZaakId = explode('/zaakeigenschappen', $explodedArray[1]);
             $zaakId = $explodedZaakId[0];
 
@@ -132,19 +136,28 @@ class ZGWService
                 return $this->data;
             }
 
-            $zaakeigenschap = $this->entityManager->getRepository('App:ObjectEntity')->find($this->data['response']['id']);
+            $zaakeigenschap = $this->entityManager->getRepository('App:ObjectEntity')->find(json_decode($this->data['response']->getContent(), true)['_id']);
             if (!$zaakeigenschap instanceof ObjectEntity) {
                 return $this->data;
             }
 
             $zaakeigenschap->hydrate(['zaak' => $zaak]);
+            $eigenschappen = $zaak->getValue('eigenschappen');
+            $eigenschappen->add($zaakeigenschap);
+            $zaak->hydrate(['eigenschappen' => $eigenschappen]);
             $this->entityManager->persist($zaakeigenschap);
+            $this->entityManager->persist($zaak);
             $this->entityManager->flush();
 
             $this->data['response'] = $zaakeigenschap->toArray();
+
+            // Throw event
+            $event = new ActionEvent('commongateway.action.event', ['response' => $this->data['response']], 'zrc.post.zaak.zaakeigenschap');
+            $this->eventDispatcher->dispatch($event, 'commongateway.action.event');
         }
 
-        return $this->data;
+        return ['response' => new Response(json_encode($zaakeigenschap->toArray(['embedded' => true])), 201, ['Content-Type' => 'application/json'])];
+        
     }
 
     /** 
