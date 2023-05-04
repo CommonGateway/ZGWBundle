@@ -1,0 +1,23 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zgw.wijzigingen.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "title": "Wijzigingen",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
+    "oud": {
+      "title": "Oud",
+      "type": "object",
+      "properties": {}
+    },
+    "nieuw": {
+      "title": "Nieuw",
+      "type": "object",
+      "properties": {}
+    }
+  }
+}
