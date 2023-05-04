@@ -33,7 +33,8 @@
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
                 "path": "resultaten",
-                "methods": []
+                "methods": [],
+                "$id": "https://vng.opencatalogi.nl/endpoints/zrc.resultaat.endpoint.json"
             },
             {
                 "reference": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",

@@ -129,8 +129,8 @@ class ZGWService
         $this->data = $data;
         $this->configuration = $configuration;
 
-        if ($this->data['parameters']->getMethod() == 'POST' || $this->data['parameters']->getMethod() == 'PUT') {
-            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['parameters']->getPathInfo());
+        if ($this->data['method'] == 'POST' || $this->data['method'] == 'PUT') {
+            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['path']);
             $explodedZaakId = explode('/zaakeigenschappen', $explodedArray[1]);
             $zaakId = $explodedZaakId[0];
 
@@ -147,8 +147,6 @@ class ZGWService
             $zaakeigenschap->hydrate(['zaak' => $zaak]);
             $this->entityManager->persist($zaakeigenschap);
             $this->entityManager->flush();
-
-            $this->data['response'] = $zaakeigenschap->toArray();
         }
 
         return $this->data;
