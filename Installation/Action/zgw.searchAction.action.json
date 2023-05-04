@@ -1,0 +1,18 @@
+{
+    "title": "ZaakZoekenAction",
+    "$id": "https://vng.opencatalogi.nl/action/zgw.ZaakZoeken.action.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
+    "version": "0.0.1",
+    "listens": ["zrc.zaak.zoek"],
+    "conditions":
+    {
+        "==": [
+          {
+            "var": "method"
+          },
+          "POST"
+        ]
+    },
+    "class": "CommonGateway\\ZGWBundle\\ActionHandler\\SearchHandler",
+    "configuration": {}
+}

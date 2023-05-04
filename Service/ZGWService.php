@@ -7,6 +7,7 @@ namespace CommonGateway\ZGWBundle\Service;
 use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
+use CommonGateway\CoreBundle\Service\GatewayResourceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -24,21 +25,28 @@ class ZGWService
     private EntityManagerInterface $entityManager;
     private ParameterBagInterface $parameterBag;
     private CacheService $cacheService;
+    private GatewayResourceService $resourceService;
     private EventDispatcherInterface $eventDispatcher;
 
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ParameterBagInterface $parameterBag,
+        CacheService $cacheService,
+        GatewayResourceService $resourceService
+    ) {
     public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService, EventDispatcherInterface $eventDispatcher)
-    {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
+        $this->resourceService = $resourceService;
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /** 
+    /**
      * Returns a new besluit, existing besluit or all besluiten of a zaak.
-     * 
-     * @param array $data 
-     * @param array $configuration 
+     *
+     * @param array $data
+     * @param array $configuration
      *
      * @return array Zaak.
      */
@@ -51,7 +59,7 @@ class ZGWService
         $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
         $explodedZaakId = explode('/besluiten', $explodedArray[1]);
         $zaakId = $explodedZaakId[0];
-    
+
         $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
         if($zaak instanceof ObjectEntity === false) {
 
@@ -116,7 +124,7 @@ class ZGWService
 
     }//end postZaakBesluitHandler()
 
-    /** 
+    /**
      * Returns a welcoming string
      *
      * @return array
@@ -160,7 +168,7 @@ class ZGWService
         
     }
 
-    /** 
+    /**
      * Returns a welcoming string
      *
      * @return array
@@ -390,5 +398,115 @@ class ZGWService
         $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray()), 200, ['content-type' => 'application/json']);
 
         return $this->data;
+    }
+
+    /**
+     * Searches a case based on the search endpoint, includes GeoJSON
+     *
+     * @param array $data   The input data for the action.
+     * @param array $config The configuration for the action.
+     *
+     * @return array The objects found in the cache.
+     *
+     * @throws \Safe\Exceptions\JsonException
+     */
+    public function searchHandler(array $data, array $config): array
+    {
+        $parameters = $data['body'];
+        $filters = [];
+        $order = [];
+        $filters['_self.schema.ref'] = ['$in' => ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']];
+        foreach($parameters as $parameter => $value) {
+            $paramArray = explode('__', $parameter);
+
+            // First catch GeoJSON field and create the mongoDB filter for that.
+            if($parameter === 'zaakgeometrie') {
+                $filters['embedded.zaakgeometrie'] = [
+                    '$geoWithin' => [
+                        '$geometry' => $value['within'],
+                    ],
+                ];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][] =
+                    $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][0];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'] =
+                    [$filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']];
+
+                continue;
+            }
+
+            // Otherwise, create the mongoDB filters for the other fields.
+            switch (end($paramArray)) {
+                case 'in':
+                    array_pop($paramArray);
+                    $filter = ['$in' => $value];
+                    break;
+                case 'isnull':
+                    array_pop($paramArray);
+                    if ($value === false) {
+                        $filter = ['$ne' => null];
+                    } else {
+                        $filter = null;
+                    }
+                    break;
+                case 'gt':
+                    array_pop($paramArray);
+                    $filter = ['$gt' => $value];
+                    break;
+                case 'gte':
+                    array_pop($paramArray);
+                    $filter = ['$gte' => $value];
+                    break;
+                case 'lt':
+                    array_pop($paramArray);
+                    $filter = ['$lt' => $value];
+                    break;
+                case 'lte':
+                    array_pop($paramArray);
+                    $filter = ['$lte' => $value];
+                    break;
+                case 'ordering':
+                    if (substr($value, 0, 1) === '-') {
+                        $order[substr($value, 1)] = -1;
+                    } else {
+                        $order[$value] = 1;
+                    }
+                default:
+                    $filter = $value;
+                    break;
+            }
+
+            // Create a key with embedded in it.
+            // Chosen solution feels a bit sketchy, especially because embedded is not always correctly filled.
+            $key = '';
+            foreach($paramArray as $paramPart)
+            {
+                array_shift($paramArray);
+                if(count($paramArray) === 0 && $key === '') {
+                    $key = $paramPart;
+                    break;
+                }
+
+                if (count($paramArray) > 0 && $key !== '') {
+                    $key .= '.embedded.'.$paramPart;
+                } else if (count($paramArray) > 0) {
+                    $key .= 'embedded.'.$paramPart;
+                } else if (count($paramArray) === 0) {
+                    $key .= '.'.$paramPart;
+                }
+            }
+            if(count($paramArray) > 1) {
+                $filters[$key] = $filter;
+            }
+        }
+
+
+        $objects  = $this->cacheService->retrieveObjectsFromCache(
+            $filters,
+            ['sort' => $order]
+        );
+
+        $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
+
+        return $data;
     }
 }
