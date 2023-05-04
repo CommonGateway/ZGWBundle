@@ -298,7 +298,7 @@
                 "name": "PostZaakEigenschapAction",
                 "reference": "https://vng.opencatalogi.nl/action/kiss.PostZaakEigenschapAction.action.json",
                 "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\PostZaakEigenschapHandler",
-                "listens": ["commongateway.response.pre"]
+                "listens": ["zrc.post.zaakeigenschap"]
             },
             {
                 "name": "ZtcPublishAction",
@@ -333,6 +333,5 @@
                 ]
             }
         ]
-          "listens": ["zrc.post.zaakeigenschap"]
     }
 }

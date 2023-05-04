@@ -32,9 +32,9 @@ class ZGWService
         EntityManagerInterface $entityManager,
         ParameterBagInterface $parameterBag,
         CacheService $cacheService,
-        GatewayResourceService $resourceService
+        GatewayResourceService $resourceService, 
+        EventDispatcherInterface $eventDispatcher
     ) {
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CacheService $cacheService, EventDispatcherInterface $eventDispatcher)
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
