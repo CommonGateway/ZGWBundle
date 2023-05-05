@@ -480,9 +480,7 @@ class ZGWService
                     $key .= '.'.$paramPart;
                 }
             }
-            if(count($paramArray) > 1) {
-                $filters[$key] = $filter;
-            }
+            $filters[$key] = $filter;
         }
 
 
