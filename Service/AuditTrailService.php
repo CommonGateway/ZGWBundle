@@ -11,6 +11,7 @@ use CommonGateway\CoreBundle\Service\GatewayResourceService;
 use CommonGateway\CoreBundle\Service\MappingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
+use Safe\DateTime;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -73,6 +74,14 @@ class AuditTrailService
 
         $arrayObjects = [];
         foreach ($auditTrails as $auditTrail) {
+            $date = $auditTrail->getCreationDate();
+            $creationDate = null;
+            if ($date !== null) {
+                $creationDate = $date->format('c');
+            }
+
+            $amendments = $auditTrail->getAmendments();
+
             $auditTrailArray = [
                 'uuid' => $auditTrail->getId()->toString(),
                 'source' => $auditTrail->getSource(),
@@ -86,8 +95,11 @@ class AuditTrailService
                 'resource' => $auditTrail->getResource(),
                 'resourceUrl' => $auditTrail->getResourceUrl(),
                 'resourceView' => $auditTrail->getResourceView(),
-                'amendments' => $auditTrail->getAmendments(),
-                'creationDate' => null // @TODO set creationDate as string
+                'amendments' => [
+                    'oud' => $amendments['old'],
+                    'nieuw' => $amendments['new']
+                ],
+                'creationDate' =>  $creationDate// @TODO set creationDate as string
             ];
 
             // mapping
