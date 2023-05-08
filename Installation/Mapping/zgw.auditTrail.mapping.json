@@ -1,0 +1,23 @@
+{
+  "title": "ZGWAuditTrail",
+  "$id": "ttps://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
+  "version": "0.0.2",
+  "passTrough": false,
+  "mapping": {
+    "uuid": "uuid",
+    "bron": "source",
+    "applicatieId": "applicationId",
+    "applicatieWeergave": "applicationView",
+    "gebruikersId": "userId",
+    "gebruikersWeergave": "userView",
+    "actie": "action",
+    "actieWeergave": "actionView",
+    "resultaat": "result",
+    "resource": "resource",
+    "resourceUrl": "resourceUrl",
+    "resourceWeergave": "resourceView",
+    "wijzigingen": "amendments",
+    "aanmaakdatum": "creationDate"
+  }
+}

@@ -3,6 +3,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Wijzigingen",
   "type": "object",
+  "version": "0.0.1",
   "properties": {
     "id": {
       "type": "string",
@@ -11,13 +12,13 @@
     },
     "oud": {
       "title": "Oud",
-      "type": "object",
-      "properties": {}
+      "type": "array",
+      "items": {}
     },
     "nieuw": {
       "title": "Nieuw",
-      "type": "object",
-      "properties": {}
+      "type": "array",
+      "items": {}
     }
   }
 }
