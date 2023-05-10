@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use CommonGateway\CoreBundle\Service\CacheService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Event\ActionEvent;
+use Twig\Environment;
 
 class ZGWService
 {
@@ -27,19 +28,22 @@ class ZGWService
     private CacheService $cacheService;
     private GatewayResourceService $resourceService;
     private EventDispatcherInterface $eventDispatcher;
+    private Environment $twig;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ParameterBagInterface $parameterBag,
         CacheService $cacheService,
         GatewayResourceService $resourceService, 
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        Environment $twig
     ) {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
         $this->resourceService = $resourceService;
         $this->eventDispatcher = $eventDispatcher;
+        $this->twig = $twig;
     }
 
     /**
@@ -70,19 +74,33 @@ class ZGWService
 
         switch ($method) {
             case 'POST':
+                // Don't break here so the PUT, PATCH code gets executed.
+                $eventType = 'commongateway.object.create';
             case 'PUT':
             case 'PATCH':
-                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find(json_decode($this->data['response']->getContent(), true)['_id']);
-                if($zaakBesluit instanceof ObjectEntity === false) {
+                $eventType = 'commongateway.object.update';
+
+                $body = json_decode($this->data['response']->getContent(), true);
+
+                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($body['_id']);
+                if ($zaakBesluit instanceof ObjectEntity === false) {
 
                     return $this->data;
-                }//end if
+                }
 
+                // Save object and set correctly in cache.
                 $zaakBesluit->hydrate(['zaak' => $zaak]);
                 $this->entityManager->persist($zaakBesluit);
                 $this->entityManager->flush();
+                $this->cacheService->cacheObject($this->entityManager->find('App:ObjectEntity', $body['_self']['id']));
+                $zaakBesluitArray = $this->cacheService->getObject($body['_self']['id']);
 
-                $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
+
+                // Throw event that ZaakBesluit is created.
+                $event = new ActionEvent($eventType, ['response' => $zaakBesluitArray, 'entity' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
+                $this->eventDispatcher->dispatch($event, 'commongateway.action.event');
+
+                $this->data['response'] = new Response(json_encode($zaakBesluitArray), 200, ['Content-Type' => 'application/json']);
                 break;
 
             case 'GET':
@@ -92,31 +110,21 @@ class ZGWService
 
                 if (Uuid::isValid($possibleBesluitId) === true) {
                     $besluitId = $possibleBesluitId;
-                }//end if
+                }
 
                 // Get single besluit.
                 if (isset($besluitId) === true) {
-                    $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($besluitId);
-                    if ($zaakBesluit instanceof ObjectEntity === true) {
+                    $zaakBesluitArray = $this->cacheService->getObject($besluitId);
+                    if (isset($zaakBesluitArray) === true) {
 
-                        $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
+                        $this->data['response'] = new Response(json_encode($zaakBesluitArray), 200, ['Content-Type' => 'application/json']);
                     }
                 } else { // else get all besluiten from this zaak.
                     $zaakBesluitEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
-                    $zaakBesluitZaakAttribute = $this->entityManager->getRepository('App:Attribute')->findOneBy(['entity' => $zaakBesluitEntity, 'name' => 'zaak']);
-                    // Get all values from the correct attribute that have the current zaak as stringValue.
-                    $zaakBesluitValues = $this->entityManager->getRepository('App:Value')->findBy(['attribute' => $zaakBesluitZaakAttribute, 'stringValue' => $zaakId]);
+                    $zaakBesluiten = $this->cacheService->searchObjects(null, ['zaak' => $this->twig->createTemplate("{{ selfUrl(object) }}")->render(['object' => $zaak])], [$zaakBesluitEntity->getId()->toString()]);
 
-                    $zaakBesluiten = [];
-                    // Get object of each value so we can return it.
-                    foreach ($zaakBesluitValues as $value) {
-                        $zaakBesluiten[] = $value->getObjectEntity()->toArray();
-                    }
-
-                    $resultArray = $this->cacheService->handleResultPagination([], $zaakBesluiten, count($zaakBesluiten));
-
-                    $this->data['response'] = new Response(json_encode($resultArray), 200);
-                }
+                    $this->data['response'] = new Response(json_encode($zaakBesluiten), 200, ['Content-Type' => 'application/json']);
+                }//end if
         }//end switch
 
 
@@ -156,6 +164,8 @@ class ZGWService
             $this->entityManager->persist($zaakeigenschap);
             $this->entityManager->persist($zaak);
             $this->entityManager->flush();
+            $this->cacheService->cacheObject($zaak);
+            $this->cacheService->cacheObject($zaakeigenschap);
 
             $this->data['response'] = $zaakeigenschap->toArray();
 
