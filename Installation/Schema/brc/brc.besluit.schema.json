@@ -9,7 +9,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Besluit",
   "type": "object",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "properties": {
     "id": {
       "type": "string",
@@ -42,17 +42,14 @@
     "besluittype": {
       "title": "Besluittype",
       "description": "URL-referentie naar het BESLUITTYPE (in de Catalogi API).",
-      "type": "string",
-      "format": "uri",
-      "maxLength": 200,
-      "minLength": 1
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
     },
     "zaak": {
       "title": "Zaak",
       "description": "URL-referentie naar de ZAAK (in de Zaken API) waarvan dit besluit uitkomst is.",
-      "type": "string",
-      "format": "uri",
-      "maxLength": 200
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
     },
     "datum": {
       "title": "Datum",

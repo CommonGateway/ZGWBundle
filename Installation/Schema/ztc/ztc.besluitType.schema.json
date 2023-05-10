@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "type": "object",
   "title": "BesluitType",
   "properties": {
@@ -27,8 +27,8 @@
     "zaaktypes": {
       "type": "array",
       "items": {
-        "type": "string",
-        "format": "uri"
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "required": true
     },
