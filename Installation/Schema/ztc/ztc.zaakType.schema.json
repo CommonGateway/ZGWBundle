@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "object",
   "title": "ZaakType",
   "properties": {
@@ -191,6 +191,7 @@
       "type": "array",
       "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
       "uniqueItems": true,
+      "inversedBy": "zaaktype",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
       }
@@ -202,7 +203,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "eigenschappen": {
       "type": "array",
@@ -211,7 +213,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "informatieobjecttypen": {
       "type": "array",

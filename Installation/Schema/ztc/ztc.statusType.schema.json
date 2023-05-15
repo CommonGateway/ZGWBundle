@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "title": "StatusType",
     "type": "object",
     "properties": {
@@ -35,8 +35,9 @@
             "description": "De tekst die wordt gebruikt om de Initiator te informeren over het bereiken van een STATUS van dit STATUSTYPE bij het desbetreffende ZAAKTY"
         },
         "zaaktype": {
-            "type": "string",
-            "format": "uri"
+            "format": "url",
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+            "inversedBy": "statustypen"
         },
         "volgnummer": {
             "type": "integer",
@@ -45,13 +46,54 @@
             "minLength": 1,
             "maxLength": 9999
         },
+        "doorlooptijd": {
+            "type": "string",
+            "description": "De door de zaakbehandelende organisatie(s) gestelde norm voor de doorlooptijd voor het bereiken van STATUSsen van dit STATUSTYPE bij het desbetreffende ZAAKTYPE."
+        },
+        "toelichting": {
+            "type": "string",
+            "description": "Een eventuele toelichting op dit STATUSTYPE.",
+            "maxLength": 1000
+        },
+        "checklistitemStatustype": {
+            "type": "array"
+        },
+        "eigenschappen": {
+            "format": "url",
+            "type": "array",
+            "items": {
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+            },
+            "inversedBy": "statustype",
+            "description": "de EIGENSCHAPpen die verplicht een waarde moeten hebben gekregen, voordat een STATUS van dit STATUSTYPE kan worden gezet."
+        },
         "isEindstatus": {
             "type" :"boolean",
             "description" : "Geeft aan dat dit STATUSTYPE een eindstatus betreft. Dit gegeven is afgeleid uit alle STATUSTYPEn van dit ZAAKTYPE met het hoog"
         },
         "informeren": {
             "type" : "boolean",
-            "description" : "Aanduiding die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan"
+            "description" : "Aanduidin,g die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan"
+        },
+        "beginGeldigheid": {
+            "type": "string",
+            "format": "date",
+            "description": "De datum waarop het is ontstaan."
+        },
+        "eindeGeldigheid": {
+            "type": "string",
+            "format": "date",
+            "description": "De datum waarop het is opgeheven."
+        },
+        "beginObject": {
+            "type": "string",
+            "format": "date",
+            "description": "De datum waarop de eerst versie van het object ontstaan is."
+        },
+        "eindeObject": {
+            "type": "string",
+            "format": "date",
+            "description": "De datum van de aller laatste versie van het object."
         }
     },
     "required": [
