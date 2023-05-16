@@ -20,9 +20,8 @@
         "default": "{{ selfUrl(object) }}"
       },
       "zaaktype": {
-        "format": "url",
-        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-        "inversedBy": "roltypen"
+        "type": "string",
+        "format": "url"
       },
       "omschrijving": {
         "description": "Omschrijving van de aard van de ROL.",

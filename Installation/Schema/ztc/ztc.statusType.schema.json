@@ -62,7 +62,7 @@
             "format": "url",
             "type": "array",
             "items": {
-                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
             },
             "inversedBy": "statustype",
             "description": "de EIGENSCHAPpen die verplicht een waarde moeten hebben gekregen, voordat een STATUS van dit STATUSTYPE kan worden gezet."

@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "title": "Zaak",
   "type": "object",
   "properties": {
@@ -157,15 +157,15 @@
       "nullable": true
     },
     "zaakgeometrie": {
-      "type": "string",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json"
     },
     "verlenging": {
-      "type": "string",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json"
     },
     "opschorting": {
-      "type": "string",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.opschorting.schema.json"
     },
     "selectielijstklasse": {
@@ -185,23 +185,25 @@
     "deelzaken": {
       "description": "URL-referenties naar deel ZAAKen.",
       "type": "array",
+      "format": "url",
       "uniqueItems": true,
       "items": {
         "description": "URL-referenties naar deel ZAAKen.",
-        "type": "string",
-        "format": "uri"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
       },
       "readOnly": true
     },
     "relevanteAndereZaken": {
       "description": "Een lijst van relevante andere zaken.",
       "type": "array",
+      "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.relevanteZaak.schema.json"
       }
     },
     "eigenschappen": {
       "type": "array",
+      "format": "url",
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json"
@@ -210,6 +212,7 @@
     },
     "rollen": {
       "type": "array",
+      "format": "url",
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json"
@@ -217,11 +220,12 @@
       "readOnly": true
     },
     "status": {
-      "type": "string",
+       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
     },
     "zaakinformatieobjecten": {
       "type": "array",
+      "format": "url",
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json"
@@ -230,6 +234,7 @@
     },
     "zaakobjecten": {
       "type": "array",
+      "format": "url",
       "uniqueItems": true,
       "items": {
         "type": "string",

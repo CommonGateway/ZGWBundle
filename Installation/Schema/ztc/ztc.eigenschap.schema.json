@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "type": "object",
     "title": "Eigenschap",
     "properties": {
@@ -45,13 +45,11 @@
       },
       "zaaktype": {
         "format": "url",
-        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-        "inversedBy": "eigenschappen"
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "statustype": {
         "format": "url",
-        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
-        "inversedBy": "eigenschappen"
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
       },
       "beginGeldigheid": {
           "type": "string",
