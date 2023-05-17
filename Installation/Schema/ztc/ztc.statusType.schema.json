@@ -36,8 +36,7 @@
         },
         "zaaktype": {
             "format": "url",
-            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-            "inversedBy": "statustypen"
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
         },
         "volgnummer": {
             "type": "integer",
