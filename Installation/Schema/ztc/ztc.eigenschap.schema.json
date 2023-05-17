@@ -34,7 +34,7 @@
         "required": true
       },
       "specificatie": {
-        "format": "url",
+        "type": "object",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschapSpecificatie.schema.json"
       },
       "toelichting": {
