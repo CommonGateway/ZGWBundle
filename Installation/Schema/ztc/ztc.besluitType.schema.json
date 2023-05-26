@@ -29,8 +29,8 @@
     },
     "zaaktypes": {
       "type": "array",
+      "format": "url",
       "items": {
-        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "required": true
@@ -82,7 +82,6 @@
       "format": "url",
       "description": "URL-referenties naar het INFORMATIEOBJECTTYPE van informatieobjecten waarin besluiten van dit BESLUITTYPE worden vastgelegd.",
       "items": {
-        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
       },
       "required": true
