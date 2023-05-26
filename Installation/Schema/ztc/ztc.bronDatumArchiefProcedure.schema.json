@@ -3,7 +3,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.bronDatumArchiefProcedure.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "title": "BrondatumArchiefprocedure",
     "description": "Specificatie voor het bepalen van de brondatum voor de start van de Archiefactietermijn (=brondatum) van het zaakdossier.",
     "type": "object",
