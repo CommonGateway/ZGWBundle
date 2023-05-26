@@ -96,7 +96,8 @@
     },
     "beginRegistratie": {
       "type": "string",
-      "format": "date-time",
+      "format": "datetime",
+      "example": "2019-01-02",
       "readOnly": true,
       "description": "Een datumtijd in ISO8601 formaat waarop deze versie van het INFORMATIEOBJECT is aangemaakt of gewijzigd.",
       "title": "begin registratie"

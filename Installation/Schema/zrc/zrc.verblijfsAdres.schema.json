@@ -15,18 +15,21 @@
       "type": "string",
       "description": "De unieke identificatie van het OBJECT",
       "title": "identificatie",
-      "maxLength": 100
+      "maxLength": 100,
+      "required": true
     },
     "wplWoonplaatsNaam": {
       "type": "string",
       "title": "wpl woonplaats naam",
-      "maxLength": 80
+      "maxLength": 80,
+      "required": true
     },
     "gorOpenbareRuimteNaam": {
       "type": "string",
       "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
       "title": "gor openbare ruimte naam",
-      "maxLength": 80
+      "maxLength": 80,
+      "required": true
     },
     "aoaPostcode": {
       "type": "string",
@@ -37,7 +40,8 @@
       "type": "integer",
       "maximum": 99999,
       "minimum": 0,
-      "title": "huisnummer"
+      "title": "huisnummer",
+      "required": true
     },
     "aoaHuisletter": {
       "type": "string",

@@ -61,11 +61,27 @@
         "type": "string",
         "description": "De datum waarop de behandelende organisatie het INFORMATIEOBJECT heeft geregistreerd bij het OBJECT. Geldige waardes zijn datumtijden gelegen op of voor de huidige datum en tijd.",
         "format": "datetime",
+        "example": "2019-01-02",
         "readOnly": true
+      },
+      "vernietigingsdatum": {
+        "type": "string",
+        "format": "datetime",
+        "example": "2019-01-02",
+        "nullable": true,
+        "description": "De datum waarop het informatieobject uit het zaakdossier verwijderd moet worden.",
+        "title": "vernietigingsdatum"
+      },
+      "status": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+        "type": "string",
+        "nullable": true,
+        "description": "De bij de desbetreffende ZAAK behorende STATUS waarvoor het ZAAK-INFORMATIEOBJECT relevant is (geweest) met het oog op het bereiken van die STATUS en/of de communicatie daarover.",
+        "title": "status"
       }
     },
     "required": [
-      "zaak",
-      "aardRelatieWeergave"
+      "zaak"
     ]
   }

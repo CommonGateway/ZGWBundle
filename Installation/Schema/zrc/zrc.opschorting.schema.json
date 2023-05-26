@@ -20,8 +20,8 @@
     "reden": {
       "description": "Omschrijving van de reden voor het opschorten van de behandeling van de zaak.",
       "type": "string",
-      "required": true,
-      "maxLength": 200
+      "maxLength": 200,
+      "required": true
     }
   },
   "required": [

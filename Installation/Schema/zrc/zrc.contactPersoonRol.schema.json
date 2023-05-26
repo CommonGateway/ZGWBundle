@@ -29,7 +29,8 @@
       "type": "string",
       "description": "De opgemaakte naam van de contactpersoon namens de BETROKKENE.",
       "title": "naam",
-      "maxLength": 40
+      "maxLength": 40,
+      "required": true
     }
   },
   "required": [

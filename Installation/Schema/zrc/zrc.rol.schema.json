@@ -83,6 +83,7 @@
       "type": "string",
       "description": "De datum waarop dit object is geregistreerd.",
       "format": "datetime",
+      "example": "2019-01-02",
       "readOnly": true
     },
     "indicatieMachtiging": {
@@ -100,8 +101,7 @@
     "statussen": {
       "type": "array",
       "items": {
-        "type": "string",
-        "format": "uri"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
       },
       "readOnly": true,
       "description": "De BETROKKENE die in zijn/haar ROL in een ZAAK heeft geregistreerd dat STATUSsen in die ZAAK bereikt zijn.",

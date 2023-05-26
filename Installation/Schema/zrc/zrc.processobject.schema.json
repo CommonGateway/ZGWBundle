@@ -1,0 +1,44 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.processobject.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "Processobject",
+  "type": "object",
+  "description": "Specificatie van de attribuutsoort van het object, subject of gebeurtenis  waarop, vanuit archiveringsoptiek, de zaak betrekking heeft en dat bepalend is voor de start van de archiefactietermijn.",
+  "properties": {
+    "datumkenmerk": {
+      "type": "string",
+      "description": "De naam van de attribuutsoort van het procesobject dat bepalend is voor het einde van de procestermijn.",
+      "title": "datumkenmerk",
+      "maxLength": 250,
+      "required": true
+    },
+    "identificatie": {
+      "type": "string",
+      "description": "De unieke aanduiding van het procesobject.",
+      "title": "identificatie",
+      "maxLength": 250,
+      "required": true
+    },
+    "objecttype": {
+      "type": "string",
+      "description": "Het soort object dat het procesobject representeert.",
+      "title": "objecttype",
+      "maxLength": 250,
+      "required": true
+    },
+    "registratie": {
+      "type": "string",
+      "description": "De naam van de registratie waarvan het procesobject deel uit maakt.",
+      "title": "registratie",
+      "maxLength": 250,
+      "required": true
+    }
+  },
+  "required": [
+    "datumkenmerk",
+    "identificatie",
+    "objecttype",
+    "registratie"
+  ]
+}

@@ -34,6 +34,13 @@
       "type": "string",
       "maxLength": 40
     },
+    "bronorganisatie": {
+      "type": "string",
+      "description": "Het RSIN van de Niet-natuurlijk persoon zijnde de organisatie die de zaak heeft gecreeerd. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef",
+      "title": "bronorganisatie",
+      "maxLength": 9,
+      "required": true
+    },
     "omschrijving": {
       "title": "Omschrijving",
       "description": "Een korte omschrijving van de zaak.",
@@ -49,26 +56,30 @@
     "zaaktype": {
       "format": "url",
       "description": "ZaakType from ZaakTypeCatalogus",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+      "required": true
     },
     "registratiedatum": {
       "title": "Registratiedatum",
       "description": "De datum waarop de zaakbehandelende organisatie de ZAAK heeft geregistreerd. Indien deze niet opgegeven wordt, wordt de datum van vandaag gebruikt.",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "verantwoordelijkeOrganisatie": {
       "title": "Verantwoordelijke organisatie",
       "description": "Het RSIN van de Niet-natuurlijk persoon zijnde de organisatie die eindverantwoordelijk is voor de behandeling van de zaak. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef",
       "type": "string",
       "maxLength": 9,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "startdatum": {
       "title": "Startdatum",
       "description": "De datum waarop met de uitvoering van de zaak is gestart",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "einddatum": {
       "title": "Einddatum",
@@ -154,7 +165,8 @@
       "title": "Laatste betaaldatum",
       "description": "De datum waarop de meest recente betaling is verwerkt van kosten die gemoeid zijn met behandeling van de zaak.",
       "type": "string",
-      "format": "date-time",
+      "format": "datetime",
+      "example": "2019-01-02",
       "nullable": true
     },
     "zaakgeometrie": {
@@ -203,6 +215,7 @@
       }
     },
     "eigenschappen": {
+      "description": "missing inversedBy?",
       "type": "array",
       "format": "url",
       "uniqueItems": true,
@@ -222,7 +235,8 @@
       "readOnly": true
     },
     "status": {
-       "format": "url",
+      "description": "missing inversedBy?",
+      "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
     },
     "zaakinformatieobjecten": {
@@ -293,14 +307,41 @@
       "type": "string",
       "maxLength": 9
     },
+    "processobjectaard": {
+      "type": "string",
+      "nullable": true,
+      "title": "Procesobjectaard",
+      "description": "Omschrijving van het object, subject of gebeurtenis waarop, vanuit archiveringsoptiek, de zaak betrekking heeft.",
+      "maxLength": 200
+    },
+    "resultaattoelichting": {
+      "type": "string",
+      "description": "Een toelichting op wat het resultaat van de zaak inhoudt.",
+      "title": "resultaattoelichting",
+      "maxLength": 1000
+    },
+    "startdatumBewaartermijn": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum die de start markeert van de termijn waarop het zaakdossier vernietigd moet worden.",
+      "title": "startdatum bewaartermijn"
+    },
+    "processobject": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.processobject.schema.json",
+      "nullable": true,
+      "description": "Specificatie van de attribuutsoort van het object, subject of gebeurtenis  waarop, vanuit archiveringsoptiek, de zaak betrekking heeft en dat bepalend is voor de start van de archiefactietermijn.",
+      "title": "processobject"
+    },
     "referentienummer": {
+      "description": "extra property",
       "type": "string"
     }
   },
   "required": [
-    "zaaktype",
-    "registratiedatum",
+    "bronorganisatie",
+    "startdatum",
     "verantwoordelijkeOrganisatie",
-    "startdatum"
+    "zaaktype"
   ]
 }

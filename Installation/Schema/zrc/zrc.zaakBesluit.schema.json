@@ -1,7 +1,4 @@
 {
-  "required": [
-    "besluit"
-  ],
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "ZaakBesluit",
@@ -37,13 +34,17 @@
       "type": "string",
       "format": "uri",
       "maxLength": 200,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "zaak": {
       "format": "url",
       "title": "Zaak",
-      "description": "URL-referentie naar de ZAAK (in de Zaken API) waarvan dit besluit uitkomst is.",
+      "description": "URL-referentie naar de ZAAK (in de Zaken API) waarvan dit besluit uitkomst is. extra property",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
     }
-  }
+  },
+  "required": [
+    "besluit"
+  ]
 }

@@ -1,0 +1,34 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.objectTypeOverigeDefinitie.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "ObjectTypeOverigeDefinitie",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "title": "Objecttype-URL",
+      "description": "URL-referentie naar de objecttype resource in een API. Deze resource moet de [JSON-schema](https://json-schema.org/)-definitie van het objecttype bevatten.",
+      "maxLength": 1000
+    },
+    "schema": {
+      "type": "string",
+      "title": "schema-pad",
+      "description": "Een geldige [jq](http://stedolan.github.io/jq/) expressie. Dit wordt gecombineerd met de resource uit het `url`-attribuut om het schema van het objecttype uit te lezen. Bijvoorbeeld: `.jsonSchema`.",
+      "maxLength": 100,
+      "required": true
+    },
+    "objectData": {
+      "type": "string",
+      "title": "objectgegevens-pad",
+      "description": "Een geldige [jq](http://stedolan.github.io/jq/) expressie. Dit wordt gecombineerd met de JSON data uit de OBJECT url om de objectgegevens uit te lezen en de vorm van de gegevens tegen het schema te valideren. Bijvoorbeeld: `.record.data`.",
+      "maxLength": 100,
+      "required": true
+    }
+  },
+  "required": [
+    "objectData",
+    "schema"
+  ]
+}

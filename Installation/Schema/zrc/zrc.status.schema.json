@@ -27,6 +27,7 @@
         "readOnly": true
       },
       "zaak": {
+        "description": "missing inversedBy?",
         "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
       },
@@ -41,16 +42,41 @@
         "description": "De datum waarop de ZAAK de status heeft verkregen.",
         "type": "string",
         "format": "datetime",
+        "example": "2019-01-02",
         "required": true
       },
       "statustoelichting": {
         "type": "string",
         "description": "Een, voor de initiator van de zaak relevante, toelichting op de status van een zaak.",
         "maxLength": 1000
+      },
+      "gezetdoor": {
+        "type": "string",
+        "format": "uri",
+        "title": "Gezet door",
+        "description": "De BETROKKENE die in zijn/haar ROL in een ZAAK heeft geregistreerd dat STATUSsen in die ZAAK bereikt zijn.",
+        "maxLength": 200
+      },
+      "indicatieLaatstGezetteStatus": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Het gegeven is afleidbaar uit de historie van de attribuutsoort Datum status gezet van van alle statussen bij de desbetreffende zaak.",
+        "title": "indicatieLaatstGezetteStatus",
+        "required": true
+      },
+      "zaakinformatieobjecten": {
+        "type": "array",
+        "items": {
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json"
+        },
+        "readOnly": true,
+        "title": "zaakInformatieobjecten",
+        "uniqueItems": true
       }
     },
     "required": [
       "statustype",
-      "datumStatusGezet"
+      "datumStatusGezet",
+      "indicatieLaatstGezetteStatus"
     ]
   }
