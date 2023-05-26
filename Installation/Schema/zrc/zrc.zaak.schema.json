@@ -1,14 +1,15 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "title": "Zaak",
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "title": "Url",
@@ -211,6 +212,7 @@
       "readOnly": true
     },
     "rollen": {
+      "description": "missing inversedBy?",
       "type": "array",
       "format": "url",
       "uniqueItems": true,
@@ -279,7 +281,7 @@
     },
     "resultaat": {
       "title": "Resultaat",
-      "description": "URL-referentie naar het RESULTAAT. Indien geen resultaat bekend is, dan is de waarde 'null'",
+      "description": "URL-referentie naar het RESULTAAT. Indien geen resultaat bekend is, dan is de waarde 'null. missing inversedBy?'",
       "type": "string",
       "format": "uri",
       "nullable": true,

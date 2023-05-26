@@ -1,0 +1,38 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.contactPersoonRol.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "ContactPersoonRol",
+  "type": "object",
+  "description": "De gegevens van de persoon die anderen desgevraagd in contact brengt met medewerkers van de BETROKKENE, een NIET-NATUURLIJK PERSOON of VESTIGING zijnde, of met BETROKKENE zelf, een NATUURLIJK PERSOON zijnde , vanuit het belang van BETROKKENE in haar ROL bij een ZAAK.",
+  "properties": {
+    "emailadres": {
+      "type": "string",
+      "format": "email",
+      "title": "Email",
+      "description": "Elektronich postadres waaronder de contactpersoon in de regel bereikbaar is.",
+      "maxLength": 254
+    },
+    "functie": {
+      "type": "string",
+      "description": "De aanduiding van de taken, rechten en plichten die de contactpersoon heeft binnen de organisatie van BETROKKENE. ",
+      "title": "functie",
+      "maxLength": 50
+    },
+    "telefoonnummer": {
+      "type": "string",
+      "description": "Telefoonnummer waaronder de contactpersoon in de regel bereikbaar is.",
+      "title": "telefoonnummer",
+      "maxLength": 20
+    },
+    "naam": {
+      "type": "string",
+      "description": "De opgemaakte naam van de contactpersoon namens de BETROKKENE.",
+      "title": "naam",
+      "maxLength": 40
+    }
+  },
+  "required": [
+    "naam"
+  ]
+}

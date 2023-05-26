@@ -1,30 +1,31 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc.opschorting.schema.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1",
-    "title": "Opschorting",
-    "description": "Gegevens omtrent het tijdelijk opschorten van de behandeling van de ZAAK",
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string",
-        "format": "uuid",
-        "nullable": true
-      },
-      "indicatie": {
-        "description": "Aanduiding of de behandeling van de ZAAK tijdelijk is opgeschort.",
-        "type": "boolean",
-        "required": true
-      },
-      "reden": {
-        "description": "Omschrijving van de reden voor het opschorten van de behandeling van de zaak.",
-        "type": "string",
-        "required": true,
-        "maxLength": 200
-      }
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.opschorting.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.2",
+  "title": "Opschorting",
+  "description": "Gegevens omtrent het tijdelijk opschorten van de behandeling van de ZAAK",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "deprecated": true
     },
-    "required": [
-      "reden",
-      "indicatie"
-    ]
+    "indicatie": {
+      "description": "Aanduiding of de behandeling van de ZAAK tijdelijk is opgeschort.",
+      "type": "boolean",
+      "required": true
+    },
+    "reden": {
+      "description": "Omschrijving van de reden voor het opschorten van de behandeling van de zaak.",
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    }
+  },
+  "required": [
+    "reden",
+    "indicatie"
+  ]
 }

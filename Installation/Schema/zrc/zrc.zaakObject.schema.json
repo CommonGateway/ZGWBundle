@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "ZaakObject",
   "required": [
     "zaak",
@@ -12,7 +12,8 @@
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "title": "Url",

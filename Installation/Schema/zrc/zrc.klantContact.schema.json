@@ -1,18 +1,16 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.1",
-    "title": "KlantContact",
-  "required": [
-    "zaak",
-    "datumtijd"
-  ],
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.klantContact.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.2",
+  "title": "KlantContact",
   "type": "object",
+  "deprecated": true,
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "title": "Url",
@@ -68,5 +66,9 @@
       "type": "string",
       "maxLength": 1000
     }
-  }
+  },
+  "required": [
+    "zaak",
+    "datumtijd"
+  ]
 }

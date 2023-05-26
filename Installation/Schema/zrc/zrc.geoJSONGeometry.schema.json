@@ -1,42 +1,40 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1",
-    "title": "GeoJSONGeometry",
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string",
-        "format": "uuid",
-        "nullable": true
-      },
-      "type": {
-        "description": "The geometry type",
-        "type": "string",
-        "enum": [
-          "Point",
-          "MultiPoint",
-          "LineString",
-          "MultiLineString",
-          "Polygon",
-          "MultiPolygon",
-          "Feature",
-          "FeatureCollection",
-          "GeometryCollection"
-        ],
-        "required": true
-      },
-      "coordinates": {
-        "description": "A 2D point",
-        "type": "array",
-        "items": {
-          "type": "number"
-        },
-        "required": true
-      }
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.2",
+  "title": "GeoJSONGeometry",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "deprecated": true
     },
+    "type": {
+      "description": "The geometry type",
+      "type": "string",
+      "enum": [
+        "Point",
+        "MultiPoint",
+        "LineString",
+        "MultiLineString",
+        "Polygon",
+        "MultiPolygon",
+        "Feature",
+        "FeatureCollection",
+        "GeometryCollection"
+      ],
+      "required": true
+    },
+    "coordinates": {
+      "description": "The coordinates for the chosen geometry type",
+      "type": "array",
+      "required": true
+    }
+  },
   "required": [
     "type",
     "coordinates"
   ]
-  }
+}

@@ -48,6 +48,7 @@
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "statustype": {
+        "description": "missing inversedBy?",
         "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
       },

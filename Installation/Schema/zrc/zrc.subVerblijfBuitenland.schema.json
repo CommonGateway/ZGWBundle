@@ -2,13 +2,14 @@
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "SubVerlijfBuitenland",
-  "version": "0.1",
+  "version": "0.2",
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "lndLandcode": {
       "type": "string",
