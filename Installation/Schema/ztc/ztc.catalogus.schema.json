@@ -60,7 +60,8 @@
             "items": {
                 "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
             },
-            "readOnly": true
+            "readOnly": true,
+            "inversedBy": "catalogus"
         },
         "besluittypen": {
             "type": "array",
@@ -69,7 +70,8 @@
             "items": {
                 "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
             },
-            "readOnly": true
+            "readOnly": true,
+            "inversedBy": "catalogus"
         },
         "informatieobjecttypen": {
             "type": "array",
@@ -78,7 +80,8 @@
             "items": {
                 "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
             },
-            "readOnly": true
+            "readOnly": true,
+            "inversedBy": "catalogus"
         },
         "naam": {
             "type": "string",

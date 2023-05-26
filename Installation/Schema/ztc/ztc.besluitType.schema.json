@@ -25,15 +25,17 @@
     "catalogus": {
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
-      "required": true
+      "required": true,
+      "inversedBy": "besluittypen"
     },
-    "zaaktypes": {
+    "zaaktypen": {
       "type": "array",
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
-      "required": true
+      "required": true,
+      "inversedBy": "besluittypen"
     },
     "omschrijving": {
       "description": "Omschrijving van de aard van BESLUITen van het BESLUITTYPE.",
@@ -84,6 +86,7 @@
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
       },
+      "inversedBy": "besluittypen",
       "required": true
     },
     "beginGeldigheid": {

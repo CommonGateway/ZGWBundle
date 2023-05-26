@@ -23,7 +23,8 @@
         },
         "zaaktype": {
             "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-            "format": "url"
+            "format": "url",
+            "inversedBy": "resultaattypen"
         },
         "omschrijving": {
             "type": "string",

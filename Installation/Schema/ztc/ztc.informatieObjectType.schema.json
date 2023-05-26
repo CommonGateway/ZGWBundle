@@ -25,7 +25,8 @@
       "catalogus": {
         "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
-        "required": true
+        "required": true,
+        "inversedBy": "informatieobjecttypen"
       },
       "omschrijving": {
         "description": "Omschrijving van de aard van informatieobjecten van dit INFORMATIEOBJECTTYPE.",
@@ -84,6 +85,7 @@
         "type": "array",
         "format": "url",
         "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
+        "inversedBy": "informatieobjecttypen",
         "items": {
           "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
         },

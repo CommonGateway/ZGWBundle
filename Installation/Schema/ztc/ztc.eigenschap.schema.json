@@ -48,11 +48,13 @@
     },
     "zaaktype": {
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+      "inversedBy": "eigenschappen"
     },
     "statustype": {
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
+      "inversedBy": "eigenschappen"
     },
     "beginGeldigheid": {
       "type": "string",

@@ -69,7 +69,8 @@
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
       "description": "URL-referentie naar de ZAAKTYPE waartoe dit ZAAKOBJECTTYPE behoort.",
-      "title": "Zaaktype"
+      "title": "Zaaktype",
+      "inversedBy": "zaakobjecttypen"
     },
     "zaaktypeIdentificatie": {
       "type": "string",

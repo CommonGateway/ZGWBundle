@@ -189,7 +189,8 @@
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakObjectType.schema.json"
       },
-      "format": "json"
+      "format": "url",
+      "inversedBy": "zaaktype"
     },
     "broncatalogus": {
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.bronCatalogus.schema.json",
@@ -201,7 +202,8 @@
     },
     "catalogus": {
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+      "inversedBy": "zaaktypen"
     },
     "statustypen": {
       "format": "url",
@@ -210,7 +212,8 @@
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "resultaattypen": {
       "type": "array",
@@ -219,7 +222,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "eigenschappen": {
       "type": "array",
@@ -228,7 +232,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "informatieobjecttypen": {
       "type": "array",
@@ -237,7 +242,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktypen"
     },
     "roltypen": {
       "type": "array",
@@ -246,7 +252,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "besluittypen": {
       "description": "URL-referenties naar de BESLUITTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
@@ -255,7 +262,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktypen"
     },
     "deelzaaktypen": {
       "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
