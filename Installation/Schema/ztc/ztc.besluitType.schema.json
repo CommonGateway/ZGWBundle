@@ -8,7 +8,8 @@
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "description": "extra property on behalf of some frontends."
     },
     "url": {
       "type": "string",
@@ -27,8 +28,8 @@
     "zaaktypes": {
       "type": "array",
       "items": {
-        "type": "string",
-        "format": "uri"
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "required": true
     },
@@ -51,7 +52,8 @@
       "type": "string",
       "description": "Het aantal dagen, gerekend vanaf de verzend- of publicatiedatum, waarbinnen verweer tegen een besluit van het besluittype mogelijk is.",
       "format": "duration",
-      "nullable": true
+      "nullable": true,
+      "example": "P10D"
     },
     "publicatieIndicatie": {
       "type": "boolean",
@@ -66,7 +68,8 @@
       "type": "string",
       "description": "Het aantal dagen, gerekend vanaf de verzend- of publicatiedatum, dat BESLUITen van dit BESLUITTYPE gepubliceerd moeten blijven.",
       "format": "duration",
-      "nullable": true
+      "nullable": true,
+      "example": "P10D"
     },
     "toelichting": {
       "description": "Een eventuele toelichting op dit BESLUITTYPE.",
@@ -77,6 +80,7 @@
       "format": "url",
       "description": "URL-referenties naar het INFORMATIEOBJECTTYPE van informatieobjecten waarin besluiten van dit BESLUITTYPE worden vastgelegd.",
       "items": {
+        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
       },
       "required": true
@@ -85,19 +89,35 @@
       "type": "string",
       "description": "De datum waarop het is ontstaan.",
       "format": "date",
-      "required": true
+      "required": true,
+      "example": "2023-05-26"
     },
     "eindeGeldigheid": {
       "type": "string",
       "description": "De datum waarop het is opgeheven.",
       "format": "date",
-      "nullable": true
+      "nullable": true,
+      "example": "2023-05-26"
+    },
+    "beginObject": {
+      "type": "string",
+      "description": "De datum waarop de eerst versie van het object ontstaan is.",
+      "format": "date",
+      "required": true,
+      "example": "2023-05-26"
+    },
+    "eindeObject": {
+      "type": "string",
+      "description": "De datum van de aller laatste versie van het object.",
+      "format": "date",
+      "nullable": true,
+      "example": "2023-05-26"
     },
     "concept": {
       "type": "boolean",
       "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
       "readOnly": true,
-      "defaultValue":  "false"
+      "defaultValue":  "true"
     }
   },
   "required": [
