@@ -12,7 +12,8 @@
         "id": {
             "type": "string",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "description": "extra property on behalf of some frontends."
         },
         "afleidingswijze": {
             "type": "string",
@@ -85,7 +86,8 @@
             "type": "string",
             "format": "duration",
             "nullable": true,
-            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze"
+            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze",
+            "example": "P10D"
         }
     }
 }
