@@ -13,7 +13,8 @@
             "type": "string",
             "format": "uuid",
             "nullable": true,
-            "description": "extra property on behalf of some frontends."
+            "description": "extra property on behalf of some frontends.",
+            "deprecated": true
         },
         "afleidingswijze": {
             "type": "string",
