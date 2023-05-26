@@ -8,7 +8,9 @@
         "id": {
             "type": "string",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true,
+            "description": "extra property on behalf of some frontends"
         },
         "url": {
             "type": "string",
@@ -16,11 +18,12 @@
             "format": "uri",
             "minLength": 1,
             "maxLength": 1000,
-            "default": "{{ selfUrl(object) }}"
+            "default": "{{ selfUrl(object) }}",
+            "readOnly": true
         },
         "zaaktype": {
-            "type": "string",
-            "format": "uri"
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+            "format": "url"
         },
         "omschrijving": {
             "type": "string",
@@ -61,13 +64,121 @@
             "description": "De termijn, na het vervallen van het bedrjfsvoeringsbelang, waarna het zaakdossier (de ZAAK met alle bijbehorende INFORMATIEOBJECTen) van een ZAAK met een resultaat van dit RESULTAATTYPE vernietigd of overgebracht (naar een archiefbewaarplaats) moet worden. Voor te vernietigen dossiers betreft het de in die Selectielijst genoemde bewaartermjn. Voor blijvend te bewaren zaakdossiers betreft het de termijn vanaf afronding van de zaak tot overbrenging (de procestermijn is dan nihil)."
         },
         "brondatumArchiefprocedure": {
-            "format": "url",
+            "format": "json",
             "description": "Specificatie voor het bepalen van de brondatum voor de start van de Archiefactietermijn (=brondatum) van het zaakdossier.",
             "$ref": "https://vng.opencatalogi.nl/schemas/ztc.bronDatumArchiefProcedure.schema.json"
+        },
+        "procesobjectaard": {
+            "type": "string",
+            "nullable": true,
+            "description": "Omschrijving van het object, subject of gebeurtenis waarop, vanuit archiveringsoptiek, het resultaattype bij zaken van dit type betrekking heeft.",
+            "title": "procesobjectaard",
+            "maxLength": 200
+        },
+        "catalogus": {
+            "type": "string",
+            "format": "url",
+            "nullable": true,
+            "description": "URL-referentie naar de CATALOGUS waartoe dit RESULTAATTYPE behoort.",
+            "title": "catalogus",
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+        },
+        "beginGeldigheid": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "De datum waarop de RESULTAATTYPE is ontstaan.",
+            "title": "datum begin geldigheid",
+            "example": "2023-05-26"
+        },
+        "eindeGeldigheid": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "De datum waarop de RESULTAATTYPE is opgeheven.",
+            "title": "datum einde geldigheid",
+            "example": "2023-05-26"
+        },
+        "beginObject": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "De datum waarop de eerst versie van het object ontstaan is.",
+            "title": "datum begin object",
+            "example": "2023-05-26"
+        },
+        "eindeObject": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "De datum van de aller laatste versie van het object.",
+            "title": "datum einde object",
+            "example": "2023-05-26"
+        },
+        "indicatieSpecifiek": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Aanduiding of het, vanuit archiveringsoptiek, een resultaattype betreft dat specifiek is voor een bepaalde procesobjectaard.",
+            "title": "indicatie specifiek"
+        },
+        "procestermijn": {
+            "type": "string",
+            "nullable": true,
+            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie.",
+            "title": "procestermijn",
+            "format": "duration",
+            "example": "P10D"
+        },
+        "besluittypen": {
+            "type": "array",
+            "format": "url",
+            "items": {
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
+            },
+            "title": "is resultaat van",
+            "uniqueItems": true
+        },
+        "besluittypeOmschrijving": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": ""
+            },
+            "readOnly": true,
+            "description": "Omschrijving van de aard van BESLUITen van het BESLUITTYPE.",
+            "title": "is resultaat van",
+            "uniqueItems": true
+        },
+        "informatieobjecttypen": {
+            "type": "array",
+            "format": "url",
+            "items": {
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
+            },
+            "description": "De INFORMATIEOBJECTTYPEn die verplicht aanwezig moeten zijn in het zaakdossier van ZAAKen van dit ZAAKTYPE voordat een resultaat van dit RESULTAATTYPE kan worden gezet.",
+            "title": "informatieobjecttypen",
+            "uniqueItems": true
+        },
+        "informatieobjecttypeOmschrijving": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": ""
+            },
+            "readOnly": true,
+            "description": "Omschrijving van de aard van informatieobjecten van dit INFORMATIEOBJECTTYPE.",
+            "title": "informatieobjecttypen",
+            "uniqueItems": true
         }
     },
     "required": [
+        "besluittypeOmschrijving",
+        "informatieobjecttypeOmschrijving",
         "omschrijving",
-        "selectielijstklasse"
+        "omschrijvingGeneriek",
+        "resultaattypeomschrijving",
+        "selectielijstklasse",
+        "zaaktype",
+        "zaaktypeIdentificatie"
     ]
 }

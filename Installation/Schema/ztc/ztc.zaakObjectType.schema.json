@@ -1,0 +1,122 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakObjectType.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "type": "object",
+  "title": "ZaakObjectType",
+  "properties": {
+    "url": {
+      "type": "string",
+      "title": "Url",
+      "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
+      "format": "uri",
+      "maxLength": 1000,
+      "minLength": 1,
+      "default": "{{ selfUrl(object) }}",
+      "readOnly": true
+    },
+    "anderObjecttype": {
+      "type": "boolean",
+      "description": "Aanduiding waarmee wordt aangegeven of het ZAAKOBJECTTYPE een ander, niet in RSGB en RGBZ voorkomend, objecttype betreft.",
+      "title": "Ander objecttype"
+    },
+    "beginGeldigheid": {
+      "type": "string",
+      "format": "date",
+      "description": "De datum waarop het is ontstaan.",
+      "title": "datum begin geldigheid",
+      "example": "2023-05-26"
+    },
+    "eindeGeldigheid": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum waarop het is opgeheven.",
+      "title": "datum einde geldigheid",
+      "example": "2023-05-26"
+    },
+    "beginObject": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum waarop de eerst versie van het object ontstaan is.",
+      "title": "datum begin object",
+      "example": "2023-05-26"
+    },
+    "eindeObject": {
+      "type": "string",
+      "format": "date",
+      "nullable": true,
+      "description": "De datum van de aller laatste versie van het object.",
+      "title": "datum einde object",
+      "example": "2023-05-26"
+    },
+    "objecttype": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar de OBJECTTYPE waartoe dit ZAAKOBJECTTYPE behoort.",
+      "title": "Objecttype",
+      "maxLength": 200
+    },
+    "relatieOmschrijving": {
+      "type": "string",
+      "description": "Omschrijving van de betrekking van het Objecttype op zaken van het gerelateerde ZAAKTYPE.",
+      "title": "Relatie omschrijving",
+      "maxLength": 80
+    },
+    "zaaktype": {
+      "type": "string",
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+      "description": "URL-referentie naar de ZAAKTYPE waartoe dit ZAAKOBJECTTYPE behoort.",
+      "title": "Zaaktype"
+    },
+    "zaaktypeIdentificatie": {
+      "type": "string",
+      "readOnly": true,
+      "description": "Unieke identificatie van het ZAAKTYPE binnen de CATALOGUS waarin het ZAAKTYPE voorkomt.",
+      "title": "Zaaktype"
+    },
+    "resultaattypen": {
+      "type": "array",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
+      },
+      "readOnly": true,
+      "description": "URL-referenties naar de RESULTAATTYPEN.",
+      "title": "Zaakobjecttypen",
+      "uniqueItems": true,
+      "format": "url"
+    },
+    "statustypen": {
+      "type": "array",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
+      },
+      "readOnly": true,
+      "description": "URL-referenties naar de STATUSTYPEN.",
+      "title": "Zaakobjecttypen",
+      "uniqueItems": true,
+      "format": "url"
+    },
+    "catalogus": {
+      "type": "string",
+      "format": "url",
+      "description": "URL-referentie naar de CATALOGUS waartoe dit ZAAKOBJECTTYPE behoort.",
+      "title": "Catalogus",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+    }
+  },
+  "required": [
+    "anderObjecttype",
+    "beginGeldigheid",
+    "catalogus",
+    "objecttype",
+    "relatieOmschrijving",
+    "resultaattypen",
+    "statustypen",
+    "url",
+    "zaaktype",
+    "zaaktypeIdentificatie"
+  ]
+}

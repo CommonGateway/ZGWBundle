@@ -8,7 +8,9 @@
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true,
+        "description": "extra property on behalf of some frontends"
       },
       "groep": {
         "type": "string",
@@ -46,7 +48,8 @@
         "description": "Waarden die deze EIGENSCHAP kan hebben.",
         "items": {
           "type": "string"
-        }
+        },
+        "maxLength": 100
       }
     },
     "required": [

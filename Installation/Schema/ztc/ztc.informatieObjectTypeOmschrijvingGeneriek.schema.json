@@ -1,0 +1,46 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectTypeOmschrijvingGeneriek.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.1",
+  "type": "object",
+  "title": "InformatieObjectType",
+  "properties": {
+    "informatieobjecttypeOmschrijvingGeneriek": {
+      "type": "string",
+      "description": "Algemeen gehanteerde omschrijving van het type informatieobject.",
+      "title": "informatieobjecttype omschrijving generiek",
+      "maxLength": 80
+    },
+    "definitieInformatieobjecttypeOmschrijvingGeneriek": {
+      "type": "string",
+      "title": "Definitie",
+      "description": "Nauwkeurige beschrijving van het generieke type informatieobject",
+      "maxLength": 255
+    },
+    "herkomstInformatieobjecttypeOmschrijvingGeneriek": {
+      "type": "string",
+      "title": "Herkomst",
+      "description": "De naam van de waardenverzameling, of van de beherende organisatie daarvan, waaruit de waarde is overgenomen.",
+      "maxLength": 12
+    },
+    "hierarchieInformatieobjecttypeOmschrijvingGeneriek": {
+      "type": "string",
+      "title": "Hierarchie",
+      "description": "De plaats in de rangorde van het informatieobjecttype.",
+      "maxLength": 80
+    },
+    "opmerkingInformatieobjecttypeOmschrijvingGeneriek": {
+      "type": "string",
+      "nullable": true,
+      "title": "Opmerking",
+      "description": "Zinvolle toelichting bij het informatieobjecttype",
+      "maxLength": 255
+    }
+  },
+  "required": [
+    "definitieInformatieobjecttypeOmschrijvingGeneriek",
+    "herkomstInformatieobjecttypeOmschrijvingGeneriek",
+    "hierarchieInformatieobjecttypeOmschrijvingGeneriek",
+    "informatieobjecttypeOmschrijvingGeneriek"
+  ]
+}
