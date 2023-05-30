@@ -255,7 +255,7 @@
       "format": "url",
       "uniqueItems": true,
       "items": {
-        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json"
       },
       "readOnly": true,
       "inversedBy": "zaak"
