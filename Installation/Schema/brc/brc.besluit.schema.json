@@ -37,7 +37,8 @@
       "description": "Het RSIN van de niet-natuurlijk persoon zijnde de organisatie die het besluit heeft vastgesteld.",
       "type": "string",
       "maxLength": 9,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "besluittype": {
       "title": "Besluittype",
@@ -45,7 +46,8 @@
       "type": "string",
       "format": "uri",
       "maxLength": 200,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "zaak": {
       "title": "Zaak",
@@ -58,7 +60,8 @@
       "title": "Datum",
       "description": "De beslisdatum (AWB) van het besluit.",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "toelichting": {
       "title": "Toelichting",
@@ -75,7 +78,8 @@
       "title": "Ingangsdatum",
       "description": "Ingangsdatum van de werkingsperiode van het besluit.",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "vervaldatum": {
       "title": "Vervaldatum",
@@ -120,6 +124,12 @@
       "type": "string",
       "format": "date",
       "nullable": true
-    }
+    },
+    "required": [
+      "verantwoordelijkeOrganisatie",
+      "besluittype",
+      "datum",
+      "ingangsdatum"
+    ]
   }
 }
