@@ -4,7 +4,7 @@
   "title": "Verzending",
   "type": "object",
   "description": "Set gegevensgroepdata from validated nested data.\n\nUsage: include the mixin on the ModelSerializer that has gegevensgroepen.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "properties": {
     "id": {
       "type": "string",

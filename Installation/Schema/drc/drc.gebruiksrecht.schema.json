@@ -3,7 +3,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Gebruiksrecht",
   "type": "object",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "properties": {
     "id": {
       "type": "string",

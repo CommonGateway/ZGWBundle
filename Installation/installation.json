@@ -379,9 +379,7 @@
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.verzending.schema.json",
         "path": "verzendingen",
-        "methods": [
-          "PUT"
-        ]
+        "methods": []
       }
     ]
   },

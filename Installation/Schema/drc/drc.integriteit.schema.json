@@ -4,6 +4,7 @@
   "title": "Integriteit",
   "type": "object",
   "description": "Uitdrukking van mate van volledigheid en onbeschadigd zijn van digitaal bestand.",
+  "version": "0.0.1",
   "properties": {
     "id": {
       "type": "string",
