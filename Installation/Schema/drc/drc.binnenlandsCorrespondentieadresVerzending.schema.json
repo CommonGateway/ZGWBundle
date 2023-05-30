@@ -3,12 +3,14 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "BinnenlandsCorrespondentieadresVerzending",
   "type": "object",
+  "version": "0.0.1",
   "description": "Het correspondentieadres, betreffende een adresseerbaar object, van de BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT indien dat afwijkt van het reguliere binnenlandse correspondentieadres van BETROKKENE.",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "huisletter": {
       "type": "string",

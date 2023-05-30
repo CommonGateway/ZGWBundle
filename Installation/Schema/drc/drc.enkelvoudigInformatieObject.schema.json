@@ -4,12 +4,13 @@
   "title": "EnkelvoudigInformatieObject",
   "type": "object",
   "description": "Serializer for the EnkelvoudigInformatieObject model",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "type": "string",
@@ -109,8 +110,7 @@
     },
     "inhoud": {
       "type": "string",
-      "format": "uri",
-      "description": "Download URL van de binaire inhoud.",
+      "description": "Binaire inhoud, in base64 geëncodeerd.",
       "nullable": true,
       "title": "inhoud"
     },

@@ -4,11 +4,13 @@
   "title": "Ondertekening",
   "type": "object",
   "description": "Aanduiding van de rechtskracht van een informatieobject. Mag niet van een waarde zijn voorzien als de `status` de waarde 'in bewerking' of 'ter vaststelling' heeft.",
+  "version": "0.0.1",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "soort": {
       "allOf": [

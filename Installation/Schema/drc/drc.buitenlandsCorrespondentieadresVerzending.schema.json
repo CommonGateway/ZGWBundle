@@ -3,12 +3,14 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "BuitenlandsCorrespondentieadresVerzending",
   "type": "object",
+  "version": "0.0.1",
   "description": "De gegevens van het adres in het buitenland van BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT en dat afwijkt van de reguliere correspondentiegegevens van BETROKKENE.",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "adresBuitenland1": {
       "type": "string",
