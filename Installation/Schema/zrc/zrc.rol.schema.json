@@ -27,16 +27,18 @@
       "readOnly": true
     },
     "zaak": {
-      "description": "missing inversedBy?",
+      "description": "URL-referentie naar de ZAAK.",
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
-      "required": true
+      "required": true,
+      "minLength": 1,
+      "maxLength": 1000,
+      "inversedBy": "rollen"
     },
     "betrokkene": {
       "description": "URL-referentie naar een betrokkene gerelateerd aan de ZAAK.",
       "type": "string",
-      "maxLength": 1000,
-      "required": true
+      "maxLength": 1000
     },
     "betrokkeneType": {
       "description": "Type van de betrokkene.\n\nUitleg bij mogelijke waarden:\n\nnatuurlijk_persoon - Natuurlijk persoon\nniet_natuurlijk_persoon - Niet-natuurlijk persoon\nvestiging - Vestiging\norganisatorische_eenheid - Organisatorische eenheid\nmedewerker - Medewerker",
@@ -59,7 +61,8 @@
     "roltype": {
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json",
-      "required": true
+      "required": true,
+      "maxLength": 1000
     },
     "omschrijving": {
       "type": "string",
@@ -96,17 +99,21 @@
     },
     "contactpersoonRol": {
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.contactPersoonRol.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.contactPersoonRol.schema.json",
+      "nullable": true
     },
     "statussen": {
       "type": "array",
       "items": {
+        "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
       },
       "readOnly": true,
       "description": "De BETROKKENE die in zijn/haar ROL in een ZAAK heeft geregistreerd dat STATUSsen in die ZAAK bereikt zijn.",
       "title": "statussen",
-      "uniqueItems": true
+      "uniqueItems": true,
+      "minLength": 1,
+      "maxLength": 1000
     },
     "betrokkeneIdentificatie": {
       "format": "url",

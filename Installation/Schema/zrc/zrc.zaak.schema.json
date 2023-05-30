@@ -3,6 +3,7 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "version": "0.2.4",
   "title": "Zaak",
+  "description": "Indien geen identificatie gegeven is, dan wordt deze automatisch gegenereerd. De identificatie moet uniek zijn binnen de bronorganisatie.\n\nEr wordt gevalideerd op:\n\ngeldigheid zaaktype URL - de resource moet opgevraagd kunnen worden uit de Catalogi API en de vorm van een ZAAKTYPE hebben.\nzaaktype is geen concept (zaaktype.concept = False)\nlaatsteBetaaldatum mag niet in de toekomst liggen.\nlaatsteBetaaldatum mag niet gezet worden als de betalingsindicatie \"nvt\" is.\nbarchiefnominatie moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefactiedatum moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefstatus kan alleen een waarde anders dan \"nog_te_archiveren\" hebben indien van alle gerelateeerde INFORMATIEOBJECTen het attribuut status de waarde \"gearchiveerd\" heeft.",
   "type": "object",
   "properties": {
     "id": {
@@ -63,15 +64,13 @@
       "title": "Registratiedatum",
       "description": "De datum waarop de zaakbehandelende organisatie de ZAAK heeft geregistreerd. Indien deze niet opgegeven wordt, wordt de datum van vandaag gebruikt.",
       "type": "string",
-      "format": "date",
-      "required": true
+      "format": "date"
     },
     "verantwoordelijkeOrganisatie": {
       "title": "Verantwoordelijke organisatie",
       "description": "Het RSIN van de Niet-natuurlijk persoon zijnde de organisatie die eindverantwoordelijk is voor de behandeling van de zaak. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef",
       "type": "string",
       "maxLength": 9,
-      "minLength": 1,
       "required": true
     },
     "startdatum": {
@@ -232,12 +231,14 @@
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json"
       },
-      "readOnly": true
+      "readOnly": true,
+      "inversedBy": "zaak"
     },
     "status": {
       "description": "missing inversedBy?",
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+      "inversedBy": "zaak"
     },
     "zaakinformatieobjecten": {
       "type": "array",
@@ -246,7 +247,8 @@
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json"
       },
-      "readOnly": true
+      "readOnly": true,
+      "inversedBy": "zaak"
     },
     "zaakobjecten": {
       "type": "array",
@@ -299,7 +301,8 @@
       "type": "string",
       "format": "uri",
       "nullable": true,
-      "readOnly": true
+      "readOnly": true,
+      "inversedBy": "zaak"
     },
     "opdrachtgevendeOrganisatie": {
       "title": "Opdrachtgevende organisatie",
