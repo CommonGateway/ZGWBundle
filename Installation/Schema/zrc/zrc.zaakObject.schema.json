@@ -37,7 +37,9 @@
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
       "required": true,
       "minLength": 1,
-      "maxLength": 1000
+      "maxLength": 1000,
+      "inversedBy": "zaakobjecten"
+
     },
     "object": {
       "title": "Object",

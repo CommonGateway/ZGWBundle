@@ -255,10 +255,11 @@
       "format": "url",
       "uniqueItems": true,
       "items": {
-        "type": "string",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
         "format": "uri"
       },
-      "readOnly": true
+      "readOnly": true,
+      "inversedBy": "zaak"
     },
     "kenmerken": {
       "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via `ZaakObject`.",
