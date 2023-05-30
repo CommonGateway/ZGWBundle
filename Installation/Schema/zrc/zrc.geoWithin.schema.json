@@ -1,0 +1,13 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.geoWithin.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "GeoWithin",
+  "type": "object",
+  "properties": {
+    "within": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json",
+      "title": "within"
+    }
+  }
+}

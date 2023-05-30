@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakKenmerk.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1",
+    "version": "0.2",
     "title": "ZaakKenmerk",
     "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via ZaakObject.",
     "type": "object",
@@ -9,7 +9,8 @@
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true
       },
       "kenmerk": {
         "description": "Identificeert uniek de zaak in een andere administratie.",

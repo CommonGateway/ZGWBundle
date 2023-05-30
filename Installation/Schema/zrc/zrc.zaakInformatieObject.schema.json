@@ -1,14 +1,16 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "title": "ZaakInformatieObject",
+    "description": "Er wordt gevalideerd op\n\ngeldigheid zaak URL\ngeldigheid informatieobject URL\nzaak.archiefstatus moet gelijk zijn aan 'nog_te_archiveren'\nde combinatie informatieobject en zaak moet uniek zijn\nOpmerkingen\n\nDe registratiedatum wordt door het systeem op 'NU' gezet. De aardRelatie wordt ook door het systeem gezet.\nBij het aanmaken wordt ook in de Documenten API de gespiegelde relatie aangemaakt, echter zonder de relatie-informatie.",
     "type": "object",
     "properties": {
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true
       },
       "url": {
         "title": "Url",
@@ -30,14 +32,17 @@
         "description": "URL-referentie naar het INFORMATIEOBJECT (in de Documenten API), waar ook de relatieinformatie opgevraagd kan worden.",
         "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
         "type": "string",
-        "required": true
+        "required": true,
+        "maxLength": 1000
       },
       "zaak": {
         "format": "url",
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "type": "string",
         "required": true,
-        "inversedBy": "zaakinformatieobjecten"
+        "inversedBy": "zaakinformatieobjecten",
+        "minLength": 1,
+        "maxLength": 1000
       },
       "aardRelatieWeergave": {
         "type": "string",
@@ -45,7 +50,8 @@
           "Hoort bij, omgekeerd: kent",
           "Legt vast, omgekeerd: kan vastgelegd zijn als"
         ],
-        "readOnly": true
+        "readOnly": true,
+        "required": true
       },
       "titel": {
         "description": "De naam waaronder het INFORMATIEOBJECT binnen het OBJECT bekend is.",
@@ -60,11 +66,33 @@
         "type": "string",
         "description": "De datum waarop de behandelende organisatie het INFORMATIEOBJECT heeft geregistreerd bij het OBJECT. Geldige waardes zijn datumtijden gelegen op of voor de huidige datum en tijd.",
         "format": "datetime",
-        "readOnly": true
+        "example": "2019-01-02",
+        "readOnly": true,
+        "required": true
+      },
+      "vernietigingsdatum": {
+        "type": "string",
+        "format": "datetime",
+        "example": "2019-01-02",
+        "nullable": true,
+        "description": "De datum waarop het informatieobject uit het zaakdossier verwijderd moet worden.",
+        "title": "vernietigingsdatum"
+      },
+      "status": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
+        "type": "string",
+        "nullable": true,
+        "description": "De bij de desbetreffende ZAAK behorende STATUS waarvoor het ZAAK-INFORMATIEOBJECT relevant is (geweest) met het oog op het bereiken van die STATUS en/of de communicatie daarover.",
+        "title": "status",
+        "minLength": 1,
+        "maxLength": 1000
       }
     },
     "required": [
+      "informatieobject",
       "zaak",
-      "aardRelatieWeergave"
+      "aardRelatieWeergave",
+      "registratiedatum"
     ]
   }

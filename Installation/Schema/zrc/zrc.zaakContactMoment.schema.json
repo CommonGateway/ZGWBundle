@@ -1,10 +1,10 @@
 {
-  "$id": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakContactMoment.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.3",
-  "title": "Resultaat",
-  "description": "Er wordt gevalideerd op:\n\ngeldigheid URL naar de ZAAK\ngeldigheid URL naar het RESULTAATTYPE",
+  "title": "ZaakContactMoment",
+  "description": "Er wordt gevalideerd op:\n\ngeldigheid URL naar het CONTACTMOMENT",
   "type": "object",
+  "version": "0.0.1",
   "properties": {
     "id": {
       "type": "string",
@@ -18,9 +18,9 @@
       "type": "string",
       "format": "uri",
       "readOnly": true,
-      "default": "{{ selfUrl(object) }}",
+      "maxLength": 1000,
       "minLength": 1,
-      "maxLength": 1000
+      "default": "{{ selfUrl(object) }}"
     },
     "uuid": {
       "title": "Uuid",
@@ -30,29 +30,24 @@
       "readOnly": true
     },
     "zaak": {
-      "description": "URL-referentie naar de ZAAK.",
       "format": "url",
+      "title": "Zaak",
+      "description": "URL-referentie naar de ZAAK.",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
       "required": true,
-      "minLength": 1,
       "maxLength": 1000,
-      "inversedBy": "resultaat"
+      "minLength": 1
     },
-    "resultaattype": {
-      "format": "url",
-      "description": "URL-referentie naar het RESULTAATTYPE (in de Catalogi API).",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
-      "required": true,
-      "maxLength": 1000
-    },
-    "toelichting": {
+    "contactmoment": {
+      "title": "Contact Moment",
+      "description": "URL-referentie naar het CONTACTMOMENT (in de Klantinteractie API).",
       "type": "string",
-      "description": "Een toelichting op wat het resultaat van de zaak inhoudt.",
-      "maxLength": 1000
+      "format": "url",
+      "maxLength": 1000,
+      "required": true
     }
   },
   "required": [
-    "zaak",
-    "resultaattype"
+    "besluit"
   ]
 }

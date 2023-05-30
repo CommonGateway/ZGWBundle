@@ -30,13 +30,15 @@
     },
     "startdatum": {
       "type": "string",
-      "format": "date-time",
+      "format": "datetime",
+      "example": "2019-01-02",
       "description": "Begindatum van de periode waarin de gebruiksrechtvoorwaarden van toepassing zijn. Doorgaans is de datum van creatie van het informatieobject de startdatum.",
       "title": "startdatum"
     },
     "einddatum": {
       "type": "string",
-      "format": "date-time",
+      "format": "datetime",
+      "example": "2019-01-02",
       "nullable": true,
       "title": "Startdatum",
       "description": "Einddatum van de periode waarin de gebruiksrechtvoorwaarden van toepassing zijn."

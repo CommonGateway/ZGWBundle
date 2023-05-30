@@ -1,14 +1,16 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "title": "Status",
+    "description": "Er wordt gevalideerd op\n\ngeldigheid URL naar de ZAAK\ngeldigheid URL naar het STATUSTYPE\nindien het de eindstatus betreft, dan moet het attribuut indicatieGebruiksrecht gezet zijn op alle informatieobjecten dieaan de zaak gerelateerd zijn\nOpmerkingen\n\nIndien het statustype de eindstatus is (volgens het ZTC), dan wordt de zaak afgesloten door de einddatum te zetten.",
     "type": "object",
     "properties": {
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true
       },
       "url": {
         "title": "Url",
@@ -26,30 +28,67 @@
         "readOnly": true
       },
       "zaak": {
+        "description": "URL-referentie naar de ZAAK.",
         "format": "url",
-        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+        "required": true,
+        "minLength": 1,
+        "maxLength": 1000,
+        "inversedBy": "status"
       },
       "statustype": {
         "format": "url",
         "description": "URL-referentie naar het STATUSTYPE (in de Catalogi API).",
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
         "type": "string",
-        "required": true
+        "required": true,
+        "minLength": 1,
+        "maxLength": 1000
       },
       "datumStatusGezet": {
         "description": "De datum waarop de ZAAK de status heeft verkregen.",
         "type": "string",
         "format": "datetime",
+        "example": "2019-01-02",
         "required": true
       },
       "statustoelichting": {
         "type": "string",
         "description": "Een, voor de initiator van de zaak relevante, toelichting op de status van een zaak.",
         "maxLength": 1000
+      },
+      "gezetdoor": {
+        "type": "string",
+        "format": "uri",
+        "title": "Gezet door",
+        "description": "De BETROKKENE die in zijn/haar ROL in een ZAAK heeft geregistreerd dat STATUSsen in die ZAAK bereikt zijn.",
+        "maxLength": 200
+      },
+      "indicatieLaatstGezetteStatus": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Het gegeven is afleidbaar uit de historie van de attribuutsoort Datum status gezet van van alle statussen bij de desbetreffende zaak.",
+        "title": "indicatieLaatstGezetteStatus",
+        "required": true
+      },
+      "zaakinformatieobjecten": {
+        "type": "array",
+        "items": {
+          "format": "url",
+          "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json"
+        },
+        "readOnly": true,
+        "title": "zaakInformatieobjecten",
+        "uniqueItems": true,
+        "minLength": 1,
+        "maxLength": 1000,
+        "inversedBy": "zaak"
       }
     },
     "required": [
+      "zaak",
       "statustype",
-      "datumStatusGezet"
+      "datumStatusGezet",
+      "indicatieLaatstGezetteStatus"
     ]
   }

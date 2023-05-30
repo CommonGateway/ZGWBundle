@@ -38,6 +38,7 @@
             "description": "De tekst die wordt gebruikt om de Initiator te informeren over het bereiken van een STATUS van dit STATUSTYPE bij het desbetreffende ZAAKTY"
         },
         "zaaktype": {
+            "description": "missing inversedBy?",
             "format": "url",
             "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
             "inversedBy": "statustypen"

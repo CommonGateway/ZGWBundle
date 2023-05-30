@@ -1,9 +1,9 @@
 {
-  "$id": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakVerzoek.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.3",
-  "title": "Resultaat",
-  "description": "Er wordt gevalideerd op:\n\ngeldigheid URL naar de ZAAK\ngeldigheid URL naar het RESULTAATTYPE",
+  "version": "0.0.1",
+  "title": "ZaakVerzoek",
+  "description": "Er wordt gevalideerd op\n\ngeldigheid URL naar de VERZOEK",
   "type": "object",
   "properties": {
     "id": {
@@ -18,9 +18,9 @@
       "type": "string",
       "format": "uri",
       "readOnly": true,
-      "default": "{{ selfUrl(object) }}",
+      "maxLength": 1000,
       "minLength": 1,
-      "maxLength": 1000
+      "default": "{{ selfUrl(object) }}"
     },
     "uuid": {
       "title": "Uuid",
@@ -30,29 +30,26 @@
       "readOnly": true
     },
     "zaak": {
+      "title": "Zaak",
       "description": "URL-referentie naar de ZAAK.",
+      "type": "string",
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
       "required": true,
       "minLength": 1,
-      "maxLength": 1000,
-      "inversedBy": "resultaat"
-    },
-    "resultaattype": {
-      "format": "url",
-      "description": "URL-referentie naar het RESULTAATTYPE (in de Catalogi API).",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
-      "required": true,
       "maxLength": 1000
     },
-    "toelichting": {
+    "verzoek": {
+      "title": "Verzoek",
+      "description": "URL-referentie naar de resource die het OBJECT beschrijft.",
       "type": "string",
-      "description": "Een toelichting op wat het resultaat van de zaak inhoudt.",
-      "maxLength": 1000
+      "format": "uri",
+      "maxLength": 1000,
+      "required": true
     }
   },
   "required": [
     "zaak",
-    "resultaattype"
+    "verzoek"
   ]
 }

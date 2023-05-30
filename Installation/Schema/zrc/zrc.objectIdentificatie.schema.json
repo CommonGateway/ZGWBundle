@@ -1,0 +1,58 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.objectIdentificatie.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.0.1",
+  "title": "ObjectIdentificatie",
+  "type": "object",
+  "properties": {
+    "identificatie": {
+      "title": "identificatie",
+      "description": "De unieke identificatie van het OBJECT.",
+      "type": "string",
+      "maxLength": 100,
+      "required": true
+    },
+    "wplWoonplaatsNaam": {
+      "type": "string",
+      "title": "wpl woonplaats naam",
+      "description": "De unieke identificatie van het OBJECT",
+      "maxLength": 80,
+      "required": true
+    },
+    "gorOpenbareRuimteNaam": {
+      "type": "string",
+      "title": "gor openbare ruimte naam",
+      "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
+      "maxLength": 80,
+      "required": true
+    },
+    "huisnummer": {
+      "type": "integer",
+      "title": "huisnummer",
+      "minimum": 0,
+      "maximum": 99999,
+      "required": true
+    },
+    "huisletter": {
+      "type": "string",
+      "title": "huisletter",
+      "maxLength": 1
+    },
+    "huisnummertoevoeging": {
+      "type": "string",
+      "title": "huisnummertoevoeging",
+      "maxLength": 4
+    },
+    "postcode": {
+      "type": "string",
+      "title": "postcode",
+      "maxLength": 7
+    }
+  },
+  "required": [
+    "identificatie",
+    "wplWoonplaatsNaam",
+    "gorOpenbareRuimteNaam",
+    "huisnummer"
+  ]
+}

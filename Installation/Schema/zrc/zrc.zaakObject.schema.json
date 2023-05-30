@@ -1,18 +1,16 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "ZaakObject",
-  "required": [
-    "zaak",
-    "objectType"
-  ],
+  "description": "Er wordt gevalideerd op\n\nIndien de object URL opgegeveven is, dan moet deze een geldige response (HTTP 200) geven.\nIndien opgegeven, dan wordt objectIdentificatie gevalideerd tegen de objectType discriminator.",
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "title": "Url",
@@ -36,13 +34,25 @@
       "description": "URL-referentie naar de ZAAK.",
       "type": "string",
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+      "required": true,
+      "minLength": 1,
+      "maxLength": 1000,
+      "inversedBy": "zaakobjecten"
+
     },
     "object": {
       "title": "Object",
       "description": "URL-referentie naar de resource die het OBJECT beschrijft.",
       "type": "string",
       "format": "uri",
+      "maxLength": 1000
+    },
+    "zaakobjecttype": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL-referentie naar het ZAAKOBJECTTYPE (in de Catalogi API).",
+      "title": "zaakobjecttype",
       "maxLength": 1000
     },
     "objectType": {
@@ -81,7 +91,8 @@
         "woz_waarde",
         "zakelijk_recht",
         "overige"
-      ]
+      ],
+      "required": true
     },
     "objectTypeOverige": {
       "title": "Object type overige",
@@ -90,14 +101,28 @@
       "pattern": "[a-z_]+",
       "maxLength": 100
     },
+    "objectTypeOverigeDefinitie": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.objectTypeOverigeDefinitie.schema.json",
+      "nullable": true,
+      "title": "definitie object type overige",
+      "description": "Verwijzing naar het schema van het type OBJECT als `objectType` de waarde \"overige\" heeft.\n\n* De URL referentie moet naar een JSON endpoint   wijzen waarin het objecttype gedefinieerd is, inclusief het   [JSON-schema](https://json-schema.org/).\n* Gebruik het `schema` attribuut om te verwijzen naar het schema binnen   de objecttype resource (deze gebruikt het   [jq](http://stedolan.github.io/jq/) formaat.\n* Gebruik het `objectData` attribuut om te verwijzen naar de gegevens   binnen het OBJECT. Deze gebruikt ook het   [jq](http://stedolan.github.io/jq/) formaat.\n\nIndien je hier gebruikt van maakt, dan moet je een OBJECT url opgeven en is het gebruik van objectIdentificatie niet mogelijk. De opgegeven OBJECT url wordt gevalideerd tegen het schema van het opgegeven objecttype."
+    },
     "relatieomschrijving": {
       "title": "Relatieomschrijving",
       "description": "Omschrijving van de betrekking tussen de ZAAK en het OBJECT.",
       "type": "string",
       "maxLength": 80
+    },
+    "objectIdentificatie": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.objectIdentificatie.schema.json",
+      "title": "ObjectIdentificatie"
     }
   },
   "discriminator": {
     "propertyName": "objectType"
-  }
+  },
+  "required": [
+    "zaak",
+    "objectType"
+  ]
 }

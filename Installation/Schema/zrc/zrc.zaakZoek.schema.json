@@ -1,13 +1,13 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakZoek.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "ZaakZoek",
   "type": "object",
   "persist": false,
   "properties": {
     "zaakgeometrie": {
-      "$ref": "#/components/schemas/GeoWithin"
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoWithin.schema.json"
     },
     "uuid__in": {
       "description": "Array of unieke resource identifiers (UUID4)",
@@ -15,7 +15,8 @@
       "items": {
         "type": "string",
         "format": "uuid"
-      }
+      },
+      "example": "[\"e80b7507-199a-484c-ad49-c41a1e43a6e7\", \"78e12133-c467-4202-91ba-4417baa52801\"]"
     },
     "identificatie": {
       "title": "Identificatie",
@@ -35,7 +36,8 @@
       "items": {
         "type": "string",
         "format": "string"
-      }
+      },
+      "example": "[\"000000000\",\"479559740\",\"875883461\"]"
     },
     "zaaktype": {
       "title": "Zaaktype",
@@ -49,7 +51,8 @@
       "items": {
         "type": "string",
         "format": "uri"
-      }
+      },
+      "example": "[\"https://catalogi-api.test.vng.cloud/api/v1/zaaktypen/e80b7507-199a-484c-ad49-c41a1e43a6e7\",\"https://catalogi-api.test.vng.cloud/api/v1/zaaktypen/78e12133-c467-4202-91ba-4417baa52801\"]"
     },
     "archiefnominatie": {
       "title": "Archiefnominatie",
@@ -67,7 +70,8 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "example": "[ \"blijvend_bewaren\", \"vernietigen\" ]"
     },
     "archiefactiedatum": {
       "title": "Archiefactiedatum",
@@ -108,7 +112,8 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "example": "[ \"nog_te_archiveren\",\"gearchiveerd\",\"gearchiveerd_procestermijn_onbekend\",\"overgedragen\" ]"
     },
     "startdatum": {
       "title": "Startdatum",

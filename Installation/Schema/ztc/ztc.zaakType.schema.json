@@ -208,7 +208,7 @@
     "statustypen": {
       "format": "url",
       "type": "array",
-      "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
+      "description": "URL-referenties naar de STATUSTYPEN die mogelijk zijn binnen dit ZAAKTYPE. missing inversedBy?",
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"

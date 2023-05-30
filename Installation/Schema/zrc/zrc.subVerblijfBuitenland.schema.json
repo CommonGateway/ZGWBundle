@@ -1,26 +1,29 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.subVerblijfBuitenland.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "title": "SubVerlijfBuitenland",
-  "version": "0.1",
+  "title": "SubVerblijfBuitenland",
+  "version": "0.2",
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "lndLandcode": {
       "type": "string",
       "description": "De code, behorende bij de landnaam, zoals opgenomen in de Land/Gebied-tabel van de BRP.",
       "title": "lnd landcode",
-      "maxLength": 4
+      "maxLength": 4,
+      "required": true
     },
     "lndLandnaam": {
       "type": "string",
       "description": "De naam van het land, zoals opgenomen in de Land/Gebied-tabel van de BRP.",
       "title": "lnd landnaam",
-      "maxLength": 40
+      "maxLength": 40,
+      "required": true
     },
     "subAdresBuitenland_1": {
       "type": "string",

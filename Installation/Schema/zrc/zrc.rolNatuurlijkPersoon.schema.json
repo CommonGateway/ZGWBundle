@@ -1,14 +1,15 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "RolNatuurlijkPersoon",
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "inpBsn": {
       "type": "string",
@@ -55,7 +56,12 @@
     "geslachtsaanduiding": {
       "description": "Een aanduiding die aangeeft of de persoon een man of een vrouw is, of dat het geslacht nog onbekend is.\n\nUitleg bij mogelijke waarden:\n\n* `m` - Man\n* `v` - Vrouw\n* `o` - Onbekend",
       "title": "geslachtsaanduiding",
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "m",
+        "v",
+        "o"
+      ]
     },
     "geboortedatum": {
       "type": "string",

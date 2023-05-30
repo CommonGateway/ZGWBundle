@@ -1,31 +1,32 @@
 {
-    "$id": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1",
-    "title": "Verlenging",
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string",
-        "format": "uuid",
-        "nullable": true
-      },
-      "reden": {
-        "description": "Omschrijving van de reden voor het verlengen van de behandeling van de zaak.",
-        "type": "string",
-        "required": true,
-        "maxLength": 200,
-        "minLength": 1
-      },
-      "duur": {
-        "description": "Het aantal werkbare dagen waarmee de doorlooptijd van de behandeling van de ZAAK is verlengd (of verkort) ten opzichte van de eerder gecommuniceerde doorlooptijd.",
-        "type": "string",
-        "format": "duration",
-        "required": true
-      }
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.2.2",
+  "title": "Verlenging",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "deprecated": true
     },
+    "reden": {
+      "description": "Omschrijving van de reden voor het verlengen van de behandeling van de zaak.",
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "duur": {
+      "description": "Het aantal werkbare dagen waarmee de doorlooptijd van de behandeling van de ZAAK is verlengd (of verkort) ten opzichte van de eerder gecommuniceerde doorlooptijd.",
+      "type": "string",
+      "format": "duration",
+      "example": "P10D",
+      "required": true
+    }
+  },
   "required": [
     "reden",
     "duur"
   ]
-  }
+}
