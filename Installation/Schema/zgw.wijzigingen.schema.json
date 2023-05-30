@@ -3,20 +3,23 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Wijzigingen",
   "type": "object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "oud": {
       "title": "Oud",
+      "description": "Volledige JSON body van het object zoals dat bestond voordat de actie heeft plaatsgevonden.",
       "type": "array",
       "items": {}
     },
     "nieuw": {
       "title": "Nieuw",
+      "description": "Volledige JSON body van het object na de actie.",
       "type": "array",
       "items": {}
     }
