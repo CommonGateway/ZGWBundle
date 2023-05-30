@@ -3,74 +3,113 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Audit Trail",
   "type": "object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "uuid": {
       "title": "Uuid",
+      "description": "Unieke identificatie van de audit regel.",
       "type": "string",
       "format": "uuid"
     },
     "bron": {
       "title": "Bron",
       "description": "De collection entity van de audit trail",
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "ac",
+        "nrc",
+        "zrc",
+        "ztc",
+        "drc",
+        "brc",
+        "cmc",
+        "kc",
+        "vrc"
+      ]
     },
     "applicatieId": {
       "title": "Applicatie id",
+      "description": "Unieke identificatie van de applicatie, binnen de organisatie.",
       "type": "string"
     },
     "applicatieWeergave": {
       "title": "Applicatie weergave",
-      "type": "string"
+      "description": "Vriendelijke naam van de applicatie.",
+      "type": "string",
+      "maxLength": 200
     },
     "gebruikersId": {
       "title": "Gebruikers id",
-      "type": "string"
+      "description": "Unieke identificatie van de gebruiker die binnen de organisatie herleid kan worden naar een persoon.",
+      "type": "string",
+      "maxLength": 255
     },
     "gebruikersWeergave": {
       "title": "Gebruikers weergave",
-      "type": "string"
+      "type": "string",
+      "maxLength": 255
     },
     "actie": {
       "title": "Actie",
-      "type": "string"
+      "description": "De uitgevoerde handeling.",
+      "type": "string",
+      "maxLength": 50
     },
     "actieWeergave": {
       "title": "Actie weergave",
-      "type": "string"
+      "description": "Vriendelijke naam van de actie.",
+      "type": "string",
+      "maxLength": 200
     },
     "resultaat": {
       "title": "Resultaat",
-      "type": "integer"
+      "description": "HTTP status code van de API response van de uitgevoerde handeling.",
+      "type": "integer",
+      "minLength": 100,
+      "maxLength": 599
     },
     "hoofdObject": {
       "title": "Hoofd object",
-      "type": "string"
+      "description": "De URL naar het hoofdobject van een component.",
+      "format": "url",
+      "type": "string",
+      "maxLength": 1000
     },
     "resource": {
       "title": "Resource",
-      "type": "string"
+      "description": "Het type resource waarop de actie gebeurde.",
+      "type": "string",
+      "maxLength": 50
     },
     "resourceUrl": {
       "title": "Resource url",
-      "type": "string"
+      "description": "De URL naar het object.",
+      "type": "string",
+      "format": "url",
+      "maxLength": 1000
     },
     "toelichting": {
       "title": "Toelichting",
+      "description": "Toelichting waarom de handeling is uitgevoerd.",
       "type": "string"
     },
     "resourceWeergave": {
       "title": "Resource weergave",
-      "type": "string"
+      "description": "Vriendelijke identificatie van het object.",
+      "type": "string",
+      "maxLength": 200
     },
     "aanmaakdatum": {
       "title": "Aanmaakdatum",
-      "type": "datetime"
+      "description": "De datum waarop de handeling is gedaan.",
+      "type": "datetime",
+      "readOnly": true
     },
     "wijzigingen": {
       "title": "Wijzigingen",
