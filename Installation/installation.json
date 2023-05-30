@@ -299,17 +299,28 @@
           "zgw.drc.enkelvoudigInformatieObject"
         ],
         "subEndpoints": [
-          {
-            "description": "Locks the resource (sets concept to false)",
-            "path": "lock",
-            "methods": [
-              "POST"
-            ],
-            "throws": [
-              "zgw.drc.lock"
-            ],
-            "version": "0.0.1"
-          },
+            {
+              "description": "Locks the resource (sets concept to false)",
+              "path": "lock",
+              "methods": [
+                "POST"
+              ],
+              "throws": [
+                "zgw.drc.lock"
+              ],
+              "version": "0.0.1"
+            },
+            {
+              "description": "Unlocks the resource",
+              "path": "unlock",
+              "methods": [
+                "POST"
+              ],
+              "throws": [
+                "zgw.drc.lock"
+              ],
+              "version": "0.0.1"
+            },
           {
             "description": "Releases the resource",
             "path": "release",
