@@ -15,7 +15,7 @@
     "url": {
       "type": "string",
       "format": "uri",
-      "readOnly": false,
+      "readOnly": true,
       "title": "url",
       "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
       "minLength": 1,
