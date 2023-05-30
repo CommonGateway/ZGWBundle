@@ -56,7 +56,12 @@
     "geslachtsaanduiding": {
       "description": "Een aanduiding die aangeeft of de persoon een man of een vrouw is, of dat het geslacht nog onbekend is.\n\nUitleg bij mogelijke waarden:\n\n* `m` - Man\n* `v` - Vrouw\n* `o` - Onbekend",
       "title": "geslachtsaanduiding",
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "m",
+        "v",
+        "o"
+      ]
     },
     "geboortedatum": {
       "type": "string",

@@ -23,14 +23,14 @@
       "type": "string",
       "title": "gor openbare ruimte naam",
       "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
-      "maxLength": 100,
+      "maxLength": 80,
       "required": true
     },
     "huisnummer": {
       "type": "integer",
       "title": "huisnummer",
-      "minLength": 0,
-      "maxLength": 99999,
+      "minimum": 0,
+      "maximum": 99999,
       "required": true
     },
     "huisletter": {
