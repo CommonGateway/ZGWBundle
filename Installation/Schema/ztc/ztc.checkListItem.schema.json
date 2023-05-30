@@ -1,0 +1,37 @@
+{
+    "$id": "https://vng.opencatalogi.nl/schemas/ztc.checkListItem.schema.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+    "version": "0.1.2",
+    "title": "CheckListItem",
+    "type": "object",
+    "properties": {
+        "itemnaam": {
+            "type": "string",
+            "description": "De betekenisvolle benaming van het checklistitem",
+            "title": "itemnaam",
+            "maxLength": 30
+        },
+        "toelichting": {
+            "type": "string",
+            "nullable": true,
+            "description": "Beschrijving van de overwegingen bij het controleren van het aandachtspunt",
+            "title": "toelichting",
+            "maxLength": 1000
+        },
+        "vraagstelling": {
+            "type": "string",
+            "description": "Een betekenisvolle vraag waaruit blijkt waarop het aandachtspunt gecontroleerd moet worden.",
+            "title": "vraagstelling",
+            "maxLength": 255
+        },
+        "verplicht": {
+            "type": "boolean",
+            "description": "Het al dan niet verplicht zijn van controle van het aandachtspunt voorafgaand aan het bereiken van de status van het gerelateerde STATUSTYPE.",
+            "title": "verplicht"
+        }
+    },
+    "required": [
+        "itemnaam",
+        "vraagstelling"
+    ]
+}

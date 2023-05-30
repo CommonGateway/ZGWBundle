@@ -8,7 +8,9 @@
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true,
+      "description": "extra property on behalf of some frontends"
     },
     "url": {
       "type": "string",
@@ -17,7 +19,8 @@
       "format": "uri",
       "maxLength": 1000,
       "minLength": 1,
-      "default": "{{ selfUrl(object) }}"
+      "default": "{{ selfUrl(object) }}",
+      "readOnly": true
     },
     "identificatie": {
       "title": "Identificatie",
@@ -178,12 +181,29 @@
       "maxLength": 200
     },
     "referentieproces": {
-      "format": "url",
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.referentieProces.schema.json"
+    },
+    "zaakobjecttypen": {
+      "type": "array",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakObjectType.schema.json"
+      },
+      "format": "url",
+      "inversedBy": "zaaktype"
+    },
+    "broncatalogus": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.bronCatalogus.schema.json",
+      "format": "json"
+    },
+    "bronzaaktype": {
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.bronZaakType.schema.json",
+      "format": "json"
     },
     "catalogus": {
       "format": "url",
-      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+      "inversedBy": "zaaktypen"
     },
     "statustypen": {
       "format": "url",
@@ -192,7 +212,8 @@
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "resultaattypen": {
       "type": "array",
@@ -201,7 +222,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "eigenschappen": {
       "type": "array",
@@ -210,7 +232,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "informatieobjecttypen": {
       "type": "array",
@@ -219,7 +242,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktypen"
     },
     "roltypen": {
       "type": "array",
@@ -228,7 +252,8 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.rolType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktype"
     },
     "besluittypen": {
       "description": "URL-referenties naar de BESLUITTYPEN die mogelijk zijn binnen dit ZAAKTYPE.",
@@ -237,9 +262,10 @@
       "format": "url",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
-      }
+      },
+      "inversedBy": "zaaktypen"
     },
-    "gerelateerdeZaaktypen": {
+    "deelzaaktypen": {
       "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
       "type": "array",
       "format": "url",
@@ -247,53 +273,80 @@
         "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       }
     },
-    "beginGeldigheid": {
-      "title": "Begin geldigheid",
-      "description": "De datum waarop het is ontstaan.",
-      "type": "string",
-      "format": "date"
+    "gerelateerdeZaaktypen": {
+      "description": "De ZAAKTYPEn van zaken die relevant zijn voor zaken van dit ZAAKTYPE.",
+      "type": "array",
+      "format": "json",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypenRelatie.schema.json"
+      },
+      "beginGeldigheid": {
+        "title": "Begin geldigheid",
+        "description": "De datum waarop het is ontstaan.",
+        "type": "string",
+        "format": "date",
+        "example": "2023-05-26"
+      },
+      "eindeGeldigheid": {
+        "title": "Einde geldigheid",
+        "description": "De datum waarop het is opgeheven.",
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "example": "2023-05-26"
+      },
+      "beginObject": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum waarop de eerst versie van het object ontstaan is.",
+        "title": "datum begin object",
+        "example": "2023-05-26"
+      },
+      "eindeObject": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum van de aller laatste versie van het object.",
+        "title": "datum einde object",
+        "example": "2023-05-26"
+      },
+      "versiedatum": {
+        "title": "Versiedatum",
+        "description": "De datum waarop de (gewijzigde) kenmerken van het ZAAKTYPE geldig zijn geworden",
+        "type": "string",
+        "format": "date",
+        "example": "2023-05-26"
+      },
+      "concept": {
+        "title": "Concept",
+        "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
+        "type": "boolean",
+        "readOnly": true,
+        "defaultValue": "false"
+      }
     },
-    "eindeGeldigheid": {
-      "title": "Einde geldigheid",
-      "description": "De datum waarop het is opgeheven.",
-      "type": "string",
-      "format": "date",
-      "nullable": true
-    },
-    "versiedatum": {
-      "title": "Versiedatum",
-      "description": "De datum waarop de (gewijzigde) kenmerken van het ZAAKTYPE geldig zijn geworden",
-      "type": "string",
-      "format": "date"
-    },
-    "concept": {
-      "title": "Concept",
-      "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
-      "type": "boolean",
-      "readOnly": true,
-      "defaultValue":  "false"
-    }
-  },
-  "required": [
-    "identificatie",
-    "omschrijving",
-    "vertrouwelijkheidaanduiding",
-    "doel",
-    "aanleiding",
-    "indicatieInternOfExtern",
-    "handelingInitiator",
-    "onderwerp",
-    "handelingBehandelaar",
-    "doorlooptijd",
-    "opschortingEnAanhoudingMogelijk",
-    "verlengingMogelijk",
-    "publicatieIndicatie",
-    "productenOfDiensten",
-    "referentieproces",
-    "catalogus",
-    "besluittypen",
-    "gerelateerdeZaaktypen",
-    "beginGeldigheid",
-    "versiedatum"
-  ]
+    "required": [
+      "identificatie",
+      "omschrijving",
+      "vertrouwelijkheidaanduiding",
+      "doel",
+      "aanleiding",
+      "indicatieInternOfExtern",
+      "handelingInitiator",
+      "onderwerp",
+      "handelingBehandelaar",
+      "doorlooptijd",
+      "opschortingEnAanhoudingMogelijk",
+      "verlengingMogelijk",
+      "publicatieIndicatie",
+      "productenOfDiensten",
+      "referentieproces",
+      "catalogus",
+      "besluittypen",
+      "gerelateerdeZaaktypen",
+      "beginGeldigheid",
+      "versiedatum"
+    ]
+  }
 }

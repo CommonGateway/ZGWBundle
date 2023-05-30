@@ -24,13 +24,15 @@
       "title": "Zaaktype",
       "description": "URL-referentie naar het ZAAKTYPE.",
       "type": "string",
-      "format": "uri"
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
     },
     "informatieobjecttype": {
       "title": "Informatie object type",
       "description": "URL-referentie naar het INFORMATIEOBJECTTYPE.",
       "type": "string",
-      "format": "uri"
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json"
     },
     "volgnummer": {
       "title": "Volgnummer",
@@ -53,8 +55,9 @@
       "title": "Status type",
       "description": "URL-referentie naar het STATUSTYPE waarbij deze INFORMATIEOBJECTTYPEn verplicht aanwezig moeten zijn.",
       "type": "string",
-      "format": "uri",
-      "nullable": true
+      "format": "url",
+      "nullable": true,
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json"
     }
   },
   "required": [

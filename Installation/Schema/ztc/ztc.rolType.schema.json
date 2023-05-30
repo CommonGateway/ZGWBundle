@@ -8,7 +8,9 @@
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true,
+        "description": "extra property on behalf of some frontends"
       },
       "url": {
         "type": "string",
@@ -17,11 +19,14 @@
         "format": "uri",
         "maxLength": 1000,
         "minLength": 1,
-        "default": "{{ selfUrl(object) }}"
+        "default": "{{ selfUrl(object) }}",
+        "readOnly": true
       },
       "zaaktype": {
         "type": "string",
-        "format": "url"
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+        "inversedBy": "roltypen"
       },
       "omschrijving": {
         "description": "Omschrijving van de aard van de ROL.",
@@ -44,6 +49,38 @@
           "mede_initiator"
         ],
         "required": true
+      },
+      "beginGeldigheid": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum waarop de RESULTAATTYPE is ontstaan.",
+        "title": "datum begin geldigheid",
+        "example": "2023-05-26"
+      },
+      "eindeGeldigheid": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum waarop de RESULTAATTYPE is opgeheven.",
+        "title": "datum einde geldigheid",
+        "example": "2023-05-26"
+      },
+      "beginObject": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum waarop de eerst versie van het object ontstaan is.",
+        "title": "datum begin object",
+        "example": "2023-05-26"
+      },
+      "eindeObject": {
+        "type": "string",
+        "format": "date",
+        "nullable": true,
+        "description": "De datum van de aller laatste versie van het object.",
+        "title": "datum einde object",
+        "example": "2023-05-26"
       }
     },
     "required": [
