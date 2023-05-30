@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakTypeInformatieObjectType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "object",
   "title": "ZaakTypeInformatieObjectType",
   "properties": {
