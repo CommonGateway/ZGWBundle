@@ -197,19 +197,31 @@ class ZGWService
         $this->data = $data;
         $path = $this->data['path'];
 
+        $willBeLocked = isset($path['lock']);
+
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
         if (
             $objectEntity instanceof ObjectEntity
         ) {
             $lockId = Uuid::uuid4()->toString();
-            $objectEntity->hydrate(['lock' => $lockId, 'locked' => true]);
-            $objectEntity->setLock($lockId);
+            $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null]);
+            if ($willBeLocked === true) {
+                $objectEntity->setLock($lockId);
+            }
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
 
+            if ($willBeLocked === true) {
+                $responseBody = \Safe\json_encode(['lock' => $lockId]);
+                $statusCode = 200;
+            } else {
+                $responseBody = null;
+                $statusCode = 204;
+            }
+
             $this->data['response'] = new Response(
-                \Safe\json_encode($objectEntity->toArray()),
-                $this->data['method'] === 'POST' ? 201 : 200,
+                $responseBody,
+                $statusCode,
                 ['content-type' => 'application/json']
             );
         }

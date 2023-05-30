@@ -12,10 +12,11 @@
       },
       "zaaktype": {
         "type": "string",
-        "format": "uri",
+        "format": "url",
         "maxLength": 200,
         "minLength": 1,
-        "required": true
+        "required": true,
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
       },
       "aardRelatie": {
         "description": "Omschrijving van de aard van de relatie van zaken van het ZAAKTYPE tot zaken van het andere ZAAKTYPE\n\nUitleg bij mogelijke waarden:\n\nvervolg - Vervolg\nbijdrage - Bijdrage\nonderwerp - Onderwerp",

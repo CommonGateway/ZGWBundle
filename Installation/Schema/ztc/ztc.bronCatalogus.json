@@ -1,0 +1,35 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/ztc.bronCatalogus.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1.0",
+  "title": "BronCatalogus",
+  "type": "object",
+  "nullable": true,
+  "description": "De CATALOGUS waaraan het ZAAKTYPE is ontleend.",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "title": "URL-referentie broncatalogus",
+      "maxLength": 200
+    },
+    "domein": {
+      "type": "string",
+      "description": "Het domein van de CATALOGUS waaraan het ZAAKTYPE is ontleend.",
+      "title": "broncatalogus domein",
+      "maxLength": 5
+    },
+    "rsin": {
+      "type": "string",
+      "description": "Het RSIN van de INGESCHREVEN NIET-NATUURLIJK PERSOON die beheerder is van de CATALOGUS waaraan het ZAAKTYPE is ontleend.",
+      "title": "broncatalogus rsin",
+      "maxLength": 9
+    }
+  },
+  "required": [
+    "domein",
+    "rsin",
+    "url"
+  ]
+
+}

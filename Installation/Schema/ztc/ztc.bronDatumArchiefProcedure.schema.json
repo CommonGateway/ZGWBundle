@@ -3,7 +3,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.bronDatumArchiefProcedure.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "title": "BrondatumArchiefprocedure",
     "description": "Specificatie voor het bepalen van de brondatum voor de start van de Archiefactietermijn (=brondatum) van het zaakdossier.",
     "type": "object",
@@ -12,7 +12,9 @@
         "id": {
             "type": "string",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "description": "extra property on behalf of some frontends.",
+            "deprecated": true
         },
         "afleidingswijze": {
             "type": "string",
@@ -85,7 +87,8 @@
             "type": "string",
             "format": "duration",
             "nullable": true,
-            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze"
+            "description": "De periode dat het zaakdossier na afronding van de zaak actief gebruikt en/of geraadpleegd wordt ter ondersteuning van de taakuitoefening van de organisatie. Enkel relevant indien de afleidingswijze",
+            "example": "P10D"
         }
     }
 }

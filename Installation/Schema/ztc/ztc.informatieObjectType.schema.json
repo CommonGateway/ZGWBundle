@@ -8,7 +8,9 @@
       "id": {
         "type": "string",
         "format": "uuid",
-        "nullable": true
+        "nullable": true,
+        "deprecated": true,
+        "description": "extra property on behalf of some frontends"
       },
       "url": {
         "type": "string",
@@ -17,12 +19,14 @@
         "format": "uri",
         "maxLength": 1000,
         "minLength": 1,
-        "default": "{{ selfUrl(object) }}"
+        "default": "{{ selfUrl(object) }}",
+        "readOnly": true
       },
       "catalogus": {
-        "type": "string",
-        "format": "uri",
-        "required": true
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+        "required": true,
+        "inversedBy": "informatieobjecttypen"
       },
       "omschrijving": {
         "description": "Omschrijving van de aard van informatieobjecten van dit INFORMATIEOBJECTTYPE.",
@@ -56,13 +60,59 @@
         "type": "string",
         "description": "De datum waarop het is opgeheven.",
         "format": "date",
-        "nullable": true
+        "nullable": true,
+        "example": "2023-05-26"
+      },
+      "beginObject": {
+        "type": "string",
+        "format": "date",
+        "description": "De datum waarop de eerst versie van het object ontstaan is.",
+        "example": "2023-05-26"
+      },
+      "eindeObject": {
+        "type": "string",
+        "format": "date",
+        "description": "De datum van de aller laatste versie van het object.",
+        "example": "2023-05-26"
       },
       "concept": {
         "type": "boolean",
         "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
         "readOnly": true,
         "defaultValue":  "false"
+      },
+      "zaaktypen": {
+        "type": "array",
+        "format": "url",
+        "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
+        "inversedBy": "informatieobjecttypen",
+        "items": {
+          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+        },
+        "readOnly": true
+      },
+      "besluittypen": {
+        "type": "array",
+        "format": "url",
+        "description": "URL-referenties naar ZAAKTYPEn die in deze CATALOGUS worden ontsloten.",
+        "items": {
+          "$ref": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json"
+        },
+        "readOnly": true
+      },
+      "informatieobjectcategorie": {
+        "type": "string",
+        "maxLength": 80,
+        "required": true
+      },
+      "trefwoord": {
+        "type": "string",
+        "maxLength": 30,
+        "required": true
+      },
+      "omschrijvingGeneriek": {
+        "format": "json",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectTypeOmschrijvingGeneriek.schema.json"
       }
     },
     "required": [

@@ -8,7 +8,9 @@
         "id": {
             "type": "string",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true,
+            "description": "extra property on behalf of some frontends"
         },
         "url": {
             "type": "string",
@@ -16,7 +18,8 @@
             "format": "uri",
             "minLength": 1,
             "maxLength": 1000,
-            "default": "{{ selfUrl(object) }}"
+            "default": "{{ selfUrl(object) }}",
+            "readOnly": true
         },
         "omschrijving": {
             "type": "string",
@@ -37,7 +40,8 @@
         "zaaktype": {
             "description": "missing inversedBy?",
             "format": "url",
-            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+            "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+            "inversedBy": "statustypen"
         },
         "volgnummer": {
             "type": "integer",
@@ -48,7 +52,9 @@
         },
         "doorlooptijd": {
             "type": "string",
-            "description": "De door de zaakbehandelende organisatie(s) gestelde norm voor de doorlooptijd voor het bereiken van STATUSsen van dit STATUSTYPE bij het desbetreffende ZAAKTYPE."
+            "format": "duration",
+            "description": "De door de zaakbehandelende organisatie(s) gestelde norm voor de doorlooptijd voor het bereiken van STATUSsen van dit STATUSTYPE bij het desbetreffende ZAAKTYPE.",
+            "example": "P10D"
         },
         "toelichting": {
             "type": "string",
@@ -56,7 +62,11 @@
             "maxLength": 1000
         },
         "checklistitemStatustype": {
-            "type": "array"
+            "type": "array",
+            "format": "json",
+            "items": {
+                "$ref": "https://vng.opencatalogi.nl/schemas/ztc.checkListItem.schema.json"
+            }
         },
         "eigenschappen": {
             "format": "url",
@@ -69,31 +79,37 @@
         },
         "isEindstatus": {
             "type" :"boolean",
-            "description" : "Geeft aan dat dit STATUSTYPE een eindstatus betreft. Dit gegeven is afgeleid uit alle STATUSTYPEn van dit ZAAKTYPE met het hoog"
+            "description" : "Geeft aan dat dit STATUSTYPE een eindstatus betreft. Dit gegeven is afgeleid uit alle STATUSTYPEn van dit ZAAKTYPE met het hoog",
+            "defaultValue": "false"
         },
         "informeren": {
             "type" : "boolean",
-            "description" : "Aanduidin,g die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan"
+            "description" : "Aanduiding die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan",
+            "defaultValue": "false"
         },
         "beginGeldigheid": {
             "type": "string",
             "format": "date",
-            "description": "De datum waarop het is ontstaan."
+            "description": "De datum waarop het is ontstaan.",
+            "example": "2023-05-26"
         },
         "eindeGeldigheid": {
             "type": "string",
             "format": "date",
-            "description": "De datum waarop het is opgeheven."
+            "description": "De datum waarop het is opgeheven.",
+            "example": "2023-05-26"
         },
         "beginObject": {
             "type": "string",
             "format": "date",
-            "description": "De datum waarop de eerst versie van het object ontstaan is."
+            "description": "De datum waarop de eerst versie van het object ontstaan is.",
+            "example": "2023-05-26"
         },
         "eindeObject": {
             "type": "string",
             "format": "date",
-            "description": "De datum van de aller laatste versie van het object."
+            "description": "De datum van de aller laatste versie van het object.",
+            "example": "2023-05-26"
         }
     },
     "required": [

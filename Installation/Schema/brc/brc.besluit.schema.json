@@ -9,12 +9,13 @@
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
   "title": "Besluit",
   "type": "object",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "title": "Url",
@@ -37,7 +38,8 @@
       "description": "Het RSIN van de niet-natuurlijk persoon zijnde de organisatie die het besluit heeft vastgesteld.",
       "type": "string",
       "maxLength": 9,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "besluittype": {
       "title": "Besluittype",
@@ -45,7 +47,8 @@
       "type": "string",
       "format": "uri",
       "maxLength": 200,
-      "minLength": 1
+      "minLength": 1,
+      "required": true
     },
     "zaak": {
       "title": "Zaak",
@@ -58,7 +61,8 @@
       "title": "Datum",
       "description": "De beslisdatum (AWB) van het besluit.",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "toelichting": {
       "title": "Toelichting",
@@ -75,7 +79,8 @@
       "title": "Ingangsdatum",
       "description": "Ingangsdatum van de werkingsperiode van het besluit.",
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "required": true
     },
     "vervaldatum": {
       "title": "Vervaldatum",
@@ -120,6 +125,12 @@
       "type": "string",
       "format": "date",
       "nullable": true
-    }
+    },
+    "required": [
+      "verantwoordelijkeOrganisatie",
+      "besluittype",
+      "datum",
+      "ingangsdatum"
+    ]
   }
 }
