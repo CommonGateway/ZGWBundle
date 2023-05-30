@@ -214,17 +214,16 @@
       }
     },
     "eigenschappen": {
-      "description": "missing inversedBy?",
       "type": "array",
       "format": "url",
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json"
       },
-      "readOnly": true
+      "readOnly": true,
+      "inversedBy": "zaak"
     },
     "rollen": {
-      "description": "missing inversedBy?",
       "type": "array",
       "format": "url",
       "uniqueItems": true,
@@ -235,10 +234,11 @@
       "inversedBy": "zaak"
     },
     "status": {
-      "description": "missing inversedBy?",
+      "description": "Indien geen status bekend is, dan is de waarde 'null'",
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.status.schema.json",
-      "inversedBy": "zaak"
+      "inversedBy": "zaak",
+      "nullable": true
     },
     "zaakinformatieobjecten": {
       "type": "array",
@@ -256,7 +256,6 @@
       "uniqueItems": true,
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
-        "format": "uri"
       },
       "readOnly": true,
       "inversedBy": "zaak"
@@ -299,8 +298,8 @@
     "resultaat": {
       "title": "Resultaat",
       "description": "URL-referentie naar het RESULTAAT. Indien geen resultaat bekend is, dan is de waarde 'null. missing inversedBy?'",
-      "type": "string",
-      "format": "uri",
+      "$ref": "hhttps://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+      "format": "url",
       "nullable": true,
       "readOnly": true,
       "inversedBy": "zaak"

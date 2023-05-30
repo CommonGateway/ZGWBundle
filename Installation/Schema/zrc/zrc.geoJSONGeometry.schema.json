@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2",
+  "version": "0.2.2",
   "title": "GeoJSONGeometry",
   "type": "object",
   "properties": {
@@ -30,6 +30,10 @@
     "coordinates": {
       "description": "The coordinates for the chosen geometry type",
       "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 2,
       "required": true
     }
   },

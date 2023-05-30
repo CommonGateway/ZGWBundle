@@ -14,12 +14,14 @@
     },
     "indicatie": {
       "description": "Aanduiding of de behandeling van de ZAAK tijdelijk is opgeschort.",
+      "title": "indicatie opschorting",
       "type": "boolean",
       "required": true
     },
     "reden": {
       "description": "Omschrijving van de reden voor het opschorten van de behandeling van de zaak.",
       "type": "string",
+      "title": "reden opschorting",
       "maxLength": 200,
       "required": true
     }

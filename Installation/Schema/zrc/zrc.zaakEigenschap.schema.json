@@ -27,10 +27,11 @@
       "readOnly": true
     },
     "zaak": {
-      "description": "missing inversedBy?",
+      "description": "URL-referentie naar de ZAAK.",
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
-      "required": true
+      "required": true,
+      "inversedBy": "eigenschappen"
     },
     "eigenschap": {
       "format": "url",
