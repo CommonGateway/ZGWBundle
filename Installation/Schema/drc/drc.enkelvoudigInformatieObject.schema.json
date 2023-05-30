@@ -9,12 +9,13 @@
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "url": {
       "type": "string",
       "format": "uri",
-      "readOnly": true,
+      "readOnly": false,
       "title": "url",
       "description": "URL-referentie naar dit object. Dit is de unieke identificatie en locatie van dit object.",
       "minLength": 1,
@@ -109,8 +110,7 @@
     },
     "inhoud": {
       "type": "string",
-      "format": "uri",
-      "description": "Download URL van de binaire inhoud.",
+      "description": "Binaire inhoud, in base64 geëncodeerd.",
       "nullable": true,
       "title": "inhoud"
     },

@@ -8,7 +8,8 @@
     "id": {
       "type": "string",
       "format": "uuid",
-      "nullable": true
+      "nullable": true,
+      "deprecated": true
     },
     "adresBuitenland1": {
       "type": "string",
