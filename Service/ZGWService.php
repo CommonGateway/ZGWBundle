@@ -19,6 +19,7 @@ use App\Event\ActionEvent;
 
 class ZGWService
 {
+
     private array $configuration;
     private array $data;
 
@@ -41,6 +42,7 @@ class ZGWService
         $this->resourceService = $resourceService;
         $this->eventDispatcher = $eventDispatcher;
     }
+
 
     /**
      * Returns a new besluit, existing besluit or all besluiten of a zaak.
@@ -116,7 +118,7 @@ class ZGWService
                     $resultArray = $this->cacheService->handleResultPagination([], $zaakBesluiten, count($zaakBesluiten));
 
                     $this->data['response'] = new Response(json_encode($resultArray), 200);
-                }
+                }//end if
         }//end switch
 
 
@@ -124,10 +126,14 @@ class ZGWService
 
     }//end postZaakBesluitHandler()
 
+
     /**
-     * Returns a welcoming string
+     * Handles the ZGW zaakeigenschappen subendpoint.
+     * 
+     * @param array $data from action.
+     * @param array $configuration from action.
      *
-     * @return array
+     * @return array Http response.
      */
     public function postZaakEigenschapHandler(array $data, array $configuration): array
     {
@@ -162,26 +168,26 @@ class ZGWService
             // Throw event
             $event = new ActionEvent('commongateway.action.event', ['response' => $this->data['response']], 'zrc.post.zaak.zaakeigenschap');
             $this->eventDispatcher->dispatch($event, 'commongateway.action.event');
-        }
+        }//end if
 
         return ['response' => new Response(json_encode($zaakeigenschap->toArray(['embedded' => true])), 201, ['Content-Type' => 'application/json'])];
         
-    }
+    }//end postZaakEigenschapHandler()
+
 
     /**
-     * Returns a welcoming string
+     * Handles the ZGW publish subendpoint.
+     * 
+     * @param array $data from action.
+     * @param array $configuration from action.
      *
-     * @return array
+     * @return array Http response.
      */
-    public function zgwHandler(array $data, array $configuration): array
-    {
-        return ['response' => 'Hello. The ZGWBundle works'];
-    }
-
     public function ztcPublishHandler(array $data, array $configuration): array
     {
         $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
         if (!$object instanceof ObjectEntity) {
+
             return $data;
         }
         $object->hydrate(['concept' => false]);
@@ -189,9 +195,20 @@ class ZGWService
         $this->entityManager->flush();
 
         $data['response'] = $object->toArray();
-        return $data;
-    }
 
+        return $data;
+        
+    }//end ztcPublishHandler()
+
+
+    /**
+     * Handles the ZGW lock and unlock subendpoint.
+     * 
+     * @param array $data from action.
+     * @param array $configuration from action.
+     *
+     * @return array Http response.
+     */
     public function drcLockHandler(array $data, array $configuration): array
     {
         $this->data = $data;
@@ -200,9 +217,7 @@ class ZGWService
         $willBeLocked = isset($path['lock']);
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
-        if (
-            $objectEntity instanceof ObjectEntity
-        ) {
+        if ($objectEntity instanceof ObjectEntity) {
             $lockId = Uuid::uuid4()->toString();
             $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null]);
             if ($willBeLocked === true) {
@@ -224,11 +239,21 @@ class ZGWService
                 $statusCode,
                 ['content-type' => 'application/json']
             );
-        }
+        }//end if
 
         return $this->data;
-    }
+        
+    }//end drcLockHandler()
 
+
+    /**
+     * Handles the ZGW release subendpoint.
+     * 
+     * @param array $data from action.
+     * @param array $configuration from action.
+     *
+     * @return array Http response.
+     */
     public function drcReleaseHandler(array $data, array $configuration): array
     {
         $this->data = $data;
@@ -251,7 +276,9 @@ class ZGWService
         }
 
         return $this->data;
-    }
+        
+    }//end drcReleaseHandler()
+
 
     /**
      * Generates a download endpoint from the id of an 'Enkelvoudig Informatie Object' and the endpoint for downloads.
@@ -272,7 +299,9 @@ class ZGWService
         }
 
         return $baseUrl . '/api/' . implode('/', $pathArray);
-    }
+
+    }//end generateDownloadEndpoint()
+
 
     /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
@@ -331,10 +360,12 @@ class ZGWService
                 $this->data['method'] === 'POST' ? 201 : 200,
                 ['content-type' => 'application/json']
             );
-        }
+        }//end if
 
         return $this->data;
-    }
+
+    }//end inhoudHandler()
+
 
     /**
      * Returns the data from an document as a response.
@@ -362,7 +393,9 @@ class ZGWService
         }
 
         return $this->data;
-    }
+
+    }//end downloadInhoudHandler()
+
 
     /**
      * Upload a part of a file.
@@ -410,7 +443,9 @@ class ZGWService
         $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray()), 200, ['content-type' => 'application/json']);
 
         return $this->data;
-    }
+
+    }//end uploadFilePartHandler()
+
 
     /**
      * Searches a case based on the search endpoint, includes GeoJSON
@@ -444,7 +479,7 @@ class ZGWService
                     [$filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']];
 
                 continue;
-            }
+            }//end if
 
             // Otherwise, create the mongoDB filters for the other fields.
             switch (end($paramArray)) {
@@ -485,13 +520,12 @@ class ZGWService
                 default:
                     $filter = $value;
                     break;
-            }
+            }//end switch
 
             // Create a key with embedded in it.
             // Chosen solution feels a bit sketchy, especially because embedded is not always correctly filled.
             $key = '';
-            foreach($paramArray as $paramPart)
-            {
+            foreach($paramArray as $paramPart) {
                 array_shift($paramArray);
                 if(count($paramArray) === 0 && $key === '') {
                     $key = $paramPart;
@@ -505,9 +539,10 @@ class ZGWService
                 } else if (count($paramArray) === 0) {
                     $key .= '.'.$paramPart;
                 }
-            }
+
+            }//end foreach
             $filters[$key] = $filter;
-        }
+        }//end foreach
 
 
         $objects  = $this->cacheService->retrieveObjectsFromCache(
@@ -518,5 +553,7 @@ class ZGWService
         $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
 
         return $data;
-    }
-}
+
+    }//end searchHandler()
+
+}//end class
