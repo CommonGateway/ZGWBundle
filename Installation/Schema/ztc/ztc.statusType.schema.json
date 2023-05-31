@@ -80,12 +80,12 @@
         "isEindstatus": {
             "type" :"boolean",
             "description" : "Geeft aan dat dit STATUSTYPE een eindstatus betreft. Dit gegeven is afgeleid uit alle STATUSTYPEn van dit ZAAKTYPE met het hoog",
-            "defaultValue": "false"
+            "default": "false"
         },
         "informeren": {
             "type" : "boolean",
             "description" : "Aanduiding die aangeeft of na het zetten van een STATUS van dit STATUSTYPE de Initiator moet worden geïnformeerd over de statusovergan",
-            "defaultValue": "false"
+            "default": "false"
         },
         "beginGeldigheid": {
             "type": "string",

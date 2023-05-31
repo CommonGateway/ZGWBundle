@@ -26,7 +26,8 @@
       "description": "Unieke resource identifier (UUID4)",
       "type": "string",
       "format": "uuid",
-      "readOnly": true
+      "readOnly": true,
+      "default": "{{ object.id }}"
     },
     "besluit": {
       "title": "Besluit",

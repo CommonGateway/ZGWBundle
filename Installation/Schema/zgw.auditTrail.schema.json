@@ -15,7 +15,8 @@
       "title": "Uuid",
       "description": "Unieke identificatie van de audit regel.",
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "default": "{{ object.id }}"
     },
     "bron": {
       "title": "Bron",

@@ -121,7 +121,7 @@
       "type": "boolean",
       "description": "extra property: should be filtered from POST/PUT/PATCH endpoints. Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
       "readOnly": true,
-      "defaultValue":  "true"
+      "default":  "true"
     }
   },
   "required": [
