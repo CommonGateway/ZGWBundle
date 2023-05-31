@@ -406,11 +406,134 @@ class ZGWService
 
 
     /**
+     * Handles gebruiksrecht DELETE logic.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration of the action.
+     * 
+     * @return array Http response.
+     */
+    public function gebruiksrechtDeleteHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+
+        // If not DELETE this action has nothing to do.
+        if ($data['method'] !== 'DELETE') {
+            var_dump('test1');
+            return $this->data;
+        }
+        
+        // If last gebruiksrecht of enkelvoudiginformatieobject set indicatieGebruiksrecht to null.
+        $gebruiksrechtObject = $this->entityManager->find('App:ObjectEntity', $data['path']['id']);
+        if ($gebruiksrechtObject instanceof ObjectEntity === false) {
+            var_dump('test4');
+            $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing gebruiksrecht object found with given id in path.']), 403, ['content-type' => 'application/json']);
+        
+            return $this->data;
+        }
+        $informatieObject = $gebruiksrechtObject->getValue('informatieobject');
+        if ($informatieObject instanceof ObjectEntity === false) {
+            var_dump('test5');
+            $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing informatieobject found on given gebruiksrecht object, a existing informatieobject is required.']), 403, ['content-type' => 'application/json']);
+        
+            return $this->data;
+        }
+
+        $gebruiksrechtSchema = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
+        $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
+        $gebruiksrechtValues = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getId()->toString(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
+
+        // If we have less than 2 gebruiksrechten for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
+        if ($gebruiksrechtValues <= 1) {
+            $informatieObject->setValue('indicatieGebruiksrecht', null);
+        }
+
+        $this->entityManager->persist($informatieObject);
+        $this->entityManager->flush();
+        $this->entityManager->flush();
+        $this->cacheService->cacheObject($informatieObject);
+
+        var_dump($informatieObject->getValue('indicatieGebruiksrecht'));
+
+        var_dump('test6');
+        return $this->data;
+
+    }//end gebruiksrechtHandler()
+
+
+
+    /**
+     * Handles gebruiksrecht POST logic.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration of the action.
+     * 
+     * @return array Http response.
+     */
+    public function gebruiksrechtHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+
+        // If not a POST this action has nothing to do.
+        if ($data['method'] !== 'POST') {
+            var_dump('test1');
+            return $this->data;
+        }
+
+        $gebruiksrecht = $data['body'];
+
+        // Validate informatieobject
+        $explodedInfoObject = explode('/', $gebruiksrecht['informatieobject']);
+        if (
+            isset($gebruiksrecht['informatieobject']) == false || is_string($gebruiksrecht['informatieobject']) === false || 
+            (Uuid::isValid($gebruiksrecht['informatieobject']) === false && Uuid::isValid(end($explodedInfoObject)) === false)
+           ) {
+            var_dump('test2');
+            $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No id or url given for informatieobject, it is required.']), 400, ['content-type' => 'application/json']);
+        
+            return $this->data;
+        }
+
+        // If POST make sure the enkelvoudiginformatieobject has indicatieGebruiksrecht set to true.
+        if (Uuid::isValid($gebruiksrecht['informatieobject']) === true) {
+            $informatieObjectId = $gebruiksrecht['informatieobject'];
+        } else {
+            $informatieObjectId = end($explodedInfoObject);
+        }
+
+        $informatieObject = $this->entityManager->find('App:ObjectEntity', $informatieObjectId);
+        if ($informatieObject instanceof ObjectEntity === false) {
+            var_dump('test3');
+            $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing informatieobject found with given body, a existing informatieobject is required.']), 403, ['content-type' => 'application/json']);
+        
+            return $this->data;
+        }
+
+        $indicatieGebruiksrecht = $informatieObject->getValue('indicatieGebruiksrecht');
+        if ($indicatieGebruiksrecht === false || $indicatieGebruiksrecht === null) {
+            $informatieObject->setValue('indicatieGebruiksrecht', true);
+        }
+
+        $this->entityManager->persist($informatieObject);
+        $this->entityManager->flush();
+        $this->entityManager->flush();
+        $this->cacheService->cacheObject($informatieObject);
+
+        var_dump($informatieObject->getValue('indicatieGebruiksrecht'));
+
+        var_dump('test4');
+        return $this->data;
+
+    }//end gebruiksrechtHandler()
+
+
+    /**
      * Upload a part of a file.
      *
      * @param array $data          The data passed by the action.
      * @param array $configuration The configuration of the action.
-     * @return array
+     * 
+     * @return array Http response.
      */
     public function uploadFilePartHandler(array $data, array $configuration): array
     {

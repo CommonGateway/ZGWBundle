@@ -359,7 +359,10 @@
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
         "path": "gebruiksrechten",
-        "methods": []
+        "methods": [],
+        "throws": [
+          "zgw.drc.gebruiksrecht"
+        ]
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json",
@@ -422,7 +425,7 @@
         "reference": "https://vng.opencatalogi.nl/action/kiss.ZtcPublishAction.action.json",
         "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\ZtcPublishHandler",
         "listens": [
-          "zgw.ztc.publish"
+          "commongateway.response.pre"
         ]
       },
       {
@@ -439,6 +442,32 @@
         "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
         "listens": [
           "zgw.drc.enkelvoudigInformatieObject"
+        ]
+      },
+      {
+      },
+      {
+        "name": "DrcGebruiksrechtDeleteAction",
+        "reference": "https://vng.opencatalogi.nl/action/drc.DrcGebruiksrechtAction.action.json",
+        "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcGebruiksrechtDeleteHandler",
+        "listens": [
+          "commongateway.object.pre.delete"
+        ],
+        "conditions": {
+          "==": [
+            {
+              "var": "entity"
+            },
+            "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json"
+          ]
+        }
+      },
+      {
+        "name": "DrcGebruiksrechtAction",
+        "reference": "https://vng.opencatalogi.nl/action/drc.DrcGebruiksrechtAction.action.json",
+        "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcGebruiksrechtHandler",
+        "listens": [
+          "zgw.drc.gebruiksrecht"
         ]
       },
       {
