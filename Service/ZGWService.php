@@ -183,21 +183,29 @@ class ZGWService
      *
      * @return array Http response.
      */
+    /**
+     * Handles the ZGW publish subendpoint.
+     *
+     * @param array $data from action.
+     * @param array $configuration from action.
+     *
+     * @return array Http response.
+     */
     public function ztcPublishHandler(array $data, array $configuration): array
     {
-        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['response']['id']);
+        $object = $this->entityManager->getRepository('App:ObjectEntity')->find($data['path']['id']);
         if (!$object instanceof ObjectEntity) {
-
             return $data;
         }
         $object->hydrate(['concept' => false]);
+
         $this->entityManager->persist($object);
         $this->entityManager->flush();
 
-        $data['response'] = $object->toArray();
+        $data['response'] = new Response(\Safe\json_encode($object->toArray()), 201, ['Content-Type' => 'application/json']);
 
         return $data;
-        
+
     }//end ztcPublishHandler()
 
 
