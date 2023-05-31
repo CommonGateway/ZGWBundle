@@ -86,7 +86,8 @@
         "description": "De bij de desbetreffende ZAAK behorende STATUS waarvoor het ZAAK-INFORMATIEOBJECT relevant is (geweest) met het oog op het bereiken van die STATUS en/of de communicatie daarover.",
         "title": "status",
         "minLength": 1,
-        "maxLength": 1000
+        "maxLength": 1000,
+        "inversedBy": "zaakinformatieobjecten"
       }
     },
     "required": [
