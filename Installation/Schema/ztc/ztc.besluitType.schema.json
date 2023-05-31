@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.besluitType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "object",
   "title": "BesluitType",
   "properties": {
@@ -121,7 +121,7 @@
       "type": "boolean",
       "description": "extra property: should be filtered from POST/PUT/PATCH endpoints. Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
       "readOnly": true,
-      "defaultValue":  "true"
+      "default":  "true"
     }
   },
   "required": [

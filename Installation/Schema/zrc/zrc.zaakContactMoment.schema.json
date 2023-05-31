@@ -4,7 +4,7 @@
   "title": "ZaakContactMoment",
   "description": "Er wordt gevalideerd op:\n\ngeldigheid URL naar het CONTACTMOMENT",
   "type": "object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "properties": {
     "id": {
       "type": "string",
@@ -27,7 +27,8 @@
       "description": "Unieke resource identifier (UUID4)",
       "type": "string",
       "format": "uuid",
-      "readOnly": true
+      "readOnly": true,
+      "default": "{{ object.id }}"
     },
     "zaak": {
       "format": "url",

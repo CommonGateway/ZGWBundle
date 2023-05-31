@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "title": "Resultaat",
   "description": "Er wordt gevalideerd op:\n\ngeldigheid URL naar de ZAAK\ngeldigheid URL naar het RESULTAATTYPE",
   "type": "object",
@@ -27,7 +27,8 @@
       "description": "Unieke resource identifier (UUID4)",
       "type": "string",
       "format": "uuid",
-      "readOnly": true
+      "readOnly": true,
+      "default": "{{ object.id }}"
     },
     "zaak": {
       "description": "URL-referentie naar de ZAAK.",

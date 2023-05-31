@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "type": "object",
     "title": "InformatieObjectType",
     "properties": {
@@ -79,7 +79,7 @@
         "type": "boolean",
         "description": "Geeft aan of het object een concept betreft. Concepten zijn niet-definitieve versies en zouden niet gebruikt moeten worden buiten deze API.",
         "readOnly": true,
-        "defaultValue":  "false"
+        "default":  "true"
       },
       "zaaktypen": {
         "type": "array",
