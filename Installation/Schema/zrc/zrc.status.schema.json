@@ -82,7 +82,7 @@
         "uniqueItems": true,
         "minLength": 1,
         "maxLength": 1000,
-        "inversedBy": "zaak"
+        "inversedBy": "status"
       }
     },
     "required": [
