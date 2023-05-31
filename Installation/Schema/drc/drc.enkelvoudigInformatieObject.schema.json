@@ -4,7 +4,7 @@
   "title": "EnkelvoudigInformatieObject",
   "type": "object",
   "description": "Serializer for the EnkelvoudigInformatieObject model",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "properties": {
     "id": {
       "type": "string",
@@ -179,7 +179,6 @@
       "title": "integriteit"
     },
     "informatieobjecttype": {
-      "type": "object",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
       "format": "url",
       "description": "URL-referentie naar het INFORMATIEOBJECTTYPE (in de Catalogi API).",
