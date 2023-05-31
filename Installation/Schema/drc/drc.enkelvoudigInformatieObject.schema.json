@@ -181,7 +181,7 @@
     "informatieobjecttype": {
       "type": "object",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.informatieObjectType.schema.json",
-      "format": "uri",
+      "format": "url",
       "description": "URL-referentie naar het INFORMATIEOBJECTTYPE (in de Catalogi API).",
       "title": "informatieobjecttype",
       "maxLength": 200
