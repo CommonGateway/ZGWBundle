@@ -22,7 +22,6 @@
       "default": "{{ selfUrl(object) }}"
     },
     "informatieobject": {
-      "type": "string",
       "format": "url",
       "description": "URL-referentie naar het INFORMATIEOBJECT.",
       "title": "informatieobject",
@@ -36,6 +35,7 @@
       "maxLength": 1000
     },
     "objectType": {
+      "type": "string",
       "allOf": [
         {
           "$ref": "https://vng.opencatalogi.nl/schemas/drc.objectTypeEnum.schema.json"

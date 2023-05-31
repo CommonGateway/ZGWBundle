@@ -4,7 +4,7 @@
   "title": "Verzending",
   "type": "object",
   "description": "Set gegevensgroepdata from validated nested data.\n\nUsage: include the mixin on the ModelSerializer that has gegevensgroepen.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "properties": {
     "id": {
       "type": "string",
@@ -78,31 +78,22 @@
       "maxLength": 40
     },
     "binnenlandsCorrespondentieadres": {
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.binnenlandsCorrespondentieadresVerzending.schema.json"
-        }
-      ],
+      "$ref": "https://vng.opencatalogi.nl/schemas/drc.binnenlandsCorrespondentieadresVerzending.schema.json",
+      "type": "object",
       "nullable": true,
       "description": "Het correspondentieadres, betreffende een adresseerbaar object, van de BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT indien dat afwijkt van het reguliere binnenlandse correspondentieadres van BETROKKENE.",
       "title": "binnenlandsCorrespondentieadres"
     },
     "buitenlandsCorrespondentieadres": {
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json"
-        }
-      ],
+      "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json",
+      "type": "object",
       "nullable": true,
       "description": "De gegevens van het adres in het buitenland van BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT en dat afwijkt van de reguliere correspondentiegegevens van BETROKKENE.",
       "title": "buitenlandsCorrespondentieadres"
     },
     "correspondentiePostadres": {
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json"
-        }
-      ],
+      "$ref": "https://vng.opencatalogi.nl/schemas/drc.buitenlandsCorrespondentieadresVerzending.schema.json",
+      "type": "object",
       "nullable": true,
       "description": "De gegevens die tezamen een postbusadres of antwoordnummeradres vormen van BETROKKENE, zijnde afzender of geadresseerde, zoals vermeld in het ontvangen of verzonden INFORMATIEOBJECT en dat afwijkt van de reguliere correspondentiegegevens van BETROKKENE.",
       "title": "correspondentiePostadres"

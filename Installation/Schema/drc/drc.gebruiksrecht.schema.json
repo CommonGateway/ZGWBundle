@@ -22,7 +22,7 @@
       "default": "{{ selfUrl(object) }}"
     },
     "informatieobject": {
-      "type": "string",
+      "type": "object",
       "format": "url",
       "description": "URL-referentie naar het INFORMATIEOBJECT.",
       "title": "informatieobject",
