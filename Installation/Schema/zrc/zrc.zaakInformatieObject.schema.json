@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "title": "ZaakInformatieObject",
     "description": "Er wordt gevalideerd op\n\ngeldigheid zaak URL\ngeldigheid informatieobject URL\nzaak.archiefstatus moet gelijk zijn aan 'nog_te_archiveren'\nde combinatie informatieobject en zaak moet uniek zijn\nOpmerkingen\n\nDe registratiedatum wordt door het systeem op 'NU' gezet. De aardRelatie wordt ook door het systeem gezet.\nBij het aanmaken wordt ook in de Documenten API de gespiegelde relatie aangemaakt, echter zonder de relatie-informatie.",
     "type": "object",
