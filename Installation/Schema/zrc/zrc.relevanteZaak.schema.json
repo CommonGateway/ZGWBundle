@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.relevanteZaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "RelevanteZaak",
   "description": "Een lijst van relevante andere zaken.",
   "type": "object",
@@ -13,12 +13,11 @@
       "deprecated": true
     },
     "url": {
-      "type": "string",
+      "format": "url",
+      "description": "URL-referentie naar de ZAAK.",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
       "required": true,
-      "maxLength": 1000,
-      "minLength": 1,
-      "default": "{{ selfUrl(object) }}",
-      "readOnly": true
+      "maxLength": 1000
     },
     "aardRelatie": {
       "description": "Benamingen van de aard van de relaties van andere zaken tot (onderhanden) zaken.\n\nUitleg bij mogelijke waarden:\n\nvervolg - De andere zaak gaf aanleiding tot het starten van de onderhanden zaak.\nonderwerp - De andere zaak is relevant voor cq. is onderwerp van de onderhanden zaak.\nbijdrage - Aan het bereiken van de uitkomst van de andere zaak levert de onderhanden zaak een bijdrage.",

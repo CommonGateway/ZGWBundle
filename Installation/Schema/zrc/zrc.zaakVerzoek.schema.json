@@ -44,7 +44,7 @@
       "title": "Verzoek",
       "description": "URL-referentie naar de resource die het OBJECT beschrijft.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "maxLength": 1000,
       "required": true
     }

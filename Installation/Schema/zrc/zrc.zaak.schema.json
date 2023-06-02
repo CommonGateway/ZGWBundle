@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "title": "Zaak",
   "description": "Indien geen identificatie gegeven is, dan wordt deze automatisch gegenereerd. De identificatie moet uniek zijn binnen de bronorganisatie.\n\nEr wordt gevalideerd op:\n\ngeldigheid zaaktype URL - de resource moet opgevraagd kunnen worden uit de Catalogi API en de vorm van een ZAAKTYPE hebben.\nzaaktype is geen concept (zaaktype.concept = False)\nlaatsteBetaaldatum mag niet in de toekomst liggen.\nlaatsteBetaaldatum mag niet gezet worden als de betalingsindicatie \"nvt\" is.\nbarchiefnominatie moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefactiedatum moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefstatus kan alleen een waarde anders dan \"nog_te_archiveren\" hebben indien van alle gerelateeerde INFORMATIEOBJECTen het attribuut status de waarde \"gearchiveerd\" heeft.",
   "type": "object",
@@ -114,7 +114,7 @@
       "title": "Communicatiekanaal",
       "description": "Het medium waarlangs de aanleiding om een zaak te starten is ontvangen. URL naar een communicatiekanaal in de VNG-Referentielijst van communicatiekanalen.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "maxLength": 1000
     },
     "productenOfDiensten": {
@@ -123,7 +123,7 @@
       "items": {
         "title": "URL naar product/dienst",
         "type": "string",
-        "format": "uri",
+        "format": "url",
         "maxLength": 1000,
         "minLength": 1
       }
@@ -170,29 +170,29 @@
       "nullable": true
     },
     "zaakgeometrie": {
-      "format": "url",
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json"
     },
     "verlenging": {
-      "format": "url",
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.verlenging.schema.json"
     },
     "opschorting": {
-      "format": "url",
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.opschorting.schema.json"
     },
     "selectielijstklasse": {
       "title": "Selectielijstklasse",
       "description": "URL-referentie naar de categorie in de gehanteerde 'Selectielijst Archiefbescheiden' die, gezien het zaaktype en het resultaattype van de zaak, bepalend is voor het archiefregime van de zaak.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "maxLength": 1000
     },
     "hoofdzaak": {
       "title": "Is deelzaak van",
       "description": "URL-referentie naar de ZAAK, waarom verzocht is door de initiator daarvan, die behandeld wordt in twee of meer separate ZAAKen waarvan de onderhavige ZAAK er één is.",
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "nullable": true
     },
     "deelzaken": {
@@ -209,7 +209,7 @@
     "relevanteAndereZaken": {
       "description": "Een lijst van relevante andere zaken.",
       "type": "array",
-      "format": "url",
+      "format": "json",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.relevanteZaak.schema.json"
       }
@@ -264,6 +264,7 @@
     "kenmerken": {
       "description": "Lijst van kenmerken. Merk op dat refereren naar gerelateerde objecten beter kan via `ZaakObject`.",
       "type": "array",
+      "format": "json",
       "items": {
         "$ref": "https://vng.opencatalogi.nl/schemas/zrc.zaakKenmerk.schema.json"
       }
@@ -332,6 +333,7 @@
       "title": "startdatum bewaartermijn"
     },
     "processobject": {
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.processobject.schema.json",
       "nullable": true,
       "description": "Specificatie van de attribuutsoort van het object, subject of gebeurtenis  waarop, vanuit archiveringsoptiek, de zaak betrekking heeft en dat bepalend is voor de start van de archiefactietermijn.",
