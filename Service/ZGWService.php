@@ -226,6 +226,36 @@ class ZGWService
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
         if ($objectEntity instanceof ObjectEntity) {
+
+            // Cant unlock a non locked object.
+            if ($willBeLocked === false && $objectEntity->getValue('lock') === null) {
+                $errorMsg = "Cant unlock a non locked object";
+            }
+
+            // Cant lock the same object twice.
+            if ($willBeLocked === true && $objectEntity->getValue('lock') !== null) {
+                $errorMsg = "Unlock first before relocking this object";
+            }
+
+            // Check if lock is valid if given.
+            if ($objectEntity->getValue('lock') !== null && (isset($data['body']['lock']) === false || $objectEntity->getValue('lock') !== $data['body']['lock'])) {
+                $errorMsg = "Given lock in body invalid";
+            }
+
+            // Check when unlocking if there is a lock in the body.
+            if ($willBeLocked === false && isset($data['body']['lock']) === false) {
+                $errorMsg = "No lock given in body";
+            }
+
+            // Check errors
+            if (isset($errorMsg) === true) {
+                return ['response' => new Response(
+                    "{\"message\":  \"$errorMsg\"}",
+                    400,
+                    ['content-type' => 'application/json']
+                )];
+            }
+
             $lockId = Uuid::uuid4()->toString();
             $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null]);
             if ($willBeLocked === true) {
