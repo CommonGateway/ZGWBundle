@@ -2,16 +2,16 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class DrcGebruiksrechtHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
+    private DRCService $drcService;
 
-    public function __construct(ZGWService $zgwService)
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
+        $this->drcService = $drcService;
     }
 
     /**
@@ -53,6 +53,6 @@ class DrcGebruiksrechtHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->gebruiksrechtHandler($data, $configuration);
+        return $this->drcService->gebruiksrechtHandler($data, $configuration);
     }
 }

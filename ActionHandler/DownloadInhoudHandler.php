@@ -2,16 +2,16 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class DownloadInhoudHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
+    private DRCService $drcService;
 
-    public function __construct(ZGWService $zgwService)
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
+        $this->drcService = $drcService;
     }
 
     /**
@@ -49,6 +49,6 @@ class DownloadInhoudHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->downloadInhoudHandler($data, $configuration);
+        return $this->drcService->downloadInhoudHandler($data, $configuration);
     }
 }
