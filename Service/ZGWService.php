@@ -177,14 +177,6 @@ class ZGWService
 
     /**
      * Handles the ZGW publish subendpoint.
-     * 
-     * @param array $data from action.
-     * @param array $configuration from action.
-     *
-     * @return array Http response.
-     */
-    /**
-     * Handles the ZGW publish subendpoint.
      *
      * @param array $data from action.
      * @param array $configuration from action.
@@ -201,10 +193,9 @@ class ZGWService
 
         $this->entityManager->persist($object);
         $this->entityManager->flush();
+        $this->cacheService->cacheObject($object);
 
-        $data['response'] = new Response(\Safe\json_encode($object->toArray()), 201, ['Content-Type' => 'application/json']);
-
-        return $data;
+        return ['response' => new Response(\Safe\json_encode($object->toArray()), 201, ['Content-Type' => 'application/json'])];
 
     }//end ztcPublishHandler()
 
