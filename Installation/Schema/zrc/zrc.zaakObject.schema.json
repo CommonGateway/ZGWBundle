@@ -51,7 +51,7 @@
     },
     "zaakobjecttype": {
       "type": "string",
-      "format": "uri",
+      "format": "url",
       "description": "URL-referentie naar het ZAAKOBJECTTYPE (in de Catalogi API).",
       "title": "zaakobjecttype",
       "maxLength": 1000

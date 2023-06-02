@@ -60,7 +60,7 @@
       },
       "gezetdoor": {
         "type": "string",
-        "format": "uri",
+        "format": "url",
         "title": "Gezet door",
         "description": "De BETROKKENE die in zijn/haar ROL in een ZAAK heeft geregistreerd dat STATUSsen in die ZAAK bereikt zijn.",
         "maxLength": 200
