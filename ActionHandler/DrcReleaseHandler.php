@@ -4,18 +4,18 @@ namespace CommonGateway\ZGWBundle\ActionHandler;
 
 use App\Exception\GatewayException;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
-use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
 class DrcReleaseHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
+    private DRCService $drcService;
 
-    public function __construct(ZGWService $zgwService)
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
+        $this->drcService = $drcService;
     }
 
     /**
@@ -50,6 +50,6 @@ class DrcReleaseHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->drcReleaseHandler($data, $configuration);
+        return $this->drcService->drcReleaseHandler($data, $configuration);
     }
 }

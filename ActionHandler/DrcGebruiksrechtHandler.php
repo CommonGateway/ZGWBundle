@@ -2,20 +2,16 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use App\Exception\GatewayException;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
-use CommonGateway\ZGWBundle\Service\ZGWService;
-use Psr\Cache\CacheException;
-use Psr\Cache\InvalidArgumentException;
-use Respect\Validation\Exceptions\ComponentException;
 
-class ZGWHandler implements ActionHandlerInterface
+class DrcGebruiksrechtHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
+    private DRCService $drcService;
 
-    public function __construct(ZGWService $zgwService)
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
+        $this->drcService = $drcService;
     }
 
     /**
@@ -26,12 +22,19 @@ class ZGWHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://example.com/person.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/drc.InhoudHandler.ActionHandler.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'ZGW Action',
+            'title'       => '',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
-            'properties'  => [],
+            'properties'  => [
+                'enkelvoudigInformatieObjectEntityId' => [
+                    'type'        => 'uuid',
+                    'description' => 'The id of the huwelijks entity',
+                    'nullable'    => true,
+                    '$ref'        => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',
+                ],
+            ],
         ];
     }
 
@@ -50,6 +53,6 @@ class ZGWHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->zgwHandler($data, $configuration);
+        return $this->drcService->gebruiksrechtHandler($data, $configuration);
     }
 }

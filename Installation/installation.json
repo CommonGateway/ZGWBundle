@@ -359,7 +359,10 @@
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
         "path": "gebruiksrechten",
-        "methods": []
+        "methods": [],
+        "throws": [
+          "zgw.drc.gebruiksrecht"
+        ]
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json",
@@ -439,6 +442,14 @@
         "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
         "listens": [
           "zgw.drc.enkelvoudigInformatieObject"
+        ]
+      },
+      {
+        "name": "DrcGebruiksrechtAction",
+        "reference": "https://vng.opencatalogi.nl/action/drc.DrcGebruiksrechtAction.action.json",
+        "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcGebruiksrechtHandler",
+        "listens": [
+          "zgw.drc.gebruiksrecht"
         ]
       },
       {
