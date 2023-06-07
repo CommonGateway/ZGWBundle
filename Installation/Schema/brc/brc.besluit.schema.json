@@ -125,12 +125,6 @@
       "type": "string",
       "format": "date",
       "nullable": true
-    },
-    "required": [
-      "verantwoordelijkeOrganisatie",
-      "besluittype",
-      "datum",
-      "ingangsdatum"
-    ]
+    }
   }
 }
