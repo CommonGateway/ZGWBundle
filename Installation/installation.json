@@ -23,6 +23,20 @@
       "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
     ]
   },
+  "schemas": [
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+      "createAuditTrails": true
+    },
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json",
+      "createAuditTrails": true
+    },
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+      "createAuditTrails": true
+    }
+  ],
   "endpoints": {
     "schemas": [
       {
@@ -64,6 +78,19 @@
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "path": "zaken",
         "methods": [],
+        "subEndpoints": [
+          {
+            "description": "Audit Trails",
+            "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+            "path": "audit_trails",
+            "methods": [
+              "GET"
+            ],
+            "throws": [
+              "zgw.get.auditTrails"
+            ]
+          }
+        ],
         "subSchemaEndpoints": [
           {
             "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
@@ -79,17 +106,6 @@
             "methods": [],
             "throws": [
               "zrc.post.zaakbesluit"
-            ]
-          },
-          {
-            "description": "Audit Trails",
-            "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
-            "path": "audit_trails",
-            "methods": [
-              "GET"
-            ],
-            "throws": [
-              "zgw.get.auditTrails"
             ]
           }
         ]

@@ -55,19 +55,16 @@ class AuditTrailService
         $this->data = $data;
         $this->configuration = $configuration;
 
-        if (key_exists('{audit trail._self.id}', $this->data['path']) === true) {
-            $objectId = $this->data['path']['{audit trail._self.id}'];
-        }
-
         if (key_exists('id', $this->data['path']) === true) {
             $objectId = $this->data['path']['id'];
         }
-
+        
         $object = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
         if($object instanceof ObjectEntity === false) {
 
             return $this->data;
         }//end if
+        
         $auditTrailEntity = $this->resourceService->getSchema('https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json', 'common-gateway/zgw-bundle');
         $mapping = $this->resourceService->getMapping('ttps://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json', 'common-gateway/zgw-bundle');
         $auditTrails = $this->entityManager->getRepository('App:AuditTrail')->findBy(['resource' => $objectId]);
