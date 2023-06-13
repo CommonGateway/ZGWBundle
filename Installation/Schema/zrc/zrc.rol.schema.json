@@ -117,7 +117,7 @@
       "maxLength": 1000
     },
     "betrokkeneIdentificatie": {
-      "format": "url",
+      "format": "json",
       "$ref": "https://vng.opencatalogi.nl/schemas/zrc.rolNatuurlijkPersoon.schema.json"
     }
   },
