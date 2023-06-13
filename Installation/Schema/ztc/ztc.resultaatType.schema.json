@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.resultaatType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "type": "object",
     "title": "ResultaatType",
     "properties": {
@@ -26,6 +26,10 @@
             "format": "url",
             "inversedBy": "resultaattypen"
         },
+      "zaaktypeIdentificatie": {
+        "type": "string",
+        "description": "URL-referentie naar het ZAAKTYPE van ZAAKen waarin ROLlen van dit ROLTYPE bereikt kunnen worden."
+      },
         "omschrijving": {
             "type": "string",
             "description": "Omschrijving van de aard van resultaten van het RESULTAATTY",

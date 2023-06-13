@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.eigenschap.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "object",
   "title": "Eigenschap",
   "properties": {
@@ -51,6 +51,14 @@
       "format": "url",
       "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
       "inversedBy": "eigenschappen"
+    },
+    "catalogus": {
+      "format": "url",
+      "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json"
+    },
+    "zaaktypeIdentificatie": {
+      "type": "string",
+      "description": "URL-referentie naar het ZAAKTYPE van ZAAKen waarin STATUSsen van dit STATUSTYPE bereikt kunnen worden."
     },
     "statustype": {
       "format": "url",

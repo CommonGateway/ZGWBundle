@@ -1,7 +1,7 @@
 {
     "$id": "https://vng.opencatalogi.nl/schemas/ztc.statusType.schema.json",
     "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-    "version": "0.1.4",
+    "version": "0.1.6",
     "title": "StatusType",
     "type": "object",
     "properties": {
@@ -42,6 +42,15 @@
             "format": "url",
             "$ref": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
             "inversedBy": "statustypen"
+        },
+      "catalogus": {
+        "format": "url",
+        "$ref": "https://vng.opencatalogi.nl/schemas/ztc.catalogus.schema.json",
+        "inversedBy": "statustypen"
+      },
+        "zaaktypeIdentificatie": {
+            "type": "string",
+            "description": "URL-referentie naar het ZAAKTYPE van ZAAKen waarin STATUSsen van dit STATUSTYPE bereikt kunnen worden."
         },
         "volgnummer": {
             "type": "integer",
