@@ -119,7 +119,6 @@
     },
     "bestandsomvang": {
       "type": "integer",
-      "maximum": 9223372036854776000,
       "minimum": 0,
       "format": "int64",
       "nullable": true,
