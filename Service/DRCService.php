@@ -267,7 +267,7 @@ class DRCService
             $this->entityManager->flush();
 
             $this->data['response'] = new Response(
-                \Safe\json_encode($objectEntity->toArray()),
+                \Safe\json_encode($objectEntity->toArray(['embedded' => true])),
                 $this->data['method'] === 'POST' ? 201 : 200,
                 ['content-type' => 'application/json']
             );
@@ -353,7 +353,7 @@ class DRCService
             $this->entityManager->flush();
 
             $this->data['response'] = new Response(
-                \Safe\json_encode($objectEntity->toArray()),
+                \Safe\json_encode($objectEntity->toArray(['embedded' => true])),
                 $this->data['method'] === 'POST' ? 201 : 200,
                 ['content-type' => 'application/json']
             );
@@ -408,7 +408,7 @@ class DRCService
         $this->entityManager->persist($file);
         $this->entityManager->flush();
 
-        $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray()), 200, ['content-type' => 'application/json']);
+        $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray(['embedded' => true])), 200, ['content-type' => 'application/json']);
 
         return $this->data;
 
