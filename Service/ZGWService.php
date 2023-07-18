@@ -73,7 +73,7 @@ class ZGWService
                 $this->entityManager->persist($zaakBesluit);
                 $this->entityManager->flush();
 
-                $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
+                $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
                 break;
 
             case 'GET':
@@ -90,7 +90,7 @@ class ZGWService
                     $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($besluitId);
                     if ($zaakBesluit instanceof ObjectEntity === true) {
 
-                        $this->data['response'] = new Response(json_encode($zaakBesluit->toArray()), 200);
+                        $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
                     }
                 } else { // else get all besluiten from this zaak.
                     $zaakBesluitEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
@@ -191,7 +191,7 @@ class ZGWService
         $this->entityManager->persist($object);
         $this->entityManager->flush();
 
-        $data['response'] = new Response(\Safe\json_encode($object->toArray()), 201, ['Content-Type' => 'application/json']);
+        $data['response'] = new Response(\Safe\json_encode($object->toArray(['embedded' => true])), 201, ['Content-Type' => 'application/json']);
 
         return $data;
 
