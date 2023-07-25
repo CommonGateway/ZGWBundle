@@ -43,7 +43,8 @@
       "type": "object",
       "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
       "nullable": false,
-      "inversedBy": "bestandsdelen"
+      "inversedBy": "bestandsdelen",
+      "format": "url"
     }
   },
   "required": [

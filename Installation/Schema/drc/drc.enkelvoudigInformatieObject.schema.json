@@ -203,7 +203,8 @@
       },
       "readOnly": true,
       "title": "bestandsdelen",
-      "inversedBy": "informatieObject"
+      "inversedBy": "informatieObject",
+      "format": "json"
     }
   },
   "required": [
