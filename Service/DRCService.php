@@ -299,6 +299,15 @@ class DRCService
 
     }//end generateDownloadEndpoint()
 
+    public function createFilePart($object, $index, $size): array
+    {
+        return [
+            'omvang'           => $size,
+            'voltooid'         => false,
+            'volgnummer'       => $index,
+        ];
+    }
+
 
     /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
@@ -331,6 +340,9 @@ class DRCService
                 throw new HttpException(400, 'Lock not valid');
             }
 
+
+
+
             $data = $objectEntity->toArray();
 
             $file = new File();
@@ -345,7 +357,27 @@ class DRCService
                 }
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
+            } else if($data['inhoud'] === null && $data['link'] === null && $data['bestandsomvang'] !== null) {
+                $parts    = ceil($data['bestandsomvang'] / 1000000);
+
+                $fileParts = [];
+
+                for ($iterator = 0; $iterator < $parts; $iterator++) {
+                    $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts));
+                }
+
+                $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
+
+                $this->entityManager->persist($objectEntity);
+                $this->entityManager->flush();
+
+                $this->data['response'] = new Response(
+                    \Safe\json_encode($objectEntity->toArray()),
+                    $this->data['method'] === 'POST' ? 201 : 200,
+                    ['content-type' => 'application/json']
+                );
             }
+
             $file->setValue($objectEntity->getValueObject('inhoud'));
             $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
             $this->entityManager->persist($file);
@@ -376,8 +408,7 @@ class DRCService
     {
         $this->data = $data;
 
-        $path = $data['path'];
-        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        $objectEntity   = $this->entityManager->getRepository('App:ObjectEntity')->findOneBy(['self' => $data['informatieObject']]);
         $filePartEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json']);
 
         if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {

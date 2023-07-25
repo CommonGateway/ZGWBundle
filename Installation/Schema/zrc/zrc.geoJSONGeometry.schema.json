@@ -35,6 +35,14 @@
       },
       "maxItems": 2,
       "required": true
+    },
+    "geometries":  {
+      "description": "The geometries of the chosen geometry type",
+      "type": "array",
+      "format": "json",
+      "items": {
+        "$ref": "https://vng.opencatalogi.nl/schemas/zrc.geoJSONGeometry.schema.json"
+      }
     }
   },
   "required": [

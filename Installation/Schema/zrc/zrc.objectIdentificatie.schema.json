@@ -47,6 +47,93 @@
       "type": "string",
       "title": "postcode",
       "maxLength": 7
+    },
+    "buurtCode": {
+      "type": "string",
+      "description": "De code behorende bij de naam van de buurt",
+      "title": "buurt code",
+      "maxLength": 2
+    },
+    "buurtNaam": {
+      "type": "string",
+      "description": "De naam van de buurt, zoals die door het CBS wordt gebruikt.",
+      "title": "buurt naam",
+      "maxLength": 40
+    },
+    "gemGemeenteCode": {
+      "type": "string",
+      "description": "Een numerieke aanduiding waarmee een Nederlandse gemeente uniek wordt aangeduid",
+      "title": "gem gemeente code",
+      "maxLength": 4
+    },
+    "wykWijkCode": {
+      "type": "string",
+      "description": "De code behorende bij de naam van de wijk",
+      "title": "wyk wijk code",
+      "maxLength": 2
+    },
+    "gemeenteNaam": {
+      "type": "string",
+      "description": "De officiële door de gemeente vastgestelde gemeentenaam.",
+      "title": "gemeente naam",
+      "maxLength": 80
+    },
+    "gemeenteCode": {
+      "type": "string",
+      "description": "Een numerieke aanduiding waarmee een Nederlandse gemeente uniek wordt aangeduid",
+      "title": "gemeente code",
+      "maxLength": 4
+    },
+    "openbareRuimteNaam": {
+      "type": "string",
+      "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
+      "title": "openbare ruimte naam",
+      "maxLength": 80
+    },
+    "nummer": {
+      "type": "string",
+      "description": "Uniek identificerend administratienummer van een huishouden zoals toegekend door de gemeente waarin het huishouden woonachtig is.",
+      "title": "nummer",
+      "maxLength": 12
+    },
+    "isGehuisvestIn": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ObjectTerreinGebouwdObject"
+        }
+      ],
+      "nullable": true,
+      "title": "isGehuisvestIn"
+    },
+    "naam": {
+      "type": "string",
+      "description": "De benaming van het OBJECT",
+      "title": "naam",
+      "maxLength": 500
+    },
+    "type": {
+      "description": "Specificatie van de aard van het inrichtingselement.",
+      "title": "type"
+    },
+    "kadastraleIdentificatie": {
+      "type": "string",
+      "description": "De unieke identificatie van het OBJECT",
+      "title": "kadastrale identificatie",
+      "maxLength": 100
+    },
+    "kadastraleAanduiding": {
+      "type": "string",
+      "description": "De typering van de kadastrale aanduiding van een onroerende zaak conform Kadaster",
+      "title": "kadastrale aanduiding",
+      "maxLength": 1000
+    },
+    "overigeData": {
+      "type": "array",
+      "title": "overige data"
+    },
+    "adresAanduidingGrp": {
+      "type": "object",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.terreinGebouwdObjectAdres.schema.json"
     }
   },
   "required": [

@@ -38,6 +38,12 @@
       "readOnly": true,
       "description": "Indicatie of dit bestandsdeel volledig is geupload. Dat wil zeggen: het aantal bytes dat staat genoemd bij grootte is daadwerkelijk ontvangen.",
       "title": "voltooid"
+    },
+    "informatieObject": {
+      "type": "object",
+      "$ref": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+      "nullable": false,
+      "inversedBy": "bestandsdelen"
     }
   },
   "required": [

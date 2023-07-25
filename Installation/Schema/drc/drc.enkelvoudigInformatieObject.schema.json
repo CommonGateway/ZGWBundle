@@ -202,7 +202,8 @@
         "$ref": "https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json"
       },
       "readOnly": true,
-      "title": "bestandsdelen"
+      "title": "bestandsdelen",
+      "inversedBy": "informatieObject"
     }
   },
   "required": [
