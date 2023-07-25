@@ -390,6 +390,7 @@
         "reference": "https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json",
         "path": "bestandsdelen",
         "methods": [
+          "GET",
           "PUT"
         ],
         "throws": [
