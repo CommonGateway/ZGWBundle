@@ -1,0 +1,19 @@
+{
+    "title": "ZaakZoekenAction",
+    "$id": "https://vng.opencatalogi.nl/action/zgw.blockDeleteAction.action.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
+    "version": "0.0.1",
+    "listens": ["commongateway.object.pre.create"],
+    "conditions":
+    {
+        "==": [
+          1,1
+        ]
+    },
+    "class": "CommonGateway\\ZGWBundle\\ActionHandler\\IdentificatieHandler",
+    "configuration": {
+      "schema": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+      "property": "identificatie",
+      "value": ""
+    }
+}
