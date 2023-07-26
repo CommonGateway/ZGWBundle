@@ -36,11 +36,11 @@ class DRCService
 
     /**
      * Checks for errors when locking/unlocking enkelvoudiginformatieobject.
-     * 
-     * @param bool         $willBeLocked 
+     *
+     * @param bool         $willBeLocked
      * @param ObjectEntity $objectEntity
      * @param array        $data
-     * 
+     *
      * @return string|null Error message.
      */
     private function checkForLockErrors(bool $willBeLocked, ObjectEntity $objectEntity, array $data): ?string
@@ -73,7 +73,7 @@ class DRCService
 
     /**
      * Handles the ZGW lock and unlock subendpoint.
-     * 
+     *
      * @param array $data from action.
      * @param array $configuration from action.
      *
@@ -124,16 +124,16 @@ class DRCService
         );
 
         return $this->data;
-        
+
     }//end drcLockHandler()
 
 
     /**
      * Checks if gebruiksrecht has a informatieobject.
-     * 
+     *
      * @param array $gebruiksrecht
      * @param array $explodedInfoObject
-     * 
+     *
      * @return array|void
      */
     private function checkGebruiksrechtInfoObject(array $gebruiksrecht, array $explodedInfoObject)
@@ -144,24 +144,24 @@ class DRCService
                 && Uuid::isValid(end($explodedInfoObject)) === false)
         ) {
             $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No id or url given for informatieobject, it is required.']), 400, ['content-type' => 'application/json']);
-        
+
             return $this->data;
         }
     }//end checkGebruiksrechtInfoObject()
-    
+
 
     /**
      * Checks if we have a valid informatieobject.
-     * 
+     *
      * @param ObjectEntity|null $informatieObject
-     * 
+     *
      * @return array|void
      */
     private function checkInformatieObject(?ObjectEntity $informatieObject)
     {
         if ($informatieObject instanceof ObjectEntity === false) {
             $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing informatieobject found with given body, a existing informatieobject is required.']), 403, ['content-type' => 'application/json']);
-        
+
             return $this->data;
         }
     }//end checkInformatieObject()
@@ -172,7 +172,7 @@ class DRCService
      *
      * @param array $data          The data passed by the action.
      * @param array $configuration The configuration of the action.
-     * 
+     *
      * @return array Http response.
      */
     public function gebruiksrechtHandler(array $data, array $configuration): array
@@ -246,7 +246,7 @@ class DRCService
 
     /**
      * Handles the ZGW release subendpoint.
-     * 
+     *
      * @param array $data from action.
      * @param array $configuration from action.
      *
@@ -274,7 +274,7 @@ class DRCService
         }
 
         return $this->data;
-        
+
     }//end drcReleaseHandler()
 
     /**
@@ -299,6 +299,15 @@ class DRCService
 
     }//end generateDownloadEndpoint()
 
+    public function createFilePart($object, $index, $size): array
+    {
+        return [
+            'omvang'           => $size,
+            'voltooid'         => false,
+            'volgnummer'       => $index,
+        ];
+    }
+
 
     /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
@@ -314,6 +323,11 @@ class DRCService
         if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId'] || $data['method'] == 'GET' || $data['method'] == 'DELETE') {
             return $this->data;
         }
+
+        if($data['response']->getStatusCode() !== 200 && $data['response']->getStatusCode() !== 201) {
+            return $this->data;
+        }
+
         $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
@@ -331,21 +345,50 @@ class DRCService
                 throw new HttpException(400, 'Lock not valid');
             }
 
+
+
+
             $data = $objectEntity->toArray();
 
-            $file = new File();
-            $file->setName($data['titel']);
-            $file->setExtension('');
-            $file->setMimeType($data['formaat'] ?? 'application/pdf');
-            $file->setBase64('');
-            $file->setSize(0);
-            if ($data['inhoud']) {
-                if (filter_var($data['inhoud'], FILTER_VALIDATE_URL)) {
-                    return $this->data;
-                }
+            if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
+                $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+            } else {
+                $file = new File();
+                $file->setBase64('');
+                $file->setMimeType($data['formaat'] ?? 'application/pdf');
+                $file->setName($data['titel']);
+                $file->setExtension('');
+                $file->setSize(0);
+            }
+
+            if ($data['inhoud'] !== null && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
+            } else if(($data['inhoud'] === null && $data['link'] === null) || $file->getBase64() === '' && $data['bestandsomvang'] !== null) {
+                $parts    = ceil($data['bestandsomvang'] / 1000000);
+
+                if(count($data['bestandsdelen']) >= $parts) {
+                    return $this->data;
+                }
+
+                $fileParts = [];
+
+                for ($iterator = 0; $iterator < $parts; $iterator++) {
+                    $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts));
+                }
+
+                $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
+
+                $this->entityManager->persist($objectEntity);
+                $this->entityManager->flush();
+
+                $this->data['response'] = new Response(
+                    \Safe\json_encode($objectEntity->toArray()),
+                    $this->data['method'] === 'POST' ? 201 : 200,
+                    ['content-type' => 'application/json']
+                );
             }
+
             $file->setValue($objectEntity->getValueObject('inhoud'));
             $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
             $this->entityManager->persist($file);
@@ -369,16 +412,16 @@ class DRCService
      *
      * @param array $data          The data passed by the action.
      * @param array $configuration The configuration of the action.
-     * 
+     *
      * @return array Http response.
      */
     public function uploadFilePartHandler(array $data, array $configuration): array
     {
         $this->data = $data;
 
-        $path = $data['path'];
-        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
-        $filePartEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json']);
+        $filePart = $this->entityManager->find('App:ObjectEntity', $this->data['path']['id']);
+
+        $objectEntity = $filePart->getValue('informatieObject');
 
         if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->data;
@@ -389,26 +432,21 @@ class DRCService
         }
 
         $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
-        $file->setBase64($file->getBase64().$data['post']['inhoud']);
+        $file->setBase64($file->getBase64().base64_encode($data['post']['inhoud']));
         $file->setSize(mb_strlen($file->getBase64()));
 
-        $responseObject = new ObjectEntity($filePartEntity);
-        $responseObject->hydrate([
-            'url'    => $objectEntity->getSelf(),
+        $filePart->hydrate([
+            'url'    => $filePart->getSelf(),
             'lock'      => $this->data['post']['lock'],
             'omvang'     => mb_strlen(\Safe\base64_decode($data['post']['inhoud'])),
             'voltooid'   => true,
-            'volgnummer' => count($objectEntity->getValue('bestandsdelen')),
         ]);
 
-        $fileParts = $objectEntity->getValueObject('bestandsdelen');
-        $fileParts->addObject($responseObject);
-
-        $this->entityManager->persist($objectEntity);
+        $this->entityManager->persist($filePart);
         $this->entityManager->persist($file);
         $this->entityManager->flush();
 
-        $this->data['response'] = new Response(\Safe\json_encode($responseObject->toArray(['embedded' => true])), 200, ['content-type' => 'application/json']);
+        $this->data['response'] = new Response(\Safe\json_encode($filePart->toArray(['embedded' => true])), 200, ['content-type' => 'application/json']);
 
         return $this->data;
 
