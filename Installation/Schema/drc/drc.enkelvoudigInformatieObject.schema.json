@@ -4,7 +4,7 @@
   "title": "EnkelvoudigInformatieObject",
   "type": "object",
   "description": "Serializer for the EnkelvoudigInformatieObject model",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "properties": {
     "id": {
       "type": "string",
