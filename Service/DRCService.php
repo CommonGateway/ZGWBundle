@@ -319,7 +319,6 @@ class DRCService
      */
     public function inhoudHandler(array $data, array $configuration): array
     {
-        var_dump('Hello darkness my old friend');
         $this->data = $data;
         if (!$configuration['enkelvoudigInformatieObjectEntityId'] || !$configuration['downloadEndpointId'] || $data['method'] == 'GET' || $data['method'] == 'DELETE') {
             return $this->data;
@@ -381,7 +380,6 @@ class DRCService
                 $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
 
                 $this->entityManager->persist($objectEntity);
-                $this->entityManager->flush();
                 $this->entityManager->flush();
 
                 $this->data['response'] = new Response(

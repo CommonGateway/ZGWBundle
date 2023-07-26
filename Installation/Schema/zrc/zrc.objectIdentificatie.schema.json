@@ -97,11 +97,8 @@
       "maxLength": 12
     },
     "isGehuisvestIn": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/ObjectTerreinGebouwdObject"
-        }
-      ],
+      "type": "string",
+      "maxLength": 24,
       "nullable": true,
       "title": "isGehuisvestIn"
     },
