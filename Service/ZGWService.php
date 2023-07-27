@@ -33,6 +33,13 @@ class ZGWService
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    /**
+     * Block deletion if a specified property has been set to a specified value.
+     *
+     * @param array $data
+     * @param array $configuration
+     * @return array
+     */
     public function preventDeleteHandler(array $data, array $configuration): array
     {
         if ($data['object']->getEntity()->getReference() !== $configuration['schema']
@@ -45,7 +52,7 @@ class ZGWService
     }
 
     /**
-     * Sets the value of the property 'identificatie' to its default value if the value is empty
+     * Sets the value of the property 'identificatie' to its default value if the value has a specified value.
      *
      *
      * @param array $data          The object created
