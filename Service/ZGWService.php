@@ -5,6 +5,7 @@
 namespace CommonGateway\ZGWBundle\Service;
 
 use App\Entity\ObjectEntity;
+use App\Exception\GatewayException;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,46 @@ class ZGWService
         $this->entityManager = $entityManager;
         $this->cacheService = $cacheService;
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * Block deletion if a specified property has been set to a specified value.
+     *
+     * @param array $data
+     * @param array $configuration
+     * @return array
+     */
+    public function preventDeleteHandler(array $data, array $configuration): array
+    {
+        if ($data['object']->getEntity()->getReference() !== $configuration['schema']
+            || $data['object']->getValue($configuration['property']) !== $configuration['value']) {
+            return $data;
+        }
+
+
+        throw new GatewayException('Cannot remove an object if it is published');
+    }
+
+    /**
+     * Sets the value of the property 'identificatie' to its default value if the value has a specified value.
+     *
+     *
+     * @param array $data          The object created
+     * @param array $configuration The configuration for the action
+     * @return array
+     */
+    public function overrideValueHandler(array $data, array $configuration): array
+    {
+        if ($data['object']->getEntity()->getReference() !== $configuration['schema']
+            || $data['object']->getValue($configuration['property']) !== '') {
+            return $data;
+        }
+
+        $value = $data['object']->getValueObject($configuration['property']);
+
+        $data['object']->hydrate([$configuration['property'] => $value->getAttribute()->getDefaultValue()]);
+
+        return $data;
     }
 
 
@@ -118,7 +159,7 @@ class ZGWService
 
     /**
      * Handles the ZGW zaakeigenschappen subendpoint.
-     * 
+     *
      * @param array $data from action.
      * @param array $configuration from action.
      *
@@ -160,13 +201,13 @@ class ZGWService
         }//end if
 
         return ['response' => new Response(json_encode($zaakeigenschap->toArray(['embedded' => true])), 201, ['Content-Type' => 'application/json'])];
-        
+
     }//end postZaakEigenschapHandler()
 
 
     /**
      * Handles the ZGW publish subendpoint.
-     * 
+     *
      * @param array $data from action.
      * @param array $configuration from action.
      *
