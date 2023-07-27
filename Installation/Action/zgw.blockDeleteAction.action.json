@@ -1,19 +1,21 @@
 {
-    "title": "ZaakZoekenAction",
-    "$id": "https://vng.opencatalogi.nl/action/zgw.blockDeleteAction.action.json",
-    "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
-    "version": "0.0.1",
-    "listens": ["commongateway.object.pre.delete"],
-    "conditions":
-    {
-        "==": [
-          1,1
-        ]
-    },
-    "class": "CommonGateway\\ZGWBundle\\ActionHandler\\DeleteHandler",
-    "configuration": {
-      "schema": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
-      "property": "concept",
-      "value": false
-    }
+  "title": "BlockNonConceptCaseType",
+  "$id": "https://vng.opencatalogi.nl/action/zgw.blockDeleteAction.action.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
+  "version": "0.0.1",
+  "listens": ["commongateway.object.pre.delete"],
+  "conditions":
+  {
+    "==": [
+      {
+        "var": "entity.reference"
+      }, "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json"
+    ]
+  },
+  "class": "CommonGateway\\ZGWBundle\\ActionHandler\\DeleteHandler",
+  "configuration": {
+    "schema": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
+    "property": "concept",
+    "value": false
+  }
 }
