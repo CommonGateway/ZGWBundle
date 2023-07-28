@@ -345,13 +345,12 @@ class DRCService
                 throw new HttpException(400, 'Lock not valid');
             }
 
-
             $data = $objectEntity->toArray();
 
             if($data['versie'] === null) {
                 $objectEntity->hydrate(['versie' => 1]);
             } else {
-                $objectEntity->hydrate(['versie' => $data['versie']++]);
+                $objectEntity->hydrate(['versie' => ++$data['versie']]);
 
             }
 
@@ -365,7 +364,6 @@ class DRCService
                 $file->setExtension('');
                 $file->setSize(0);
             }
-
             if ($data['inhoud'] !== null && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
@@ -382,7 +380,13 @@ class DRCService
                     $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts));
                 }
 
-                $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
+                if($this->data['method'] === 'POST') {
+                    $lock = Uuid::uuid4()->toString();
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true]);
+                    $objectEntity->setLock($lock);
+                } else {
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
+                }
 
                 $this->entityManager->persist($objectEntity);
                 $this->entityManager->flush();
@@ -443,7 +447,7 @@ class DRCService
         $filePart->hydrate([
             'url'    => $filePart->getSelf(),
             'lock'      => $this->data['post']['lock'],
-            'omvang'     => mb_strlen(\Safe\base64_decode($data['post']['inhoud'])),
+            'omvang'     => mb_strlen($data['post']['inhoud']),
             'voltooid'   => true,
         ]);
 
