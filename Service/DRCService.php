@@ -346,9 +346,14 @@ class DRCService
             }
 
 
-
-
             $data = $objectEntity->toArray();
+
+            if($data['versie'] === null) {
+                $objectEntity->hydrate(['versie' => 1]);
+            } else {
+                $objectEntity->hydrate(['versie' => $data['versie']++]);
+
+            }
 
             if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
                 $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
