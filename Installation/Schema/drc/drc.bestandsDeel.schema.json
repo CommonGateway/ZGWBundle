@@ -45,6 +45,12 @@
       "nullable": false,
       "inversedBy": "bestandsdelen",
       "format": "url"
+    },
+    "lock": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Geeft een uuid weer als het document gelocked is. Met dit uuid kan het object alleen worden aangepast met PUT en PATCH.",
+      "title": "lock"
     }
   },
   "required": [
