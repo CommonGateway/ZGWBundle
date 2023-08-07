@@ -7,6 +7,7 @@ namespace CommonGateway\ZGWBundle\Service;
 use App\Entity\Endpoint;
 use App\Entity\File;
 use App\Entity\ObjectEntity;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -25,9 +26,10 @@ class DRCService
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        ParameterBagInterface $parameterBag,
-        CacheService $cacheService
-    ) {
+        ParameterBagInterface  $parameterBag,
+        CacheService           $cacheService
+    )
+    {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->cacheService = $cacheService;
@@ -102,7 +104,7 @@ class DRCService
         }
 
         $lockId = Uuid::uuid4()->toString();
-        $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null]);
+        $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null, 'bestandsdelen'=> []]);
         if ($willBeLocked === true) {
             $objectEntity->setLock($lockId);
         }
@@ -232,12 +234,33 @@ class DRCService
         $path = $this->data['path'];
 
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
+        $file = $this->entityManager->getRepository('App:File')->find($path['id']);
         if (
-            $objectEntity instanceof ObjectEntity &&
+            $file instanceof File
+        ) {
+            $this->data['response'] = new Response(\Safe\base64_decode($file->getBase64()), 200, ['content-type' => $file->getMimeType()]);
+        } else if (
+            $objectEntity instanceof ObjectEntity === true &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
-            $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+            $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::ASC]);
+
+            if(isset($this->data['query']['versie']) === true) {
+                $this->data['response'] = new Response(
+                    \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[(int)$this->data['query']['versie'] - 1]->getBase64()),
+                    200,
+                    ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+
+                return $this->data;
+            }
+
+            $this->data['response'] = new Response(
+                \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->last()->getBase64()),
+                200,
+                ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]
+            );
         }
+
 
         return $this->data;
 
@@ -261,7 +284,7 @@ class DRCService
         if (
             $objectEntity instanceof ObjectEntity
         ) {
-            $objectEntity->hydrate(['lock' => null, 'locked' => false]);
+            $objectEntity->hydrate(['lock' => null, 'locked' => false, 'bestandsdelen' => []]);
             $objectEntity->setLock(null);
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
@@ -299,12 +322,23 @@ class DRCService
 
     }//end generateDownloadEndpoint()
 
-    public function createFilePart($object, $index, $size): array
+    /**
+     * Generates the content for a new file part.
+     *
+     * @param ObjectEntity $object The object to create a filepart for.
+     * @param int          $index  The index of the filepart
+     * @param int          $size   The size (in Bytes) of the filepart
+     * @param string       $lock   The loc belonging to the object.
+     *
+     * @return array The resulting filepart.
+     */
+    public function createFilePart(ObjectEntity $object, int $index, int $size, string $lock): array
     {
         return [
             'omvang'           => $size,
             'voltooid'         => false,
-            'volgnummer'       => $index,
+            'volgnummer'       => $index + 1,
+            'lock'             => $lock
         ];
     }
 
@@ -324,7 +358,7 @@ class DRCService
             return $this->data;
         }
 
-        if($data['response']->getStatusCode() !== 200 && $data['response']->getStatusCode() !== 201) {
+        if ($data['response']->getStatusCode() !== 200 && $data['response']->getStatusCode() !== 201) {
             return $this->data;
         }
 
@@ -345,14 +379,17 @@ class DRCService
                 throw new HttpException(400, 'Lock not valid');
             }
 
-
-
-
             $data = $objectEntity->toArray();
 
             if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
                 $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
             } else {
+                if ($data['versie'] === null) {
+                    $objectEntity->hydrate(['versie' => 1]);
+                } else {
+                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
+
+                }
                 $file = new File();
                 $file->setBase64('');
                 $file->setMimeType($data['formaat'] ?? 'application/pdf');
@@ -361,23 +398,54 @@ class DRCService
                 $file->setSize(0);
             }
 
-            if ($data['inhoud'] !== null && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
+            if ($data['inhoud'] !== null && $data['inhoud'] !== '' && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
-            } else if(($data['inhoud'] === null && $data['link'] === null) || $file->getBase64() === '' && $data['bestandsomvang'] !== null) {
-                $parts    = ceil($data['bestandsomvang'] / 1000000);
+            } else if (
+                (
+                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                    && ($data['link'] === null || $data['link'] === '')
+                )
+                && isset($this->data['body']['bestandsomvang']) === true
+            ) {
+                if ($data['versie'] === null) {
+                    $objectEntity->hydrate(['versie' => 1]);
+                } else {
+                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
 
-                if(count($data['bestandsdelen']) >= $parts) {
+                }
+                $file = new File();
+                $file->setBase64('');
+                $file->setMimeType($data['formaat'] ?? 'application/pdf');
+                $file->setName($data['titel']);
+                $file->setExtension('');
+                $file->setSize(0);
+
+                $parts = ceil($data['bestandsomvang'] / 1000000);
+
+                if (count($data['bestandsdelen']) >= $parts) {
                     return $this->data;
                 }
 
                 $fileParts = [];
 
-                for ($iterator = 0; $iterator < $parts; $iterator++) {
-                    $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts));
+                if ($objectEntity->getLock() === null) {
+                    $lock = Uuid::uuid4()->toString();
+                    $objectEntity->setLock($lock);
                 }
 
-                $objectEntity->hydrate(['bestandsdelen' => $fileParts]);
+                for ($iterator = 0; $iterator < $parts; $iterator++) {
+                    $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts), $objectEntity->getLock());
+                }
+
+                $this->entityManager->persist($file);
+
+                if ($this->data['method'] === 'POST') {
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                } else {
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                }
+
 
                 $this->entityManager->persist($objectEntity);
                 $this->entityManager->flush();
@@ -390,8 +458,8 @@ class DRCService
             }
 
             $file->setValue($objectEntity->getValueObject('inhoud'));
-            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
             $this->entityManager->persist($file);
+            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
 
@@ -423,22 +491,26 @@ class DRCService
 
         $objectEntity = $filePart->getValue('informatieObject');
 
-        if($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
+        if ($objectEntity->getEntity()->getId()->toString() !== $configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->data;
         }
 
         if($objectEntity->getLock() !== $this->data['post']['lock']) {
-            throw new HttpException(400, 'Lock not valid');
+            $this->data['response'] = new Response(\Safe\json_encode(['Error' => "Lock {$this->data['post']['lock']} not valid"]), 400, ['content-type' => 'application/json']);
+            return $this->data;
         }
 
-        $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+
+        $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::DESC]);
+
+        $file = $objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->first();
         $file->setBase64($file->getBase64().base64_encode($data['post']['inhoud']));
         $file->setSize(mb_strlen($file->getBase64()));
 
         $filePart->hydrate([
             'url'    => $filePart->getSelf(),
             'lock'      => $this->data['post']['lock'],
-            'omvang'     => mb_strlen(\Safe\base64_decode($data['post']['inhoud'])),
+            'omvang'     => mb_strlen($data['post']['inhoud']),
             'voltooid'   => true,
         ]);
 
