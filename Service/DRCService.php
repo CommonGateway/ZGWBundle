@@ -244,14 +244,21 @@ class DRCService
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
             $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::ASC]);
-            switch(isset($this->data['query']['versie']) === true) {
-                case true:
-                    $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[(int)$this->data['query']['versie'] - 1]->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
-                    break;
-                case false:
-                    $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->last()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
-                    break;
+
+            if(isset($this->data['query']['versie']) === true) {
+                $this->data['response'] = new Response(
+                    \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[(int)$this->data['query']['versie'] - 1]->getBase64()),
+                    200,
+                    ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+
+                return $this->data;
             }
+
+            $this->data['response'] = new Response(
+                \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->last()->getBase64()),
+                200,
+                ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]
+            );
         }
 
 
@@ -315,7 +322,17 @@ class DRCService
 
     }//end generateDownloadEndpoint()
 
-    public function createFilePart($object, $index, $size, string $lock): array
+    /**
+     * Generates the content for a new file part.
+     *
+     * @param ObjectEntity $object The object to create a filepart for.
+     * @param int          $index  The index of the filepart
+     * @param int          $size   The size (in Bytes) of the filepart
+     * @param string       $lock   The loc belonging to the object.
+     *
+     * @return array The resulting filepart.
+     */
+    public function createFilePart(ObjectEntity $object, int $index, int $size, string $lock): array
     {
         return [
             'omvang'           => $size,
@@ -384,7 +401,13 @@ class DRCService
             if ($data['inhoud'] !== null && $data['inhoud'] !== '' && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
-            } else if ((($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud']) && ($data['link'] === null || $data['link'] === '')) && isset($this->data['body']['bestandsomvang']) === true) {
+            } else if (
+                (
+                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                    && ($data['link'] === null || $data['link'] === '')
+                )
+                && isset($this->data['body']['bestandsomvang']) === true
+            ) {
                 if ($data['versie'] === null) {
                     $objectEntity->hydrate(['versie' => 1]);
                 } else {
