@@ -243,7 +243,15 @@ class DRCService
             $objectEntity instanceof ObjectEntity === true &&
             $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
-            $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->first()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+            $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::ASC]);
+            switch(isset($this->data['query']['versie']) === true) {
+                case true:
+                    $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[(int)$this->data['query']['versie'] - 1]->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+                    break;
+                case false:
+                    $this->data['response'] = new Response(\Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->last()->getBase64()), 200, ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+                    break;
+            }
         }
 
 
@@ -356,16 +364,15 @@ class DRCService
 
             $data = $objectEntity->toArray();
 
-            if ($data['versie'] === null) {
-                $objectEntity->hydrate(['versie' => 1]);
-            } else {
-                $objectEntity->hydrate(['versie' => ++$data['versie']]);
-
-            }
-
             if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
                 $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
             } else {
+                if ($data['versie'] === null) {
+                    $objectEntity->hydrate(['versie' => 1]);
+                } else {
+                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
+
+                }
                 $file = new File();
                 $file->setBase64('');
                 $file->setMimeType($data['formaat'] ?? 'application/pdf');
@@ -378,6 +385,12 @@ class DRCService
                 $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
                 $file->setBase64($data['inhoud']);
             } else if ((($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud']) && ($data['link'] === null || $data['link'] === '')) && isset($this->data['body']['bestandsomvang']) === true) {
+                if ($data['versie'] === null) {
+                    $objectEntity->hydrate(['versie' => 1]);
+                } else {
+                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
+
+                }
                 $file = new File();
                 $file->setBase64('');
                 $file->setMimeType($data['formaat'] ?? 'application/pdf');
@@ -405,9 +418,9 @@ class DRCService
                 $this->entityManager->persist($file);
 
                 if ($this->data['method'] === 'POST') {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($file->getId()->toString(), $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
                 } else {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($file->getId()->toString(), $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
                 }
 
 
@@ -423,7 +436,7 @@ class DRCService
 
             $file->setValue($objectEntity->getValueObject('inhoud'));
             $this->entityManager->persist($file);
-            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($file->getId()->toString(), $downloadEndpoint)]);
+            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
 
