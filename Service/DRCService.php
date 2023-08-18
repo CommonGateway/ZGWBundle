@@ -440,12 +440,12 @@ class DRCService
 
                 $this->entityManager->persist($file);
 
+                $now = new \DateTime();
                 if ($this->data['method'] === 'POST') {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
                 } else {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint), 'beginRegistratie' => $now->format('c')]);
                 }
-
 
                 $this->entityManager->persist($objectEntity);
                 $this->entityManager->flush();
