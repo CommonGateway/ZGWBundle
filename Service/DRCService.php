@@ -343,6 +343,22 @@ class DRCService
     }
 
 
+    /**
+     * Creates or updates a file associated with a given ObjectEntity instance.
+     *
+     * This method handles the logic for creating or updating a file based on
+     * provided data. If an existing file is associated with the ObjectEntity,
+     * it updates the file's properties; otherwise, it creates a new file. 
+     * It also sets the response data based on the method used (POST or other) 
+     * and if the `$setResponse` parameter is set to `true`.
+     *
+     * @param ObjectEntity $objectEntity    The object entity associated with the file.
+     * @param array        $data            Data associated with the file such as title, format, and content.
+     * @param Endpoint     $downloadEndpoint Endpoint to use for downloading the file.
+     * @param bool         $setResponse      Determines if a response should be set, default is `true`.
+     *
+     * @return void
+     */
     public function createOrUpdateFile(ObjectEntity $objectEntity, array $data, Endpoint $downloadEndpoint, bool $setResponse = true): void
     {
         if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
@@ -388,7 +404,7 @@ class DRCService
             $parts = ceil($data['bestandsomvang'] / 1000000);
 
             if (count($data['bestandsdelen']) >= $parts) {
-                return $this->data;
+                return;
             }
 
             $fileParts = [];
