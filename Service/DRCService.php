@@ -403,7 +403,7 @@ class DRCService
                 $file->setBase64($data['inhoud']);
             } else if (
                 (
-                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'] || $data['inhoud'] === '')
                     && ($data['link'] === null || $data['link'] === '')
                 )
                 && isset($this->data['body']['bestandsomvang']) === true
@@ -440,12 +440,12 @@ class DRCService
 
                 $this->entityManager->persist($file);
 
+                $now = new \DateTime();
                 if ($this->data['method'] === 'POST') {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
                 } else {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
+                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint), 'beginRegistratie' => $now->format('c')]);
                 }
-
 
                 $this->entityManager->persist($objectEntity);
                 $this->entityManager->flush();

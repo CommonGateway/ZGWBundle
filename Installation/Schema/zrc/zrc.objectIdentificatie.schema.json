@@ -9,29 +9,25 @@
       "title": "identificatie",
       "description": "De unieke identificatie van het OBJECT.",
       "type": "string",
-      "maxLength": 100,
-      "required": true
+      "maxLength": 100
     },
     "wplWoonplaatsNaam": {
       "type": "string",
       "title": "wpl woonplaats naam",
       "description": "De unieke identificatie van het OBJECT",
-      "maxLength": 80,
-      "required": true
+      "maxLength": 80
     },
     "gorOpenbareRuimteNaam": {
       "type": "string",
       "title": "gor openbare ruimte naam",
       "description": "Een door het bevoegde gemeentelijke orgaan aan een OPENBARE RUIMTE toegekende benaming",
-      "maxLength": 80,
-      "required": true
+      "maxLength": 80
     },
     "huisnummer": {
       "type": "integer",
       "title": "huisnummer",
       "minimum": 0,
-      "maximum": 99999,
-      "required": true
+      "maximum": 99999
     },
     "huisletter": {
       "type": "string",
