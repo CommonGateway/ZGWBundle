@@ -403,7 +403,7 @@ class DRCService
                 $file->setBase64($data['inhoud']);
             } else if (
                 (
-                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'] || $data['inhoud'] === '')
                     && ($data['link'] === null || $data['link'] === '')
                 )
                 && isset($this->data['body']['bestandsomvang']) === true
