@@ -1,6 +1,6 @@
 {
   "title": "UnsetEmptyValue",
-  "$id": "https://vng.opencatalogi.nl/action/zgw.blockDeleteAction.action.json",
+  "$id": "https://vng.opencatalogi.nl/action/zgw.unsetValueAction.action.json",
   "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
   "version": "0.0.1",
   "listens": ["commongateway.object.pre.create"],
