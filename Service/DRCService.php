@@ -344,6 +344,118 @@ class DRCService
 
 
     /**
+     * Creates or updates a file associated with a given ObjectEntity instance.
+     *
+     * This method handles the logic for creating or updating a file based on
+     * provided data. If an existing file is associated with the ObjectEntity,
+     * it updates the file's properties; otherwise, it creates a new file. 
+     * It also sets the response data based on the method used (POST or other) 
+     * and if the `$setResponse` parameter is set to `true`.
+     *
+     * @param ObjectEntity $objectEntity    The object entity associated with the file.
+     * @param array        $data            Data associated with the file such as title, format, and content.
+     * @param Endpoint     $downloadEndpoint Endpoint to use for downloading the file.
+     * @param bool         $setResponse      Determines if a response should be set, default is `true`.
+     *
+     * @return void
+     */
+    public function createOrUpdateFile(ObjectEntity $objectEntity, array $data, Endpoint $downloadEndpoint, bool $setResponse = true): void
+    {
+        if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
+            $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
+        } else {
+            if ($data['versie'] === null) {
+                $objectEntity->hydrate(['versie' => 1]);
+            } else {
+                $objectEntity->hydrate(['versie' => ++$data['versie']]);
+
+            }
+            $file = new File();
+            $file->setBase64('');
+            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setName($data['titel']);
+            $file->setExtension('');
+            $file->setSize(0);
+        }
+
+        if ($data['inhoud'] !== null && $data['inhoud'] !== '' && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
+            $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
+            $file->setBase64($data['inhoud']);
+        } else if (
+            (
+                ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                && ($data['link'] === null || $data['link'] === '')
+            )
+            && isset($this->data['body']['bestandsomvang']) === true
+        ) {
+            if ($data['versie'] === null) {
+                $objectEntity->hydrate(['versie' => 1]);
+            } else {
+                $objectEntity->hydrate(['versie' => ++$data['versie']]);
+
+            }
+            $file = new File();
+            $file->setBase64('');
+            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setName($data['titel']);
+            $file->setExtension('');
+            $file->setSize(0);
+
+            $parts = ceil($data['bestandsomvang'] / 1000000);
+
+            if (count($data['bestandsdelen']) >= $parts) {
+                return;
+            }
+
+            $fileParts = [];
+
+            if ($objectEntity->getLock() === null) {
+                $lock = Uuid::uuid4()->toString();
+                $objectEntity->setLock($lock);
+            }
+
+            for ($iterator = 0; $iterator < $parts; $iterator++) {
+                $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts), $objectEntity->getLock());
+            }
+
+            $this->entityManager->persist($file);
+
+            if ($this->data['method'] === 'POST') {
+                $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
+            } else {
+                $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
+            }
+
+
+            $this->entityManager->persist($objectEntity);
+            $this->entityManager->flush();
+
+            if ($setResponse === true) {
+                $this->data['response'] = new Response(
+                    \Safe\json_encode($objectEntity->toArray()),
+                    $this->data['method'] === 'POST' ? 201 : 200,
+                    ['content-type' => 'application/json']
+                );
+            }
+        }
+
+        $file->setValue($objectEntity->getValueObject('inhoud'));
+        $this->entityManager->persist($file);
+        $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
+        $this->entityManager->persist($objectEntity);
+        $this->entityManager->flush();
+
+        if ($setResponse === true) {
+            $this->data['response'] = new Response(
+                \Safe\json_encode($objectEntity->toArray(['embedded' => true])),
+                $this->data['method'] === 'POST' ? 201 : 200,
+                ['content-type' => 'application/json']
+            );
+        }
+    }
+
+
+    /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
      *
      * @param array $data The data passed by the action.
@@ -381,93 +493,7 @@ class DRCService
 
             $data = $objectEntity->toArray();
 
-            if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
-                $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
-            } else {
-                if ($data['versie'] === null) {
-                    $objectEntity->hydrate(['versie' => 1]);
-                } else {
-                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
-
-                }
-                $file = new File();
-                $file->setBase64('');
-                $file->setMimeType($data['formaat'] ?? 'application/pdf');
-                $file->setName($data['titel']);
-                $file->setExtension('');
-                $file->setSize(0);
-            }
-
-            if ($data['inhoud'] !== null && $data['inhoud'] !== '' && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
-                $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
-                $file->setBase64($data['inhoud']);
-            } else if (
-                (
-                    ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'] || $data['inhoud'] === '')
-                    && ($data['link'] === null || $data['link'] === '')
-                )
-                && isset($this->data['body']['bestandsomvang']) === true
-            ) {
-                if ($data['versie'] === null) {
-                    $objectEntity->hydrate(['versie' => 1]);
-                } else {
-                    $objectEntity->hydrate(['versie' => ++$data['versie']]);
-
-                }
-                $file = new File();
-                $file->setBase64('');
-                $file->setMimeType($data['formaat'] ?? 'application/pdf');
-                $file->setName($data['titel']);
-                $file->setExtension('');
-                $file->setSize(0);
-
-                $parts = ceil($data['bestandsomvang'] / 1000000);
-
-                if (count($data['bestandsdelen']) >= $parts) {
-                    return $this->data;
-                }
-
-                $fileParts = [];
-
-                if ($objectEntity->getLock() === null) {
-                    $lock = Uuid::uuid4()->toString();
-                    $objectEntity->setLock($lock);
-                }
-
-                for ($iterator = 0; $iterator < $parts; $iterator++) {
-                    $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts), $objectEntity->getLock());
-                }
-
-                $this->entityManager->persist($file);
-
-                $now = new \DateTime();
-                if ($this->data['method'] === 'POST') {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'lock' => $lock, 'locked' => true, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
-                } else {
-                    $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint), 'beginRegistratie' => $now->format('c')]);
-                }
-
-                $this->entityManager->persist($objectEntity);
-                $this->entityManager->flush();
-
-                $this->data['response'] = new Response(
-                    \Safe\json_encode($objectEntity->toArray()),
-                    $this->data['method'] === 'POST' ? 201 : 200,
-                    ['content-type' => 'application/json']
-                );
-            }
-
-            $file->setValue($objectEntity->getValueObject('inhoud'));
-            $this->entityManager->persist($file);
-            $objectEntity->hydrate(['inhoud' => $this->generateDownloadEndpoint($objectId, $downloadEndpoint)]);
-            $this->entityManager->persist($objectEntity);
-            $this->entityManager->flush();
-
-            $this->data['response'] = new Response(
-                \Safe\json_encode($objectEntity->toArray(['embedded' => true])),
-                $this->data['method'] === 'POST' ? 201 : 200,
-                ['content-type' => 'application/json']
-            );
+            $this->createOrUpdateFile($objectEntity, $data, $downloadEndpoint);
         }//end if
 
         return $this->data;
