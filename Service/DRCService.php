@@ -35,6 +35,18 @@ class DRCService
         $this->cacheService = $cacheService;
     }
 
+    /**
+     * Makes it possible to override the data and configuration from another in order to reuse functions from other services
+     *
+     * @param $data
+     * @param $configuration
+     * @return void
+     */
+    public function setDataAndConfiguration($data, $configuration) {
+        $this->data = $data;
+        $this->configuration = $configuration;
+    }
+
 
     /**
      * Checks for errors when locking/unlocking enkelvoudiginformatieobject.
@@ -348,8 +360,8 @@ class DRCService
      *
      * This method handles the logic for creating or updating a file based on
      * provided data. If an existing file is associated with the ObjectEntity,
-     * it updates the file's properties; otherwise, it creates a new file. 
-     * It also sets the response data based on the method used (POST or other) 
+     * it updates the file's properties; otherwise, it creates a new file.
+     * It also sets the response data based on the method used (POST or other)
      * and if the `$setResponse` parameter is set to `true`.
      *
      * @param ObjectEntity $objectEntity    The object entity associated with the file.
