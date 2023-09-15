@@ -36,11 +36,6 @@
     },
     "objectType": {
       "type": "string",
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.objectTypeEnum.schema.json"
-        }
-      ],
       "title": "Objecttype",
       "description": "Het type van het gerelateerde OBJECT.\n\nUitleg bij mogelijke waarden:\n\n* `besluit` - Besluit\n* `zaak` - Zaak"
     }

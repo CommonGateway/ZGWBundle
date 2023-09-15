@@ -36,11 +36,6 @@
       "title": "informatieobject"
     },
     "aardRelatie": {
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.aardRelatieEnum.schema.json"
-        }
-      ],
       "description": "Omschrijving van de aard van de relatie van de BETROKKENE tot het INFORMATIEOBJECT.",
       "title": "aard relatie"
     },
