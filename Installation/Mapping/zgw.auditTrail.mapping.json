@@ -2,7 +2,7 @@
   "title": "ZGWAuditTrail",
   "$id": "ttps://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "passTrough": false,
   "mapping": {
     "uuid": "uuid",
@@ -18,6 +18,8 @@
     "resourceUrl": "resourceUrl",
     "resourceWeergave": "resourceView",
     "wijzigingen": "amendments",
-    "aanmaakdatum": "creationDate"
+    "aanmaakdatum": "creationDate",
+    "hoofdObject": "parentObject"
   }
 }
+  
