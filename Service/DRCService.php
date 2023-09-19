@@ -1,7 +1,6 @@
 <?php
 
 // src/Service/DRCService.php
-
 namespace CommonGateway\ZGWBundle\Service;
 
 use App\Entity\Endpoint;
@@ -18,34 +17,41 @@ class DRCService
 {
     
     private array $configuration;
+    
     private array $data;
     
     private EntityManagerInterface $entityManager;
+    
     private ParameterBagInterface $parameterBag;
+    
     private CacheService $cacheService;
+    
     
     public function __construct(
         EntityManagerInterface $entityManager,
-        ParameterBagInterface  $parameterBag,
-        CacheService           $cacheService
-    )
-    {
+        ParameterBagInterface $parameterBag,
+        CacheService $cacheService
+    ) {
         $this->entityManager = $entityManager;
-        $this->parameterBag = $parameterBag;
-        $this->cacheService = $cacheService;
-    }
+        $this->parameterBag  = $parameterBag;
+        $this->cacheService  = $cacheService;
+        
+    }//end __construct()
+    
     
     /**
      * Makes it possible to override the data and configuration from another in order to reuse functions from other services
      *
-     * @param $data
-     * @param $configuration
+     * @param  $data
+     * @param  $configuration
      * @return void
      */
-    public function setDataAndConfiguration($data, $configuration) {
-        $this->data = $data;
+    public function setDataAndConfiguration($data, $configuration)
+    {
+        $this->data          = $data;
         $this->configuration = $configuration;
-    }
+        
+    }//end setDataAndConfiguration()
     
     
     /**
@@ -88,7 +94,7 @@ class DRCService
     /**
      * Handles the ZGW lock and unlock subendpoint.
      *
-     * @param array $data from action.
+     * @param array $data          from action.
      * @param array $configuration from action.
      *
      * @return array Http response.
@@ -96,7 +102,7 @@ class DRCService
     public function drcLockHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        $path = $this->data['path'];
+        $path       = $this->data['path'];
         
         $willBeLocked = isset($path['lock']);
         
@@ -108,27 +114,30 @@ class DRCService
         // Check errors
         $errorMsg = $this->checkForLockErrors($willBeLocked, $objectEntity, $data);
         if (isset($errorMsg) === true) {
-            return ['response' => new Response(
-                \Safe\json_encode(["message" => $errorMsg]),
-                400,
-                ['content-type' => 'application/json']
-            )];
+            return [
+                'response' => new Response(
+                    \Safe\json_encode(["message" => $errorMsg]),
+                    400,
+                    ['content-type' => 'application/json']
+                ),
+            ];
         }
         
         $lockId = Uuid::uuid4()->toString();
-        $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null, 'bestandsdelen'=> []]);
+        $objectEntity->hydrate(['lock' => $willBeLocked ? $lockId : null, 'locked' => $willBeLocked ?? null, 'bestandsdelen' => []]);
         if ($willBeLocked === true) {
             $objectEntity->setLock($lockId);
         }
+        
         $this->entityManager->persist($objectEntity);
         $this->entityManager->flush();
         
         if ($willBeLocked === true) {
             $responseBody = \Safe\json_encode(['lock' => $lockId]);
-            $statusCode = 200;
+            $statusCode   = 200;
         } else {
             $responseBody = null;
-            $statusCode = 204;
+            $statusCode   = 204;
         }
         
         $this->data['response'] = new Response(
@@ -161,6 +170,7 @@ class DRCService
             
             return $this->data;
         }
+        
     }//end checkGebruiksrechtInfoObject()
     
     
@@ -178,6 +188,7 @@ class DRCService
             
             return $this->data;
         }
+        
     }//end checkInformatieObject()
     
     
@@ -231,7 +242,7 @@ class DRCService
     /**
      * Returns the data from an document as a response.
      *
-     * @param array $data The data passed by the action.
+     * @param array $data          The data passed by the action.
      * @param array $configuration The configuration of the action.
      *
      * @return array
@@ -242,26 +253,26 @@ class DRCService
         if (!$configuration['enkelvoudigInformatieObjectEntityId']) {
             return $this->$data;
         }
+        
         $parameters = $this->data;
-        $path = $this->data['path'];
+        $path       = $this->data['path'];
         
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
-        $file = $this->entityManager->getRepository('App:File')->find($path['id']);
-        if (
-            $file instanceof File
+        $file         = $this->entityManager->getRepository('App:File')->find($path['id']);
+        if ($file instanceof File
         ) {
             $this->data['response'] = new Response(\Safe\base64_decode($file->getBase64()), 200, ['content-type' => $file->getMimeType()]);
-        } else if (
-            $objectEntity instanceof ObjectEntity === true &&
-            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
+        } else if ($objectEntity instanceof ObjectEntity === true
+            && $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
             $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::ASC]);
             
-            if(isset($this->data['query']['versie']) === true) {
+            if (isset($this->data['query']['versie']) === true) {
                 $this->data['response'] = new Response(
-                    \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[(int)$this->data['query']['versie'] - 1]->getBase64()),
+                    \Safe\base64_decode($objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)[((int) $this->data['query']['versie'] - 1)]->getBase64()),
                     200,
-                    ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]);
+                    ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]
+                );
                 
                 return $this->data;
             }
@@ -271,8 +282,7 @@ class DRCService
                 200,
                 ['content-type' => $objectEntity->getValueObject('inhoud')->getFiles()->first()->getMimeType()]
             );
-        }
-        
+        }//end if
         
         return $this->data;
         
@@ -282,7 +292,7 @@ class DRCService
     /**
      * Handles the ZGW release subendpoint.
      *
-     * @param array $data from action.
+     * @param array $data          from action.
      * @param array $configuration from action.
      *
      * @return array Http response.
@@ -290,11 +300,10 @@ class DRCService
     public function drcReleaseHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        $path = $this->data['path'];
+        $path       = $this->data['path'];
         
         $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($path['id']);
-        if (
-            $objectEntity instanceof ObjectEntity
+        if ($objectEntity instanceof ObjectEntity
         ) {
             $objectEntity->hydrate(['lock' => null, 'locked' => false, 'bestandsdelen' => []]);
             $objectEntity->setLock(null);
@@ -312,10 +321,11 @@ class DRCService
         
     }//end drcReleaseHandler()
     
+    
     /**
      * Generates a download endpoint from the id of an 'Enkelvoudig Informatie Object' and the endpoint for downloads.
      *
-     * @param string $id The id of the Enkelvoudig Informatie Object.
+     * @param string   $id               The id of the Enkelvoudig Informatie Object.
      * @param Endpoint $downloadEndpoint The endpoint for downloads.
      *
      * @return string The endpoint to download the document from.
@@ -324,7 +334,7 @@ class DRCService
     {
         // Unset the last / from the app_url.
         $baseUrl = rtrim($this->parameterBag->get('app_url'), '/');
-
+        
         $pathArray = $downloadEndpoint->getPath();
         foreach ($pathArray as $key => $value) {
             if ($value == 'id' || $value == '[id]' || $value == '{id}') {
@@ -332,9 +342,10 @@ class DRCService
             }
         }
         
-        return $baseUrl . '/api/' . implode('/', $pathArray);
+        return $baseUrl.'/api/'.implode('/', $pathArray);
         
     }//end generateDownloadEndpoint()
+    
     
     /**
      * Generates the content for a new file part.
@@ -349,12 +360,13 @@ class DRCService
     public function createFilePart(ObjectEntity $object, int $index, int $size, string $lock): array
     {
         return [
-            'omvang'           => $size,
-            'voltooid'         => false,
-            'volgnummer'       => $index + 1,
-            'lock'             => $lock
+            'omvang'     => $size,
+            'voltooid'   => false,
+            'volgnummer' => ($index + 1),
+            'lock'       => $lock,
         ];
-    }
+        
+    }//end createFilePart()
     
     
     /**
@@ -366,14 +378,14 @@ class DRCService
      * It also sets the response data based on the method used (POST or other)
      * and if the `$setResponse` parameter is set to `true`.
      *
-     * @param ObjectEntity $objectEntity    The object entity associated with the file.
-     * @param array        $data            Data associated with the file such as title, format, and content.
+     * @param ObjectEntity $objectEntity     The object entity associated with the file.
+     * @param array        $data             Data associated with the file such as title, format, and content.
      * @param Endpoint     $downloadEndpoint Endpoint to use for downloading the file.
      * @param bool         $setResponse      Determines if a response should be set, default is `true`.
      *
      * @return void
      */
-    public function createOrUpdateFile(ObjectEntity $objectEntity, array $data, Endpoint $downloadEndpoint, bool $setResponse = true): void
+    public function createOrUpdateFile(ObjectEntity $objectEntity, array $data, Endpoint $downloadEndpoint, bool $setResponse=true): void
     {
         if ($objectEntity->getValueObject('inhoud')->getFiles()->count() > 0) {
             $file = $objectEntity->getValueObject('inhoud')->getFiles()->first();
@@ -382,11 +394,11 @@ class DRCService
                 $objectEntity->hydrate(['versie' => 1]);
             } else {
                 $objectEntity->hydrate(['versie' => ++$data['versie']]);
-                
             }
+            
             $file = new File();
             $file->setBase64('');
-            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setMimeType(($data['formaat'] ?? 'application/pdf'));
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setSize(0);
@@ -395,27 +407,24 @@ class DRCService
         if ($data['inhoud'] !== null && $data['inhoud'] !== '' && filter_var($data['inhoud'], FILTER_VALIDATE_URL) === false) {
             $file->setSize(mb_strlen(base64_decode($data['inhoud'])));
             $file->setBase64($data['inhoud']);
-        } else if (
-            (
-                ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
-                && ($data['link'] === null || $data['link'] === '')
-            )
+        } else if ((            ($data['inhoud'] === null || filter_var($data['inhoud'], FILTER_VALIDATE_URL) === $data['inhoud'])
+                && ($data['link'] === null || $data['link'] === ''))
             && isset($this->data['body']['bestandsomvang']) === true
         ) {
             if ($data['versie'] === null) {
                 $objectEntity->hydrate(['versie' => 1]);
             } else {
                 $objectEntity->hydrate(['versie' => ++$data['versie']]);
-                
             }
+            
             $file = new File();
             $file->setBase64('');
-            $file->setMimeType($data['formaat'] ?? 'application/pdf');
+            $file->setMimeType(($data['formaat'] ?? 'application/pdf'));
             $file->setName($data['titel']);
             $file->setExtension('');
             $file->setSize(0);
             
-            $parts = ceil($data['bestandsomvang'] / 1000000);
+            $parts = ceil(($data['bestandsomvang'] / 1000000));
             
             if (count($data['bestandsdelen']) >= $parts) {
                 return;
@@ -429,7 +438,7 @@ class DRCService
             }
             
             for ($iterator = 0; $iterator < $parts; $iterator++) {
-                $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil($data['bestandsomvang'] / $parts), $objectEntity->getLock());
+                $fileParts[] = $this->createFilePart($objectEntity, $iterator, ceil(($data['bestandsomvang'] / $parts)), $objectEntity->getLock());
             }
             
             $this->entityManager->persist($file);
@@ -439,7 +448,6 @@ class DRCService
             } else {
                 $objectEntity->hydrate(['bestandsdelen' => $fileParts, 'inhoud' => $this->generateDownloadEndpoint($objectEntity->getId()->toString(), $downloadEndpoint)]);
             }
-            
             
             $this->entityManager->persist($objectEntity);
             $this->entityManager->flush();
@@ -451,7 +459,7 @@ class DRCService
                     ['content-type' => 'application/json']
                 );
             }
-        }
+        }//end if
         
         $file->setValue($objectEntity->getValueObject('inhoud'));
         $this->entityManager->persist($file);
@@ -466,13 +474,14 @@ class DRCService
                 ['content-type' => 'application/json']
             );
         }
-    }
+        
+    }//end createOrUpdateFile()
     
     
     /**
      * Stores content of an Enkelvoudig Informatie Object into a File resource, shows link in object.
      *
-     * @param array $data The data passed by the action.
+     * @param array $data          The data passed by the action.
      * @param array $configuration The configuration for the action.
      *
      * @return array
@@ -490,11 +499,10 @@ class DRCService
         
         $objectId = json_decode($data['response']->getContent(), true)['_self']['id'];
         
-        $objectEntity = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
+        $objectEntity     = $this->entityManager->getRepository('App:ObjectEntity')->find($objectId);
         $downloadEndpoint = $this->entityManager->getRepository('App:Endpoint')->findOneBy(['reference' => $configuration['downloadEndpointId']]);
-        if (
-            $objectEntity instanceof ObjectEntity &&
-            $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
+        if ($objectEntity instanceof ObjectEntity
+            && $objectEntity->getEntity()->getId()->toString() == $configuration['enkelvoudigInformatieObjectEntityId']
         ) {
             if ($objectEntity->getLock() !== null
                 && (key_exists('lock', $this->data['body']) === false
@@ -535,11 +543,10 @@ class DRCService
             return $this->data;
         }
         
-        if($objectEntity->getLock() !== $this->data['post']['lock']) {
+        if ($objectEntity->getLock() !== $this->data['post']['lock']) {
             $this->data['response'] = new Response(\Safe\json_encode(['Error' => "Lock {$this->data['post']['lock']} not valid"]), 400, ['content-type' => 'application/json']);
             return $this->data;
         }
-        
         
         $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::DESC]);
         
@@ -547,12 +554,14 @@ class DRCService
         $file->setBase64($file->getBase64().base64_encode($data['post']['inhoud']));
         $file->setSize(mb_strlen($file->getBase64()));
         
-        $filePart->hydrate([
-            'url'    => $filePart->getSelf(),
-            'lock'      => $this->data['post']['lock'],
-            'omvang'     => mb_strlen($data['post']['inhoud']),
-            'voltooid'   => true,
-        ]);
+        $filePart->hydrate(
+            [
+                'url'      => $filePart->getSelf(),
+                'lock'     => $this->data['post']['lock'],
+                'omvang'   => mb_strlen($data['post']['inhoud']),
+                'voltooid' => true,
+            ]
+        );
         
         $this->entityManager->persist($filePart);
         $this->entityManager->persist($file);
