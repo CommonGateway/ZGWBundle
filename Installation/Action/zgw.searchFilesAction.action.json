@@ -3,7 +3,7 @@
     "$id": "https://vng.opencatalogi.nl/action/zgw.EnkelvoudigInformatieobjectZoekenAction.action.json",
     "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
     "version": "0.0.1",
-    "listens": ["zrc.enkelvoudigInformatieObject.zoek"],
+    "listens": ["drc.enkelvoudigInformatieObject.zoek"],
     "conditions":
     {
         "==": [

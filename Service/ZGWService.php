@@ -383,7 +383,7 @@ class ZGWService
             $filters['_page'] = $data['query']['page'];
         }
         
-        $objects  = $this->cacheService->retrieveObjectsFromCache($filters);
+        $objects  = $this->cacheService->retrieveObjectsFromCache($filters, []);
         
         $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
         

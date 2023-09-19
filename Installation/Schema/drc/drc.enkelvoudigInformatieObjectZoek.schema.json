@@ -1,0 +1,19 @@
+{
+  "$id": "https://vng.opencatalogi.nl/schemas/zrc.enkelvoudigInformatieObjectZoek.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.0.1",
+  "title": "EnkelvoudigInformatieObjectZoek",
+  "type": "object",
+  "persist": false,
+  "properties": {
+    "uuid__in": {
+      "description": "Array of unieke resource identifiers (UUID4)",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "example": "[\"e80b7507-199a-484c-ad49-c41a1e43a6e7\", \"78e12133-c467-4202-91ba-4417baa52801\"]"
+    }
+  }
+}

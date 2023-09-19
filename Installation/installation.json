@@ -374,6 +374,15 @@
         ]
       },
       {
+        "$id": "https://vng.opencatalogi.nl/EntityEndpoint/EnkelvoudigInformatieObject._zoeken.endpoint.json",
+        "reference": "https://vng.opencatalogi.nl/schemas/zrc.enkelvoudigInformatieObjectZoek.schema.json",
+        "name": "EnkelvoudigInformatieObject _zoeken",
+        "path": "enkelvoudiginformatieobjecten/_zoek",
+        "pathRegex": "^drc/v1/enkelvoudiginformatieobjecten/_zoek$",
+        "methods": ["POST"],
+        "throws": ["drc.enkelvoudigInformatieObject.zoek"]
+      },
+      {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
         "path": "gebruiksrechten",
         "methods": [],
