@@ -13,6 +13,15 @@ use CommonGateway\CoreBundle\Service\CacheService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Event\ActionEvent;
 
+/**
+ * Service to handle ZGW specific BL.
+ *
+ * @Author Robert Zondervan <robert@conduction.nl>, Barry Brands <barry@conduction.nl>, Sarai Misidjan <sarai@conduction.nl>, Wilco Louwerse <wilco@conduction.nl>
+ *
+ * @license EUPL <https://github.com/ConductionNL/contactcatalogus/blob/master/LICENSE.md>
+ *
+ * @category Service
+ */
 class ZGWService
 {
 

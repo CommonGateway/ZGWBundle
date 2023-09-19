@@ -542,7 +542,7 @@ class DRCService
         $criteria = Criteria::create()->orderBy(['dateCreated' => Criteria::DESC]);
 
         $file = $objectEntity->getValueObject('inhoud')->getFiles()->matching($criteria)->first();
-        $file->setBase64($file->getBase64().base64_encode($data['post']['inhoud']));
+        $file->setBase64($file->getBase64() . base64_encode($data['post']['inhoud']));
         $file->setSize(mb_strlen($file->getBase64()));
 
         $filePart->hydrate([
