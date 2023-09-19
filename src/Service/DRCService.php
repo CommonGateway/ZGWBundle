@@ -334,7 +334,7 @@ class DRCService
     {
         // Unset the last / from the app_url.
         $baseUrl = rtrim($this->parameterBag->get('app_url'), '/');
-        
+
         $pathArray = $downloadEndpoint->getPath();
         foreach ($pathArray as $key => $value) {
             if ($value == 'id' || $value == '[id]' || $value == '{id}') {
