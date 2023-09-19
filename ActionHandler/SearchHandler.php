@@ -11,17 +11,29 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class SearchHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
 
+    /**
+     * @var ZGWService
+     */
+    private ZGWService $zgwService;
+    
+    
+    /**
+     * The contructor.
+     *
+     * @param ZGWService $zgwService The ZGW Service.
+     */
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+        
+    }//end __construct()
+
 
     /**
-     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
+     * This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
-     * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
+     * @return array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
@@ -33,7 +45,7 @@ class SearchHandler implements ActionHandlerInterface
             'required'    => [],
             'properties'  => [],
         ];
-    }
+    }//end getConfiguration()
 
     /**
      * This function runs the service.
@@ -46,5 +58,5 @@ class SearchHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->searchHandler($data, $configuration);
-    }
-}
+    }//end run()
+}//end class
