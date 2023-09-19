@@ -25,12 +25,12 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"CommonGateway\\ZGWBundle\\" : ""
+			"CommonGateway\\ZGWBundle\\" : "src/"
 		}
 	},
     "scripts": {
-        "post-package-install": "bin/console common-gateway/zgw-bundle",
-        "post-package-update": "bin/console common-gateway/zgw-bundle",
-        "post-package-uninstall": "bin/console common-gateway/zgw-bundle"
+        "post-package-install": "bin/console commongateway:install common-gateway/zgw-bundle",
+        "post-package-update": "bin/console commongateway:update common-gateway/zgw-bundle",
+        "post-package-uninstall": "bin/console commongateway:uninstall common-gateway/zgw-bundle"
     }
 }

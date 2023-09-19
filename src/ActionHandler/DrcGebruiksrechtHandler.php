@@ -2,38 +2,47 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use App\Exception\GatewayException;
-use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 use CommonGateway\ZGWBundle\Service\DRCService;
-use Psr\Cache\CacheException;
-use Psr\Cache\InvalidArgumentException;
-use Respect\Validation\Exceptions\ComponentException;
+use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
-class DrcReleaseHandler implements ActionHandlerInterface
+class DrcGebruiksrechtHandler implements ActionHandlerInterface
 {
+
     private DRCService $drcService;
+
 
     public function __construct(DRCService $drcService)
     {
         $this->drcService = $drcService;
-    }
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/drc.InhoudHandler.ActionHandler.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Release document so others can update it',
+            'title'       => '',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
-            'properties'  => [],
+            'properties'  => [
+                'enkelvoudigInformatieObjectEntityId' => [
+                    'type'        => 'uuid',
+                    'description' => 'The id of the huwelijks entity',
+                    'nullable'    => true,
+                    '$ref'        => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',
+                ],
+            ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,6 +59,9 @@ class DrcReleaseHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->drcService->drcReleaseHandler($data, $configuration);
-    }
-}
+        return $this->drcService->gebruiksrechtHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class
