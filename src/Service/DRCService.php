@@ -92,7 +92,7 @@ class DRCService
 
 
     /**
-     * Handles the ZGW lock and unlock subendpoint.
+     * Handles the ZGW lock and unlock sub endpoint.
      *
      * @param array $data          from action.
      * @param array $configuration from action.
