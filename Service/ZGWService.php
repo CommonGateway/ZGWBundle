@@ -7,7 +7,7 @@ namespace CommonGateway\ZGWBundle\Service;
 use App\Entity\ObjectEntity;
 use App\Exception\GatewayException;
 use Doctrine\ORM\EntityManagerInterface;
-use Ramsey\Uuid\Uuid;;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use CommonGateway\CoreBundle\Service\CacheService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -346,6 +346,49 @@ class ZGWService
 
         return $data;
 
+    }//end searchHandler()
+    
+    /**
+     * Searches enkelvoudiginformatieobjecten based on the search endpoint
+     *
+     * @param array $data   The input data for the action.
+     * @param array $config The configuration for the action.
+     *
+     * @return array The objects found in the cache.
+     *
+     * @throws \Safe\Exceptions\JsonException
+     */
+    public function searchFilesHandler(array $data, array $config): array
+    {
+        if (isset($data['body']['uuid_in']) === false) {
+            $errorContent = ['invalidParams' => ['name' => 'uuid_in', 'reason' => 'Not present in request body']];
+            $data['response'] = new Response(\Safe\json_encode($errorContent), 400, ['content-type' => 'application/json']);
+            
+            return $data;
+        }
+        
+        $uuidIn = $data['body']['uuid_in'];
+        
+        $filters = [];
+        foreach ($uuidIn as $id) {
+            if (Uuid::isValid($id) === false) {
+                continue;
+            }
+            $filters['_id']['$in'][] = $id;
+        }
+        
+        $filters['_self.schema.ref'] = ['$in' => ['https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json']];
+        
+        if (isset($data['query']['page']) === true) {
+            $filters['_page'] = $data['query']['page'];
+        }
+        
+        $objects  = $this->cacheService->retrieveObjectsFromCache($filters);
+        
+        $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
+        
+        return $data;
+        
     }//end searchHandler()
 
 }//end class

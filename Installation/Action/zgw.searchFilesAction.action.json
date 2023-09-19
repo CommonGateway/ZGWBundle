@@ -1,0 +1,18 @@
+{
+    "title": "EnkelvoudigInformatieObjectZoekenAction",
+    "$id": "https://vng.opencatalogi.nl/action/zgw.EnkelvoudigInformatieobjectZoekenAction.action.json",
+    "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
+    "version": "0.0.1",
+    "listens": ["zrc.enkelvoudigInformatieObject.zoek"],
+    "conditions":
+    {
+        "==": [
+          {
+            "var": "method"
+          },
+          "POST"
+        ]
+    },
+    "class": "CommonGateway\\ZGWBundle\\ActionHandler\\SearchFilesHandler",
+    "configuration": {}
+}

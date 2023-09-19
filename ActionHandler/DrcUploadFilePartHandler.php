@@ -15,7 +15,7 @@ class DrcUploadFilePartHandler implements ActionHandlerInterface
     }
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */

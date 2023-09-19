@@ -9,7 +9,7 @@ use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class SearchHandler implements ActionHandlerInterface
+class SearchFilesHandler implements ActionHandlerInterface
 {
     private ZGWService $zgwService;
 
@@ -26,10 +26,10 @@ class SearchHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/SearchHandler.ActionHandler.json',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/SearchFilesHandler.ActionHandler.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Search Handler',
-            'description' => 'This handler searches case',
+            'title'       => 'Search Files Handler',
+            'description' => 'This handler searches enkelvoudiginformatieobjecten by given uuid_in and returns them',
             'required'    => [],
             'properties'  => [],
         ];
@@ -45,6 +45,6 @@ class SearchHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->searchHandler($data, $configuration);
+        return $this->zgwService->searchFilesHandler($data, $configuration);
     }
 }
