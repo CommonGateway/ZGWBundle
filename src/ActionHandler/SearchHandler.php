@@ -16,8 +16,8 @@ class SearchHandler implements ActionHandlerInterface
      * @var ZGWService
      */
     private ZGWService $zgwService;
-    
-    
+
+
     /**
      * The contructor.
      *
@@ -26,7 +26,7 @@ class SearchHandler implements ActionHandlerInterface
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-        
+
     }//end __construct()
 
 
@@ -45,7 +45,9 @@ class SearchHandler implements ActionHandlerInterface
             'required'    => [],
             'properties'  => [],
         ];
+
     }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -58,5 +60,8 @@ class SearchHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->searchHandler($data, $configuration);
+
     }//end run()
+
+
 }//end class

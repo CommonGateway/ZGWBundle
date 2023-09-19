@@ -7,12 +7,16 @@ use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class DownloadInhoudHandler implements ActionHandlerInterface
 {
+
     private DRCService $drcService;
+
 
     public function __construct(DRCService $drcService)
     {
         $this->drcService = $drcService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -37,7 +41,9 @@ class DownloadInhoudHandler implements ActionHandlerInterface
                 ],
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,5 +56,8 @@ class DownloadInhoudHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->drcService->downloadInhoudHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

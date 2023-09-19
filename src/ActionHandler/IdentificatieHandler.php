@@ -11,12 +11,16 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class IdentificatieHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -32,19 +36,19 @@ class IdentificatieHandler implements ActionHandlerInterface
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
             'properties'  => [
-                'schema'  => [
+                'schema'   => [
                     'type'        => 'string',
                     'description' => 'The reference to the schema to update.',
                     'example'     => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',
                     'nullable'    => true,
                 ],
-                'property'  => [
+                'property' => [
                     'type'        => 'string',
                     'description' => 'The property to override.',
                     'example'     => 'identificatie',
                     'nullable'    => true,
                 ],
-                'value'  => [
+                'value'    => [
                     'type'        => 'string',
                     'description' => 'The value that should be overridden.',
                     'example'     => '',
@@ -52,7 +56,9 @@ class IdentificatieHandler implements ActionHandlerInterface
                 ],
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -70,5 +76,8 @@ class IdentificatieHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->overrideValueHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

@@ -11,7 +11,7 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class SearchFilesHandler implements ActionHandlerInterface
 {
-    
+
     /**
      * @var ZGWService
      */
@@ -45,7 +45,9 @@ class SearchFilesHandler implements ActionHandlerInterface
             'required'    => [],
             'properties'  => [],
         ];
+
     }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -58,5 +60,8 @@ class SearchFilesHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->searchFilesHandler($data, $configuration);
+
     }//end run()
+
+
 }//end class

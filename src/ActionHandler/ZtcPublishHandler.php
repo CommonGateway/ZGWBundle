@@ -11,12 +11,16 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class ZtcPublishHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -33,7 +37,9 @@ class ZtcPublishHandler implements ActionHandlerInterface
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -51,5 +57,8 @@ class ZtcPublishHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->ztcPublishHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

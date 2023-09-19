@@ -11,12 +11,16 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class DeleteHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -32,28 +36,30 @@ class DeleteHandler implements ActionHandlerInterface
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
             'properties'  => [
-                'schema'  => [
+                'schema'   => [
                     'type'        => 'string',
                     'description' => 'The reference to the schema to block deletes for',
                     'example'     => 'https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json',
                     'nullable'    => true,
                 ],
-                'property'  => [
+                'property' => [
                     'type'        => 'string',
                     'description' => 'The property of the schema that can block deletion.',
                     'example'     => 'concept',
                     'nullable'    => true,
                 ],
-                'value'  => [
+                'value'    => [
                     'type'        => 'boolean',
                     'description' => 'The value that blocks deletion of an object.',
                     'example'     => false,
                     'nullable'    => true,
                 ],
-                
+
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -71,5 +77,8 @@ class DeleteHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->preventDeleteHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

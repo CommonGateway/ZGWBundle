@@ -11,12 +11,16 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class AuditTrailHandler implements ActionHandlerInterface
 {
+
     private AuditTrailService $auditTrailService;
+
 
     public function __construct(AuditTrailService $auditTrailService)
     {
         $this->auditTrailService = $auditTrailService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -33,7 +37,9 @@ class AuditTrailHandler implements ActionHandlerInterface
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -51,5 +57,8 @@ class AuditTrailHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->auditTrailService->auditTrailHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

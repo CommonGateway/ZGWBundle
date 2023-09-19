@@ -15,8 +15,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class ZGWBundle extends Bundle
 {
-    
-    
+
+
     /**
      * Returns the path the bundle is in.
      *
@@ -25,8 +25,8 @@ class ZGWBundle extends Bundle
     public function getPath(): string
     {
         return \dirname(__DIR__);
-        
+
     }//end getPath()
-    
-    
+
+
 }//end class

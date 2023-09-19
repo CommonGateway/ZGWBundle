@@ -1,7 +1,6 @@
 <?php
 
 // src/Service/ZGWService.php
-
 namespace CommonGateway\ZGWBundle\Service;
 
 use App\Entity\ObjectEntity;
@@ -26,52 +25,60 @@ class ZGWService
 {
 
     private array $configuration;
+
     private array $data;
 
     private EntityManagerInterface $entityManager;
+
     private CacheService $cacheService;
+
     private EventDispatcherInterface $eventDispatcher;
+
 
     public function __construct(
         EntityManagerInterface $entityManager,
         CacheService $cacheService,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->entityManager = $entityManager;
-        $this->cacheService = $cacheService;
+        $this->entityManager   = $entityManager;
+        $this->cacheService    = $cacheService;
         $this->eventDispatcher = $eventDispatcher;
-    }
+
+    }//end __construct()
+
 
     /**
      * Block deletion if a specified property has been set to a specified value.
      *
-     * @param array $data
-     * @param array $configuration
+     * @param  array $data
+     * @param  array $configuration
      * @return array
      */
     public function preventDeleteHandler(array $data, array $configuration): array
     {
         if ($data['object']->getEntity()->getReference() !== $configuration['schema']
-            || $data['object']->getValue($configuration['property']) !== $configuration['value']) {
+            || $data['object']->getValue($configuration['property']) !== $configuration['value']
+        ) {
             return $data;
         }
 
-
         throw new GatewayException('Cannot remove an object if it is published');
-    }
+
+    }//end preventDeleteHandler()
+
 
     /**
      * Sets the value of the property 'identificatie' to its default value if the value has a specified value.
      *
-     *
-     * @param array $data          The object created
-     * @param array $configuration The configuration for the action
+     * @param  array $data          The object created
+     * @param  array $configuration The configuration for the action
      * @return array
      */
     public function overrideValueHandler(array $data, array $configuration): array
     {
         if ($data['object']->getEntity()->getReference() !== $configuration['schema']
-            || $data['object']->getValue($configuration['property']) !== '') {
+            || $data['object']->getValue($configuration['property']) !== ''
+        ) {
             return $data;
         }
 
@@ -80,7 +87,8 @@ class ZGWService
         $data['object']->hydrate([$configuration['property'] => $value->getAttribute()->getDefaultValue()]);
 
         return $data;
-    }
+
+    }//end overrideValueHandler()
 
 
     /**
@@ -93,73 +101,69 @@ class ZGWService
      */
     public function postZaakBesluitHandler(array $data, array $configuration): array
     {
-        $this->data = $data;
+        $this->data          = $data;
         $this->configuration = $configuration;
-        $method = $this->data['method'];
+        $method              = $this->data['method'];
 
-        $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
+        $explodedArray  = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
         $explodedZaakId = explode('/besluiten', $explodedArray[1]);
-        $zaakId = $explodedZaakId[0];
+        $zaakId         = $explodedZaakId[0];
 
         $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
-        if($zaak instanceof ObjectEntity === false) {
-
+        if ($zaak instanceof ObjectEntity === false) {
             return $this->data;
         }//end if
 
         // var_dump($zaak->toArray()['besluiten']);
-
         switch ($method) {
-            case 'POST':
-            case 'PUT':
-            case 'PATCH':
-                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find(json_decode($this->data['response']->getContent(), true)['_id']);
-                if($zaakBesluit instanceof ObjectEntity === false) {
+        case 'POST':
+        case 'PUT':
+        case 'PATCH':
+            $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find(json_decode($this->data['response']->getContent(), true)['_id']);
+            if ($zaakBesluit instanceof ObjectEntity === false) {
+                return $this->data;
+            }//end if
 
-                    return $this->data;
-                }//end if
+            $zaakBesluit->hydrate(['zaak' => $zaak]);
+            $this->entityManager->persist($zaakBesluit);
+            $this->entityManager->flush();
 
-                $zaakBesluit->hydrate(['zaak' => $zaak]);
-                $this->entityManager->persist($zaakBesluit);
-                $this->entityManager->flush();
+            $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
+            break;
 
-                $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
-                break;
+        case 'GET':
+            // Get besluit id.
+            $cutPath           = explode('/', $this->data['pathRaw']);
+            $possibleBesluitId = end($cutPath);
 
-            case 'GET':
-                // Get besluit id.
-                $cutPath = explode('/', $this->data['pathRaw']);
-                $possibleBesluitId = end($cutPath);
+            if (Uuid::isValid($possibleBesluitId) === true) {
+                $besluitId = $possibleBesluitId;
+            }//end if
 
-                if (Uuid::isValid($possibleBesluitId) === true) {
-                    $besluitId = $possibleBesluitId;
-                }//end if
+            // Get single besluit.
+            if (isset($besluitId) === true) {
+                $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($besluitId);
+                if ($zaakBesluit instanceof ObjectEntity === true) {
+                    $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
+                }
+            } else {
+                // else get all besluiten from this zaak.
+                $zaakBesluitEntity        = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
+                $zaakBesluitZaakAttribute = $this->entityManager->getRepository('App:Attribute')->findOneBy(['entity' => $zaakBesluitEntity, 'name' => 'zaak']);
+                // Get all values from the correct attribute that have the current zaak as stringValue.
+                $zaakBesluitValues = $this->entityManager->getRepository('App:Value')->findBy(['attribute' => $zaakBesluitZaakAttribute, 'stringValue' => $zaakId]);
 
-                // Get single besluit.
-                if (isset($besluitId) === true) {
-                    $zaakBesluit = $this->entityManager->getRepository('App:ObjectEntity')->find($besluitId);
-                    if ($zaakBesluit instanceof ObjectEntity === true) {
+                $zaakBesluiten = [];
+                // Get object of each value so we can return it.
+                foreach ($zaakBesluitValues as $value) {
+                    $zaakBesluiten[] = $value->getObjectEntity()->toArray();
+                }
 
-                        $this->data['response'] = new Response(json_encode($zaakBesluit->toArray(['embedded' => true])), 200);
-                    }
-                } else { // else get all besluiten from this zaak.
-                    $zaakBesluitEntity = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json']);
-                    $zaakBesluitZaakAttribute = $this->entityManager->getRepository('App:Attribute')->findOneBy(['entity' => $zaakBesluitEntity, 'name' => 'zaak']);
-                    // Get all values from the correct attribute that have the current zaak as stringValue.
-                    $zaakBesluitValues = $this->entityManager->getRepository('App:Value')->findBy(['attribute' => $zaakBesluitZaakAttribute, 'stringValue' => $zaakId]);
+                $resultArray = $this->cacheService->handleResultPagination([], $zaakBesluiten, count($zaakBesluiten));
 
-                    $zaakBesluiten = [];
-                    // Get object of each value so we can return it.
-                    foreach ($zaakBesluitValues as $value) {
-                        $zaakBesluiten[] = $value->getObjectEntity()->toArray();
-                    }
-
-                    $resultArray = $this->cacheService->handleResultPagination([], $zaakBesluiten, count($zaakBesluiten));
-
-                    $this->data['response'] = new Response(json_encode($resultArray), 200);
-                }//end if
+                $this->data['response'] = new Response(json_encode($resultArray), 200);
+            }//end if
         }//end switch
-
 
         return $this->data;
 
@@ -169,20 +173,20 @@ class ZGWService
     /**
      * Handles the ZGW zaakeigenschappen subendpoint.
      *
-     * @param array $data from action.
+     * @param array $data          from action.
      * @param array $configuration from action.
      *
      * @return array Http response.
      */
     public function postZaakEigenschapHandler(array $data, array $configuration): array
     {
-        $this->data = $data;
+        $this->data          = $data;
         $this->configuration = $configuration;
 
         if ($this->data['method'] == 'POST' || $this->data['method'] == 'PUT') {
-            $explodedArray = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
+            $explodedArray  = explode('/api/zrc/v1/zaken/', $this->data['pathRaw']);
             $explodedZaakId = explode('/zaakeigenschappen', $explodedArray[1]);
-            $zaakId = $explodedZaakId[0];
+            $zaakId         = $explodedZaakId[0];
 
             $zaak = $this->entityManager->getRepository('App:ObjectEntity')->find($zaakId);
             if (!$zaak instanceof ObjectEntity) {
@@ -222,10 +226,12 @@ class ZGWService
      *
      * @return array Http response.
      */
+
+
     /**
      * Handles the ZGW publish subendpoint.
      *
-     * @param array $data from action.
+     * @param array $data          from action.
      * @param array $configuration from action.
      *
      * @return array Http response.
@@ -236,6 +242,7 @@ class ZGWService
         if (!$object instanceof ObjectEntity) {
             return $data;
         }
+
         $object->hydrate(['concept' => false]);
 
         $this->entityManager->persist($object);
@@ -260,75 +267,74 @@ class ZGWService
      */
     public function searchHandler(array $data, array $config): array
     {
-        $parameters = $data['body'];
-        $filters = [];
-        $order = [];
+        $parameters                  = $data['body'];
+        $filters                     = [];
+        $order                       = [];
         $filters['_self.schema.ref'] = ['$in' => ['https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json']];
-        foreach($parameters as $parameter => $value) {
+        foreach ($parameters as $parameter => $value) {
             $paramArray = explode('__', $parameter);
 
             // First catch GeoJSON field and create the mongoDB filter for that.
-            if($parameter === 'zaakgeometrie') {
-                $filters['embedded.zaakgeometrie'] = [
+            if ($parameter === 'zaakgeometrie') {
+                $filters['embedded.zaakgeometrie']                                             = [
                     '$geoWithin' => [
                         '$geometry' => $value['within'],
                     ],
                 ];
-                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][] =
-                    $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][0];
-                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'] =
-                    [$filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][] = $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates'][0];
+                $filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']   = [$filters['embedded.zaakgeometrie']['$geoWithin']['$geometry']['coordinates']];
 
                 continue;
             }//end if
 
             // Otherwise, create the mongoDB filters for the other fields.
             switch (end($paramArray)) {
-                case 'in':
-                    array_pop($paramArray);
-                    $filter = ['$in' => $value];
-                    break;
-                case 'isnull':
-                    array_pop($paramArray);
-                    if ($value === false) {
-                        $filter = ['$ne' => null];
-                    } else {
-                        $filter = null;
-                    }
-                    break;
-                case 'gt':
-                    array_pop($paramArray);
-                    $filter = ['$gt' => $value];
-                    break;
-                case 'gte':
-                    array_pop($paramArray);
-                    $filter = ['$gte' => $value];
-                    break;
-                case 'lt':
-                    array_pop($paramArray);
-                    $filter = ['$lt' => $value];
-                    break;
-                case 'lte':
-                    array_pop($paramArray);
-                    $filter = ['$lte' => $value];
-                    break;
-                case 'ordering':
-                    if (substr($value, 0, 1) === '-') {
-                        $order[substr($value, 1)] = -1;
-                    } else {
-                        $order[$value] = 1;
-                    }
-                default:
-                    $filter = $value;
-                    break;
+            case 'in':
+                array_pop($paramArray);
+                $filter = ['$in' => $value];
+                break;
+            case 'isnull':
+                array_pop($paramArray);
+                if ($value === false) {
+                    $filter = ['$ne' => null];
+                } else {
+                    $filter = null;
+                }
+                break;
+            case 'gt':
+                array_pop($paramArray);
+                $filter = ['$gt' => $value];
+                break;
+            case 'gte':
+                array_pop($paramArray);
+                $filter = ['$gte' => $value];
+                break;
+            case 'lt':
+                array_pop($paramArray);
+                $filter = ['$lt' => $value];
+                break;
+            case 'lte':
+                array_pop($paramArray);
+                $filter = ['$lte' => $value];
+                break;
+            case 'ordering':
+                if (substr($value, 0, 1) === '-') {
+                    $order[substr($value, 1)] = -1;
+                } else {
+                    $order[$value] = 1;
+                }
+
+            default:
+                $filter = $value;
+                break;
             }//end switch
 
             // Create a key with embedded in it.
             // Chosen solution feels a bit sketchy, especially because embedded is not always correctly filled.
             $key = '';
-            foreach($paramArray as $paramPart) {
+            foreach ($paramArray as $paramPart) {
                 array_shift($paramArray);
-                if(count($paramArray) === 0 && $key === '') {
+                if (count($paramArray) === 0 && $key === '') {
                     $key = $paramPart;
                     break;
                 }
@@ -340,13 +346,12 @@ class ZGWService
                 } else if (count($paramArray) === 0) {
                     $key .= '.'.$paramPart;
                 }
-
             }//end foreach
+
             $filters[$key] = $filter;
         }//end foreach
 
-
-        $objects  = $this->cacheService->retrieveObjectsFromCache(
+        $objects = $this->cacheService->retrieveObjectsFromCache(
             $filters,
             ['sort' => $order]
         );
@@ -356,7 +361,8 @@ class ZGWService
         return $data;
 
     }//end searchHandler()
-    
+
+
     /**
      * Searches enkelvoudiginformatieobjecten based on the search endpoint
      *
@@ -370,34 +376,41 @@ class ZGWService
     public function searchFilesHandler(array $data, array $config): array
     {
         if (isset($data['body']['uuid_in']) === false) {
-            $errorContent = ['invalidParams' => ['name' => 'uuid_in', 'reason' => 'Not present in request body']];
+            $errorContent     = [
+                'invalidParams' => [
+                    'name'   => 'uuid_in',
+                    'reason' => 'Not present in request body',
+                ],
+            ];
             $data['response'] = new Response(\Safe\json_encode($errorContent), 400, ['content-type' => 'application/json']);
-            
+
             return $data;
         }
-        
+
         $uuidIn = $data['body']['uuid_in'];
-        
+
         $filters = [];
         foreach ($uuidIn as $id) {
             if (Uuid::isValid($id) === false) {
                 continue;
             }
+
             $filters['_id']['$in'][] = $id;
         }
-        
+
         $filters['_self.schema.ref'] = ['$in' => ['https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json']];
-        
+
         if (isset($data['query']['page']) === true) {
             $filters['_page'] = $data['query']['page'];
         }
-        
-        $objects  = $this->cacheService->retrieveObjectsFromCache($filters, []);
-        
+
+        $objects = $this->cacheService->retrieveObjectsFromCache($filters, []);
+
         $data['response'] = new Response(\Safe\json_encode($objects), 200, ['content-type' => 'application/json']);
-        
+
         return $data;
-        
-    }//end searchHandler()
+
+    }//end searchFilesHandler()
+
 
 }//end class
