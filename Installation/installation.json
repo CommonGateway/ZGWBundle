@@ -112,6 +112,15 @@
         ]
       },
       {
+        "$id": "https://vng.opencatalogi.nl/EntityEndpoint/Zaak._zoeken.endpoint.json",
+        "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakZoek.schema.json",
+        "name": "Zaak _zoeken",
+        "path": "zaken/_zoek",
+        "pathRegex": "^zrc/v1/zaken/_zoek$",
+        "methods": [],
+        "throws": ["zrc.zaak.zoek"]
+      },
+      {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
         "path": "zaakobjecten",
         "methods": [
