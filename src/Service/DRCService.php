@@ -240,6 +240,48 @@ class DRCService
 
 
     /**
+     * Handles gebruiksrecht DELETE logic.
+     *
+     * @param array $data          The data passed by the action.
+     * @param array $configuration The configuration of the action.
+     *
+     * @return array Http response.
+     */
+    public function gebruiksrechtDeleteHandler(array $data, array $configuration): array
+    {
+        $this->data = $data;
+
+        // If last gebruiksrecht of enkelvoudiginformatieobject set indicatieGebruiksrecht to null.
+        $gebruiksrechtObject = $data['object'];
+        if ($gebruiksrechtObject instanceof ObjectEntity === false) {
+            return $this->data;
+        }
+
+        $informatieObject = $gebruiksrechtObject->getValue('informatieobject');
+        if ($informatieObject instanceof ObjectEntity === false) {
+            return $this->data;
+        }
+
+        $gebruiksrechtSchema             = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
+        $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
+        $gebruiksrechtValues             = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
+
+        // If we have 1 or less gebruiksrechten for this enkelvoudiginformatieobject, we set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
+        if (count($gebruiksrechtValues) <= 1) {
+            $informatieObject->hydrate(['indicatieGebruiksrecht' => null]);
+
+            $this->entityManager->persist($informatieObject);
+            $this->entityManager->flush();
+            $this->cacheService->cacheObject($informatieObject);
+            $this->entityManager->clear();
+        }
+
+        return $this->data;
+
+    }//end gebruiksrechtDeleteHandler()
+
+
+    /**
      * Returns the data from an document as a response.
      *
      * @param array $data          The data passed by the action.

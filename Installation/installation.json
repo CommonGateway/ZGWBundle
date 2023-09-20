@@ -473,6 +473,22 @@
         ]
       },
       {
+        "name": "DrcGebruiksrechtDeleteAction",
+        "reference": "https://vng.opencatalogi.nl/action/drc.DrcGebruiksrechtAction.action.json",
+        "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcGebruiksrechtDeleteHandler",
+        "listens": [
+          "commongateway.object.pre.delete"
+        ],
+        "conditions": {
+          "==": [
+            {
+              "var": "entity.reference"
+            },
+            "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json"
+          ]
+        }
+      },
+      {
         "name": "DrcInhoudAction",
         "reference": "https://vng.opencatalogi.nl/action/drc.DrcInhoudAction.action.json",
         "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
