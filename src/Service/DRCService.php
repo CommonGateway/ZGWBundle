@@ -264,7 +264,7 @@ class DRCService
 
         $gebruiksrechtSchema             = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
         $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
-        $gebruiksrechtValues = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
+        $gebruiksrechtValues             = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
 
         // If we have less than 2 gebruiksrechten (1 is the gebruiksrecht we are deleting) for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
         if (count($gebruiksrechtValues) < 2) {
