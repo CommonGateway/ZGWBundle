@@ -266,7 +266,7 @@ class DRCService
         $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
         $gebruiksrechtValues             = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
 
-        // If we have 1 or less than gebruiksrechten for this enkelvoudiginformatieobject, we set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
+        // If we have 1 or less gebruiksrechten for this enkelvoudiginformatieobject, we set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
         if (count($gebruiksrechtValues) <= 1) {
             $informatieObject->hydrate(['indicatieGebruiksrecht' => null]);
 
