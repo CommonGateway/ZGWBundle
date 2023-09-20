@@ -1,0 +1,12 @@
+<?php
+return (object)[
+    'rootNamespace' => 'CommonGateway\ZGWBundle',
+    'destDirectory' => 'docs/classes',
+    'format' => 'github',
+    'classes' => [
+        'CommonGateway\ZGWBundle\Service\AuditTrailService',
+        'CommonGateway\ZGWBundle\Service\DRCService',
+        'CommonGateway\ZGWBundle\Service\InstallationService',
+        'CommonGateway\ZGWBundle\Service\ZGWService',
+    ],
+];

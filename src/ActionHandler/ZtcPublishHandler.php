@@ -9,31 +9,37 @@ use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class DrcReleaseHandler implements ActionHandlerInterface
+class ZtcPublishHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Release document so others can update it',
+            'title'       => 'ZTC Publish Action',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,6 +56,9 @@ class DrcReleaseHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->drcReleaseHandler($data, $configuration);
-    }
-}
+        return $this->zgwService->ztcPublishHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

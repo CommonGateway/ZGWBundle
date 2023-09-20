@@ -11,29 +11,43 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class SearchHandler implements ActionHandlerInterface
 {
+
+    /**
+     * @var ZGWService
+     */
     private ZGWService $zgwService;
 
+
+    /**
+     * The contructor.
+     *
+     * @param ZGWService $zgwService The ZGW Service.
+     */
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     * This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
-     * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
+     * @return array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://example.com/person.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/SearchHandler.ActionHandler.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'ZGW Action',
-            'description' => 'This handler returns a welcoming string',
+            'title'       => 'Search Handler',
+            'description' => 'This handler searches case',
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -41,15 +55,13 @@ class SearchHandler implements ActionHandlerInterface
      * @param array $data          The data from the call
      * @param array $configuration The configuration of the action
      *
-     * @throws GatewayException
-     * @throws CacheException
-     * @throws InvalidArgumentException
-     * @throws ComponentException
-     *
      * @return array
      */
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->searchHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

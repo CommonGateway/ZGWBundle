@@ -23,6 +23,20 @@
       "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json"
     ]
   },
+  "schemas": [
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
+      "createAuditTrails": true
+    },
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/brc.besluit.schema.json",
+      "createAuditTrails": true
+    },
+    {
+      "reference": "https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json",
+      "createAuditTrails": true
+    }
+  ],
   "endpoints": {
     "schemas": [
       {
@@ -36,7 +50,8 @@
       {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
         "path": "resultaten",
-        "methods": []
+        "methods": [],
+        "$id": "https://vng.opencatalogi.nl/endpoints/zrc.resultaat.endpoint.json"
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.rol.schema.json",
@@ -64,6 +79,19 @@
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
         "path": "zaken",
         "methods": [],
+        "subEndpoints": [
+          {
+            "description": "Audit Trails",
+            "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+            "path": "audit_trails",
+            "methods": [
+              "GET"
+            ],
+            "throws": [
+              "zgw.get.auditTrails"
+            ]
+          }
+        ],
         "subSchemaEndpoints": [
           {
             "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
@@ -80,19 +108,17 @@
             "throws": [
               "zrc.post.zaakbesluit"
             ]
-          },
-          {
-            "description": "Audit Trails",
-            "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
-            "path": "audit_trails",
-            "methods": [
-              "GET"
-            ],
-            "throws": [
-              "zgw.get.auditTrails"
-            ]
           }
         ]
+      },
+      {
+        "$id": "https://vng.opencatalogi.nl/EntityEndpoint/Zaak._zoeken.endpoint.json",
+        "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakZoek.schema.json",
+        "name": "Zaak _zoeken",
+        "path": "zaken/_zoek",
+        "pathRegex": "^zrc/v1/zaken/_zoek$",
+        "methods": [],
+        "throws": ["zrc.zaak.zoek"]
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakObject.schema.json",
@@ -357,9 +383,21 @@
         ]
       },
       {
+        "$id": "https://vng.opencatalogi.nl/EntityEndpoint/EnkelvoudigInformatieObject._zoeken.endpoint.json",
+        "reference": "https://vng.opencatalogi.nl/schemas/zrc.enkelvoudigInformatieObjectZoek.schema.json",
+        "name": "EnkelvoudigInformatieObject _zoeken",
+        "path": "enkelvoudiginformatieobjecten/_zoek",
+        "pathRegex": "^drc/v1/enkelvoudiginformatieobjecten/_zoek$",
+        "methods": ["POST"],
+        "throws": ["drc.enkelvoudigInformatieObject.zoek"]
+      },
+      {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json",
         "path": "gebruiksrechten",
-        "methods": []
+        "methods": [],
+        "throws": [
+          "zgw.drc.gebruiksrecht"
+        ]
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/drc.objectInformatieObject.schema.json",
@@ -370,6 +408,7 @@
         "reference": "https://vng.opencatalogi.nl/schemas/drc.bestandsDeel.schema.json",
         "path": "bestandsdelen",
         "methods": [
+          "GET",
           "PUT"
         ],
         "throws": [
@@ -455,6 +494,14 @@
         "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\InhoudHandler",
         "listens": [
           "zgw.drc.enkelvoudigInformatieObject"
+        ]
+      },
+      {
+        "name": "DrcGebruiksrechtAction",
+        "reference": "https://vng.opencatalogi.nl/action/drc.DrcGebruiksrechtAction.action.json",
+        "actionHandler": "CommonGateway\\ZGWBundle\\ActionHandler\\DrcGebruiksrechtHandler",
+        "listens": [
+          "zgw.drc.gebruiksrecht"
         ]
       },
       {

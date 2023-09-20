@@ -9,31 +9,37 @@ use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class ZGWHandler implements ActionHandlerInterface
+class PostZaakEigenschapHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://example.com/person.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'ZGW Action',
-            'description' => 'This handler returns a welcoming string',
+            'title'       => 'Post ZaakEigenschap Action',
+            'description' => 'This handler sets the zaak to the zaakeigenschap body',
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,6 +56,9 @@ class ZGWHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->zgwHandler($data, $configuration);
-    }
-}
+        return $this->zgwService->postZaakEigenschapHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

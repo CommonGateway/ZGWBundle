@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/ztc.zaakType.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "object",
   "title": "ZaakType",
   "properties": {
@@ -325,6 +325,12 @@
       "type": "boolean",
       "readOnly": true,
       "default": "true"
+    },
+    "verantwoordelijke": {
+      "title": "Verantwoordelijke",
+      "description": "De (soort) organisatorische eenheid of (functie van) medewerker die verantwoordelijk is voor de uitvoering van zaken van het ZAAKTYPE.",
+      "type": "string",
+      "maxLength": 50
     }
   },
   "required": [

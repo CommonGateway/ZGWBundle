@@ -4,36 +4,42 @@ namespace CommonGateway\ZGWBundle\ActionHandler;
 
 use App\Exception\GatewayException;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
-use CommonGateway\ZGWBundle\Service\AuditTrailService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class AuditTrailHandler implements ActionHandlerInterface
+class DrcReleaseHandler implements ActionHandlerInterface
 {
-    private AuditTrailService $auditTrailService;
 
-    public function __construct(AuditTrailService $auditTrailService)
+    private DRCService $drcService;
+
+
+    public function __construct(DRCService $drcService)
     {
-        $this->auditTrailService = $auditTrailService;
-    }
+        $this->drcService = $drcService;
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/ztc.publish.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.releaseDocument.schema.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Audit Trail Action',
+            'title'       => 'Release document so others can update it',
             'description' => 'This handler returns a welcoming string',
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,6 +56,9 @@ class AuditTrailHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->auditTrailService->auditTrailHandler($data, $configuration);
-    }
-}
+        return $this->drcService->drcReleaseHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

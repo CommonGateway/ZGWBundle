@@ -9,31 +9,45 @@ use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class DrcLockHandler implements ActionHandlerInterface
+class SearchFilesHandler implements ActionHandlerInterface
 {
+
+    /**
+     * @var ZGWService
+     */
     private ZGWService $zgwService;
 
+
+    /**
+     * The contructor.
+     *
+     * @param ZGWService $zgwService The ZGW Service.
+     */
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     * This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
-     * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
+     * @return array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/drc.lockDocument.schema.json',
+            '$id'         => 'https://vng.opencatalogi.nl/ActionHandler/SearchFilesHandler.ActionHandler.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Lock Document so no others can update it',
-            'description' => 'This handler returns a welcoming string',
+            'title'       => 'Search Files Handler',
+            'description' => 'This handler searches enkelvoudiginformatieobjecten by given uuid_in and returns them',
             'required'    => [],
             'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -41,15 +55,13 @@ class DrcLockHandler implements ActionHandlerInterface
      * @param array $data          The data from the call
      * @param array $configuration The configuration of the action
      *
-     * @throws GatewayException
-     * @throws CacheException
-     * @throws InvalidArgumentException
-     * @throws ComponentException
-     *
      * @return array
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->drcLockHandler($data, $configuration);
-    }
-}
+        return $this->zgwService->searchFilesHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

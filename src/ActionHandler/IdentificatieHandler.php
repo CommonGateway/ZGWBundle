@@ -9,14 +9,18 @@ use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Respect\Validation\Exceptions\ComponentException;
 
-class PostZaakEigenschapHandler implements ActionHandlerInterface
+class IdentificatieHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
@@ -26,14 +30,35 @@ class PostZaakEigenschapHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id'         => 'https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json',
+            '$id'         => 'https://example.com/person.schema.json',
             '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title'       => 'Post ZaakEigenschap Action',
-            'description' => 'This handler sets the zaak to the zaakeigenschap body',
+            'title'       => 'ZGW Action',
+            'description' => 'This handler returns a welcoming string',
             'required'    => [],
-            'properties'  => [],
+            'properties'  => [
+                'schema'   => [
+                    'type'        => 'string',
+                    'description' => 'The reference to the schema to update.',
+                    'example'     => 'https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json',
+                    'nullable'    => true,
+                ],
+                'property' => [
+                    'type'        => 'string',
+                    'description' => 'The property to override.',
+                    'example'     => 'identificatie',
+                    'nullable'    => true,
+                ],
+                'value'    => [
+                    'type'        => 'string',
+                    'description' => 'The value that should be overridden.',
+                    'example'     => '',
+                    'nullable'    => true,
+                ],
+            ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -50,6 +75,9 @@ class PostZaakEigenschapHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->postZaakEigenschapHandler($data, $configuration);
-    }
-}
+        return $this->zgwService->overrideValueHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

@@ -2,20 +2,24 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
-class DrcUploadFilePartHandler implements ActionHandlerInterface
+class DrcGebruiksrechtHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
 
-    public function __construct(ZGWService $zgwService)
+    private DRCService $drcService;
+
+
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
-    }
+        $this->drcService = $drcService;
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
@@ -36,7 +40,9 @@ class DrcUploadFilePartHandler implements ActionHandlerInterface
                 ],
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -53,6 +59,9 @@ class DrcUploadFilePartHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->uploadFilePartHandler($data, $configuration);
-    }
-}
+        return $this->drcService->gebruiksrechtHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

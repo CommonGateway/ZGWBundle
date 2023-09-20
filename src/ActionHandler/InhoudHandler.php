@@ -2,20 +2,24 @@
 
 namespace CommonGateway\ZGWBundle\ActionHandler;
 
-use CommonGateway\ZGWBundle\Service\ZGWService;
+use CommonGateway\ZGWBundle\Service\DRCService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class InhoudHandler implements ActionHandlerInterface
 {
-    private ZGWService $zgwService;
 
-    public function __construct(ZGWService $zgwService)
+    private DRCService $drcService;
+
+
+    public function __construct(DRCService $drcService)
     {
-        $this->zgwService = $zgwService;
-    }
+        $this->drcService = $drcService;
+
+    }//end __construct()
+
 
     /**
-     *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
+     *  This function returns the required configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
      */
@@ -34,14 +38,16 @@ class InhoudHandler implements ActionHandlerInterface
                     'nullable'    => true,
                     '$ref'        => 'https://vng.opencatalogi.nl/schemas/drc.enkelvoudigInformatieObject.schema.json',
                 ],
-                'downloadEndpointId' => [
+                'downloadEndpointId'                  => [
                     'type'        => 'string',
                     'description' => 'The reference of the download endpoint',
                     'example'     => 'https://vng.opencatalogi.nl/endpoints/drc.downloadEnkelvoudigInformatieObject.endpoint.json',
                 ],
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -58,6 +64,9 @@ class InhoudHandler implements ActionHandlerInterface
      */
     public function run(array $data, array $configuration): array
     {
-        return $this->zgwService->inhoudHandler($data, $configuration);
-    }
-}
+        return $this->drcService->inhoudHandler($data, $configuration);
+
+    }//end run()
+
+
+}//end class

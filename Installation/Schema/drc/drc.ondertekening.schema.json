@@ -13,11 +13,6 @@
       "deprecated": true
     },
     "soort": {
-      "allOf": [
-        {
-          "$ref": "https://vng.opencatalogi.nl/schemas/drc.soortEnum.schema.json"
-        }
-      ],
       "title": "Ondertekeningsoort",
       "description": "Aanduiding van de wijze van ondertekening van het INFORMATIEOBJECT\n\nUitleg bij mogelijke waarden:\n\n* `analoog` - Analoog\n* `digitaal` - Digitaal\n* `pki` - PKI"
     },

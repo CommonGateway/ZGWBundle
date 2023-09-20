@@ -1,7 +1,7 @@
 {
   "$id": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "title": "Zaak",
   "description": "Indien geen identificatie gegeven is, dan wordt deze automatisch gegenereerd. De identificatie moet uniek zijn binnen de bronorganisatie.\n\nEr wordt gevalideerd op:\n\ngeldigheid zaaktype URL - de resource moet opgevraagd kunnen worden uit de Catalogi API en de vorm van een ZAAKTYPE hebben.\nzaaktype is geen concept (zaaktype.concept = False)\nlaatsteBetaaldatum mag niet in de toekomst liggen.\nlaatsteBetaaldatum mag niet gezet worden als de betalingsindicatie \"nvt\" is.\nbarchiefnominatie moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefactiedatum moet een waarde hebben indien archiefstatus niet de waarde \"nog_te_archiveren\" heeft.\narchiefstatus kan alleen een waarde anders dan \"nog_te_archiveren\" hebben indien van alle gerelateeerde INFORMATIEOBJECTen het attribuut status de waarde \"gearchiveerd\" heeft.",
   "type": "object",
@@ -34,7 +34,8 @@
       "title": "Identificatie",
       "description": "De unieke identificatie van de ZAAK binnen de organisatie die verantwoordelijk is voor de behandeling van de ZAAK.",
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "default": "{{ object.id }}{# TODO: This must be done in a way that the id is human readable #}"
     },
     "bronorganisatie": {
       "type": "string",
@@ -300,7 +301,7 @@
     "resultaat": {
       "title": "Resultaat",
       "description": "URL-referentie naar het RESULTAAT. Indien geen resultaat bekend is, dan is de waarde 'null. missing inversedBy?'",
-      "$ref": "hhttps://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
+      "$ref": "https://vng.opencatalogi.nl/schemas/zrc.resultaat.schema.json",
       "format": "url",
       "nullable": true,
       "readOnly": true,
