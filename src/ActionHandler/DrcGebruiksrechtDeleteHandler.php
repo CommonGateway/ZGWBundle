@@ -7,12 +7,16 @@ use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class DrcGebruiksrechtDeleteHandler implements ActionHandlerInterface
 {
+
     private ZGWService $zgwService;
+
 
     public function __construct(ZGWService $zgwService)
     {
         $this->zgwService = $zgwService;
-    }
+
+    }//end __construct()
+
 
     /**
      *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
@@ -36,7 +40,9 @@ class DrcGebruiksrechtDeleteHandler implements ActionHandlerInterface
                 ],
             ],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * This function runs the service.
@@ -54,5 +60,8 @@ class DrcGebruiksrechtDeleteHandler implements ActionHandlerInterface
     public function run(array $data, array $configuration): array
     {
         return $this->zgwService->gebruiksrechtDeleteHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class

@@ -412,28 +412,29 @@ class ZGWService
 
     }//end searchFilesHandler()
 
-        
+
     /**
      * Handles gebruiksrecht DELETE logic.
      *
      * @param array $data          The data passed by the action.
      * @param array $configuration The configuration of the action.
-     * 
+     *
      * @return array Http response.
      */
     public function gebruiksrechtDeleteHandler(array $data, array $configuration): array
     {
         $this->data = $data;
         var_dump('gebruiksrechtDeleteHandler');
-        
+
         // If last gebruiksrecht of enkelvoudiginformatieobject set indicatieGebruiksrecht to null.
         $gebruiksrechtObject = $data['object'];
-        var_dump('$gebruiksrechtObject->id = ' . $gebruiksrechtObject->getId()->toString());
+        var_dump('$gebruiksrechtObject->id = '.$gebruiksrechtObject->getId()->toString());
         if ($gebruiksrechtObject instanceof ObjectEntity === false) {
             var_dump('test4');
             // $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing gebruiksrecht object passed from DoctrineToGatewayEventSubscriber->preRemove.']), 403, ['content-type' => 'application/json']);
             return $this->data;
         }
+
         $informatieObject = $gebruiksrechtObject->getValue('informatieobject');
         if ($informatieObject instanceof ObjectEntity === false) {
             var_dump('test5');
@@ -441,7 +442,7 @@ class ZGWService
             return $this->data;
         }
 
-        $gebruiksrechtSchema = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
+        $gebruiksrechtSchema             = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
         $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
         var_dump($informatieObject->getId()->toString());
         // dump($gebruiksrechtInfoObjectProperty);
@@ -449,7 +450,6 @@ class ZGWService
 
         // If we have less than 2 gebruiksrechten for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
         // dump($gebruiksrechtValues);
-
         var_dump(count($gebruiksrechtValues) < 2);
         if (count($gebruiksrechtValues) < 2) {
             $informatieObject->hydrate(['indicatieGebruiksrecht' => null]);
@@ -466,8 +466,7 @@ class ZGWService
         var_dump('test6');
         return $this->data;
 
-    }//end gebruiksrechtHandler()
-
+    }//end gebruiksrechtDeleteHandler()
 
 
 }//end class
