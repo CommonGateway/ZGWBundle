@@ -73,8 +73,9 @@ class AuditTrailService
         }//end if
 
         $auditTrailEntity = $this->resourceService->getSchema('https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json', 'common-gateway/zgw-bundle');
-        $mapping          = $this->resourceService->getMapping('ttps://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json', 'common-gateway/zgw-bundle');
-        $auditTrails      = $this->entityManager->getRepository('App:AuditTrail')->findBy(['resource' => $objectId]);
+        // This typo is known ttps://
+        $mapping     = $this->resourceService->getMapping('ttps://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json', 'common-gateway/zgw-bundle');
+        $auditTrails = $this->entityManager->getRepository('App:AuditTrail')->findBy(['resource' => $objectId]);
 
         $arrayObjects = [];
         foreach ($auditTrails as $auditTrail) {
@@ -99,9 +100,10 @@ class AuditTrailService
                 'resource'        => $auditTrail->getResource(),
                 'resourceUrl'     => $auditTrail->getResourceUrl(),
                 'resourceView'    => $auditTrail->getResourceView(),
+                'parentObject'    => $auditTrail->getMainObject(),
                 'amendments'      => [
-                    'oud'   => $amendments['old'],
-                    'nieuw' => $amendments['new'],
+                    'oud'   => $amendments['old'] ?? null,
+                    'nieuw' => $amendments['new'] ?? null,
                 ],
                 'creationDate'    => $creationDate,
                 // @TODO set creationDate as string
