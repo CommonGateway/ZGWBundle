@@ -254,23 +254,19 @@ class DRCService
         // If last gebruiksrecht of enkelvoudiginformatieobject set indicatieGebruiksrecht to null.
         $gebruiksrechtObject = $data['object'];
         if ($gebruiksrechtObject instanceof ObjectEntity === false) {
-            // $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing gebruiksrecht object passed from DoctrineToGatewayEventSubscriber->preRemove.']), 403, ['content-type' => 'application/json']);
             return $this->data;
         }
 
         $informatieObject = $gebruiksrechtObject->getValue('informatieobject');
         if ($informatieObject instanceof ObjectEntity === false) {
-            // $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing informatieobject found on given gebruiksrecht object, a existing informatieobject is required.']), 403, ['content-type' => 'application/json']);
             return $this->data;
         }
 
         $gebruiksrechtSchema             = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
         $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
-        // dump($gebruiksrechtInfoObjectProperty);
         $gebruiksrechtValues = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
 
-        // If we have less than 2 gebruiksrechten for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
-        // dump($gebruiksrechtValues);
+        // If we have less than 2 gebruiksrechten (1 is the gebruiksrecht we are deleting) for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
         if (count($gebruiksrechtValues) < 2) {
             $informatieObject->hydrate(['indicatieGebruiksrecht' => null]);
 
