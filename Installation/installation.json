@@ -482,7 +482,7 @@
         "conditions": {
           "==": [
             {
-              "var": "entity"
+              "var": "entity.reference"
             },
             "https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json"
           ]

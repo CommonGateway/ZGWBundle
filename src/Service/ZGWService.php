@@ -424,36 +424,29 @@ class ZGWService
     public function gebruiksrechtDeleteHandler(array $data, array $configuration): array
     {
         $this->data = $data;
-        var_dump('gebruiksrechtDeleteHandler');
 
         // If last gebruiksrecht of enkelvoudiginformatieobject set indicatieGebruiksrecht to null.
         $gebruiksrechtObject = $data['object'];
-        var_dump('$gebruiksrechtObject->id = '.$gebruiksrechtObject->getId()->toString());
         if ($gebruiksrechtObject instanceof ObjectEntity === false) {
-            var_dump('test4');
             // $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing gebruiksrecht object passed from DoctrineToGatewayEventSubscriber->preRemove.']), 403, ['content-type' => 'application/json']);
             return $this->data;
         }
 
         $informatieObject = $gebruiksrechtObject->getValue('informatieobject');
         if ($informatieObject instanceof ObjectEntity === false) {
-            var_dump('test5');
             // $this->data['response'] = new Response(\Safe\json_encode(['message' => 'No existing informatieobject found on given gebruiksrecht object, a existing informatieobject is required.']), 403, ['content-type' => 'application/json']);
             return $this->data;
         }
 
         $gebruiksrechtSchema             = $this->entityManager->getRepository('App:Entity')->findOneBy(['reference' => 'https://vng.opencatalogi.nl/schemas/drc.gebruiksrecht.schema.json']);
         $gebruiksrechtInfoObjectProperty = $this->entityManager->getRepository('App:Attribute')->findOneBy(['name' => 'informatieobject', 'entity' => $gebruiksrechtSchema]);
-        var_dump($informatieObject->getId()->toString());
         // dump($gebruiksrechtInfoObjectProperty);
-        $gebruiksrechtValues = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getId()->toString(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
+        $gebruiksrechtValues = $this->entityManager->getRepository('App:Value')->findBy(['stringValue' => $informatieObject->getUri(), 'attribute' => $gebruiksrechtInfoObjectProperty]);
 
         // If we have less than 2 gebruiksrechten for this enkelvoudiginformatieobject set enkelvoudiginformatieobject.indicatieGebruiksrecht to null.
         // dump($gebruiksrechtValues);
-        var_dump(count($gebruiksrechtValues) < 2);
         if (count($gebruiksrechtValues) < 2) {
             $informatieObject->hydrate(['indicatieGebruiksrecht' => null]);
-            var_dump('new value: '.$informatieObject->getValue('indicatieGebruiksrecht'));
 
             $this->entityManager->persist($informatieObject);
             $this->entityManager->flush();
@@ -461,9 +454,6 @@ class ZGWService
             $this->entityManager->clear();
         }
 
-        var_dump('new value: '.$informatieObject->getValue('indicatieGebruiksrecht'));
-
-        var_dump('test6');
         return $this->data;
 
     }//end gebruiksrechtDeleteHandler()
