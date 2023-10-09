@@ -47,7 +47,8 @@
         "omschrijvingGeneriek": {
             "type": "string",
             "description": "Waarde van de omschrijving-generiek referentie (attribuut `omschrijving`)",
-            "minLength": 1
+            "minLength": 1,
+          "maxLength": 1000
         },
         "selectielijstklasse":{
             "type": "string",
@@ -187,10 +188,8 @@
         "besluittypeOmschrijving",
         "informatieobjecttypeOmschrijving",
         "omschrijving",
-        "omschrijvingGeneriek",
         "resultaattypeomschrijving",
         "selectielijstklasse",
-        "zaaktype",
-        "zaaktypeIdentificatie"
+        "zaaktype"
     ]
 }
