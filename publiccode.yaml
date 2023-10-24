@@ -1,19 +1,50 @@
-publiccodeYmlVersion: "0.1"
-name: "ZGWBundle"
-url: "https://github.com/CommonGateway/ZGWBundle"
-releaseDate: "2022-10-01"
-softwareType: addon
-
-platforms:
-  - web
-  
 categories:
-  - collaboration
-  - it-development
-  
-developmentStatus: beta
+- collaboration
+- it-development
 description:
-  nl:
-    shortDescription: "ZGWBundle"
   en:
-    shortDescription: "ZGWBundle"
+    apiDocumentation: ''
+    awards: []
+    documentation: ''
+    features: []
+    genericName: Symfony bundle for ZGW standard functionality
+    localisedName: ''
+    longDescription: ''
+    screenshots: []
+    shortDescription: ZGWBundle
+    videos: []
+  nl:
+    shortDescription: ZGWBundle
+developmentStatus: beta
+landingURL: ''
+legal:
+  authorsFile: ''
+  license: ''
+  mainCopyrightOwner: ''
+  repoOwner: ''
+localisation:
+  availableLanguages:
+  - en
+  localisationReady: false
+maintenance:
+  contacts: []
+  contractors: []
+  type: none
+name: ZGWBundle
+nl:
+  vng:
+    commonground: []
+    gemma: []
+organisation:
+  logo: https://avatars.githubusercontent.com/u/106860777?v=4
+  name: CommonGateway
+  url: CommonGateway
+platforms:
+- web
+publiccodeYmlVersion: '0.1'
+releaseDate: '2022-10-01'
+roadmap: ''
+softwareType: addon
+softwareVersion: ''
+url: https://github.com/CommonGateway/ZGWBundle
+usedBy: []
