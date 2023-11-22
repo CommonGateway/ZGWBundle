@@ -48,3 +48,5 @@ softwareType: addon
 softwareVersion: ''
 url: https://github.com/CommonGateway/ZGWBundle
 usedBy: []
+downloadUrls:
+- https://github.com/CommonGateway/ZGWBundle/archive/refs/heads/main.zip
