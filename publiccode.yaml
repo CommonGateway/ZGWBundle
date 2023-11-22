@@ -16,6 +16,8 @@ description:
   nl:
     shortDescription: ZGWBundle
 developmentStatus: beta
+downloadUrls:
+- https://github.com/CommonGateway/ZGWBundle/archive/refs/heads/main.zip
 landingURL: ''
 legal:
   authorsFile: ''
@@ -36,6 +38,7 @@ nl:
     commonground: []
     gemma: []
 organisation:
+  description: The common gateway
   logo: https://avatars.githubusercontent.com/u/106860777?v=4
   name: CommonGateway
   url: CommonGateway
@@ -48,5 +51,3 @@ softwareType: addon
 softwareVersion: ''
 url: https://github.com/CommonGateway/ZGWBundle
 usedBy: []
-downloadUrls:
-- https://github.com/CommonGateway/ZGWBundle/archive/refs/heads/main.zip
