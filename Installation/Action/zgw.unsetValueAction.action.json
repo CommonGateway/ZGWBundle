@@ -17,5 +17,6 @@
     "schema": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
     "property": "identificatie",
     "value": ""
-  }
+  },
+  "isEnabled": false
 }
