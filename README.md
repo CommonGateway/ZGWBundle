@@ -1,18 +1,26 @@
-# ZGWBundle
+# Over Zakenregister
 
-Common Gateway Symfony bundle for ZGW functionality including the Zaken, Catalogi, Documenten and Besluiten APIs.
+Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle door VNG gedefinieerde ZGW API's te leveren. Het ondersteunt het extend patroon op alle onderliggende objecten en maakt data minimalisatie mogelijk door middel van filtering, waardoor een efficiënte en flexibele oplossing voor zaakgericht werken binnen de overheid wordt geboden.
 
-#### Using your code
+## Kernvoordelen
 
-To use the code in your library we first have to install it with composer.
+- **Uniforme Toegang:** Biedt één oplossing voor alle ZGW API's, wat zorgt voor een gestroomlijnde integratie en gebruiksgemak.
+- **Flexibiliteit:** Ondersteunt het extend patroon op alle onderliggende objecten, wat aanpassing en uitbreiding van functionaliteiten mogelijk maakt.
+- **Data Minimalisatie:** Maakt efficiënt gebruik van data mogelijk door filtering, wat bijdraagt aan privacybescherming en performance.
+- **Snelheid:** Profiteert van de snelheid en schaalbaarheid van OpenRegisters voor snelle toegang en verwerking van zaken.
 
-Note: for docker add `docker-compose exec php` before all comands
+## Installatie
 
-1. Navigate with a command line to where your composer.json lives in the project you want to use this bundle.
-   * Execute `composer require {full package name}:dev-main`
-   * Docker users: restart your containers so symfony can recognize the new Bundle's namespace
-2. Open a php file where you want to use a class.
-   * Add the correct use statement (example `use CommonGateway\ZGWBundle\Service\ZGWService;`)
-   * U can now use your class!
+Het Zakenregister is ontworpen voor eenvoudige lokale installatie voor ontwikkelingsdoeleinden of voor implementatie online op een server of Kubernetes/Haven platform. Meer informatie over de installatie vindt u in [INSTALLATION.md](INSTALLATION.md).
 
-In the common gateway, if you want to use your code when triggered by an event with a action, make sure the class of the action object is set as the handler name including the namespace. For example if I want to use the ZGWService I can set the ZGWHandler as `CommonGateway\ZGWBundle\ActionHandler\ZGWHandler`.
+## Bijdragen
+
+Interesse om bij te dragen aan het Zakenregister? Of het nu gaat om het melden van bugs, het voorstellen van nieuwe functies of het indienen van codewijzigingen, wij verwelkomen uw bijdrage. Raadpleeg onze [CONTRIBUTING.md](CONTRIBUTING.md) voor meer details over hoe u kunt bijdragen.
+
+## Licentie
+
+Het Zakenregister is uitgegeven onder een EUPL 1.2 licentie. Voor meer details, zie het [LICENSE.md](LICENSE.md) bestand in onze GitHub repository.
+
+## Contact
+
+Voor meer informatie over het Zakenregister en hoe u dit binnen uw organisatie kunt implementeren, neem contact met ons op via [info@conduction.nl](mailto:info@conduction.nl).
