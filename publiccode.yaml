@@ -19,8 +19,8 @@ description:
   en:
     localisedName: null
     genericName: null
-    shortDescription: "Symfony bundle for ZGW standard functionality."
-    longDescription: "Symfony bundle for ZGW standard functionality."
+    shortDescription: "Every ZGW API-functionality in one solution."
+    longDescription: "Business registers utilize the power of Open Registers to easily and quickly deliver all ZGW APIs defined by VNG. It supports the extend pattern on all underlying objects and allows for data minimization through filtering."
     documentation: null
     apiDocumentation: null
     features:
@@ -31,8 +31,8 @@ description:
   nl:
     localisedName: null
     genericName: null
-    shortDescription: "Symfony bundle voor ZGW standaard functionaliteit."
-    longDescription: "Symfony bundle voor ZGW standaard functionaliteit."
+    shortDescription: "Alle ZGW (VNG zaken) API's vanuit één oplossing."
+    longDescription: "Zaken registers maakt gebruik van de de kracht van Open Registers om gemakkenlijk en snel alle door vng gedefineerde ZGW API's te leveren. Het ondersteund daaarbij het extend patroon op allé onderligende objecten en laat data minimalisatie aan de hand van filtering toe."
     documentation: null
     apiDocumentation: null
     features:
