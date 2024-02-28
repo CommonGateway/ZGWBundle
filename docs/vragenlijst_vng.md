@@ -6,15 +6,11 @@ Zakenregister
 
 ## 2 Wat voor type product is het initiatief?
 
-- Toepassing (bruikbare oplossing)
+- Component
 
 ## 3 Indien een toepassing, welke componenten zijn hierin opgenomen?
 
-- FSC/NLX
-- Objectstore(MonggoDB)
-- Symfony
-- API Platform
-- Database(MySQL/PostgreSQL/MsSQL)
+- Open Registers
 
 ## 4 Indien het initiatief software betreft, is het parallel te gebruiken naast de bestaande software die het moet vervangen?
 
@@ -37,53 +33,29 @@ Zaken registers maakt gebruik van de de kracht van Open Registers om gemakkenlij
 
 ## 8 Welke gemeenten zijn aangesloten bij de realisatie van dit initiatief?
 
-Rotterdam (Via OpenCatalogi)
-Gouda (Via OpenCatalogi)
-Noordwijk (Via OpenWoo.app)
-Tubbergen (Via OpenWoo.app)
-Epe (Via OpenWoo.app)
-Dinkelland (Via OpenWoo.app)
-Leiden (Via OpenCatalogi)
-Roermond (Via OpenWoo.app)
-Assen (Via OpenWoo.app)
-Hilversum (Via OpenWoo.app)
-Haarlemermeer (Via OpenWoo.app)
-Enschede (Via OpenWoo.app)
-Eindhoven (Via OpenWoo.app)
-Hardewijk (Via OpenWoo.app)
+Gouda
 
 ## 9 Welke gemeenten maken gebruik van dit initiatief?
 
-Noordwijk (Via OpenWoo.app)
-Tubbergen (Via OpenWoo.app)
-Epe(Via OpenWoo.app)
-Rotterdam (Via OpenCatalogi)
-Gouda (Via OpenWoo.app)
-Zutphen (Via OpenWoo.app)
-Roosendaal (Via OpenWoo.app)
-Alkmaar (Via OpenCatalogi)
-Barendrecht (Via Open Registers | Klanten)
-Albrandswaard (Via Open Registers | Klanten)
-Ridderkerk (Via Open Registers | Klanten)
-Hoeksche Waard (Via Open Registers | Klanten)
-Sud-West Fryslan (Via Open Registers | Klanten)
-Fryske Marren (Via Open Registers | Klanten)
+Gouda 
+Nijmegen (onderdeel van sim form -> vrij brp)
+Maastricht (onderdeel van sim form -> vrij brp)
+Tilburg (onderdeel van sim form -> vrij brp)
+Utrecht (in de proefopstelling met xxllnc <-> open formulieren)
 
 ## 10 Welke leveranciers zijn betrokken?
 
-Conduction B.V (Via OpenWoo.app en  OpenCatalogi)
-Yard (Via OpenWoo.app)
-Acato (Via OpenWoo.app)
-Sim Groep (Via OpenWoo.app en  OpenCatalogi)
-Xxllnc (Via OpenWoo.app en Open Registers | Klanten)
+Conduction 
+Sim Groep
+Xxllnc 
 
 ## 11 Wat is de startdatum van het initiatief
 
-01-06-2023
+01-12-2021
 
 ## 12 Wanneer wordt verwacht dat het initiatief ready for use is? Of sinds wanneer is het initiatief ready for use?
 
-01-11-2023
+01-01-2022
 
 ## 13 Welke organisatie wordt aangehouden als contact organisatie?
 
@@ -99,7 +71,7 @@ Ruben van der Linde
 
 ## 16 Op welke website kunnen we meer info over het product vinden? (Kan ook link naar groepspagina op commongroundnl zijn)
 
-[https://zakenregister.openregisters.app/](https://zakenregister.openregisters.app/)
+[https://zaken.openregisters.app/](https://zaken.openregisters.app/)
 
 ## 17 Wat is een korte omschrijving van het product?
 
@@ -131,7 +103,7 @@ Hoewel het Zakenregister voornamelijk is gericht op interne processen, ondersteu
 
 ## 24 Waar staat informatie over de planning? Voeg indien mogelijk de link toe
 
-[https://zakenregister.openregisters.app/planning](https://zakenregister.openregisters.app/planning)
+[https://zaken.openregisters.app/](https://zaken.openregisters.app/)
 
 ## 25 Op welke laag of op welke lagen bevindt dit initiatief zich
 
@@ -148,6 +120,8 @@ API-standaarden gerelateerd aan de ZGW (Zaakgericht Werken) principes en andere 
 
 ## 28 Waar zijn jullie tegenaan gelopen? In zowel ontwikkeling en waar van toepassing bij de implementatie Noem de een tot drie grootste punten
 
-Uitdagingen in de integratie met bestaande systemen, het garanderen van data-integriteit en het voldoen aan privacyvereisten.
+- Uitdagingen in de integratie met bestaande systemen, het garanderen van data-integriteit en het voldoen aan privacyvereisten.
+- Performance
+- Meervoudig uit te leggen standaarden en interpetatie verschillen tussen leveranciers
 
 ## 29 Zijn er nog vragen naar aanleiding van dit intakeformulier?
