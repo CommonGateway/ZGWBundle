@@ -4,10 +4,10 @@ Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle 
 
 ## Kernvoordelen
 
-- **Uniforme Toegang:** Biedt één oplossing voor alle ZGW API's, wat zorgt voor een gestroomlijnde integratie en gebruiksgemak.
-- **Flexibiliteit:** Ondersteunt het extend patroon op alle onderliggende objecten, wat aanpassing en uitbreiding van functionaliteiten mogelijk maakt.
-- **Data Minimalisatie:** Maakt efficiënt gebruik van data mogelijk door filtering, wat bijdraagt aan privacybescherming en performance.
-- **Snelheid:** Profiteert van de snelheid en schaalbaarheid van OpenRegisters voor snelle toegang en verwerking van zaken.
+* **Uniforme Toegang:** Biedt één oplossing voor alle ZGW API's, wat zorgt voor een gestroomlijnde integratie en gebruiksgemak.
+* **Flexibiliteit:** Ondersteunt het extend patroon op alle onderliggende objecten, wat aanpassing en uitbreiding van functionaliteiten mogelijk maakt.
+* **Data Minimalisatie:** Maakt efficiënt gebruik van data mogelijk door filtering, wat bijdraagt aan privacybescherming en performance.
+* **Snelheid:** Profiteert van de snelheid en schaalbaarheid van OpenRegisters voor snelle toegang en verwerking van zaken.
 
 ## Installatie
 
@@ -23,4 +23,4 @@ Het Zakenregister is uitgegeven onder een EUPL 1.2 licentie. Voor meer details, 
 
 ## Contact
 
-Voor meer informatie over het Zakenregister en hoe u dit binnen uw organisatie kunt implementeren, neem contact met ons op via [info@conduction.nl](mailto:info@conduction.nl).
+Voor meer informatie over het Zakenregister en hoe u dit binnen uw organisatie kunt implementeren, neem contact met ons op via <info@conduction.nl>.
