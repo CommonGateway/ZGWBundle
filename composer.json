@@ -16,8 +16,8 @@
     "minimum-stability" : "dev",
     "require": {
         "php": ">=7.4",
-		"commongateway/corebundle": "^1.1.110 | <2.0"
-		"common-gateway/referentielijsten-bundle": ">=0.1.0 | dev-feature/GW-1596/Symfony-updates"
+		"commongateway/corebundle": "^1.1.110 | <2.0",
+		"common-gateway/referentielijsten-bundle": ">=0.1.0"
     },
 	"require-dev" : {
 		"symfony/dependency-injection" : "~3.4|~4.1|~5.0"
