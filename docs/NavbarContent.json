@@ -95,16 +95,6 @@
     ]
   },
   {
-    "label": "Redocly",
-    "type": "external",
-    "current": {
-      "pathname": "/Redocly"
-    },
-    "handleClick": {
-      "link": "https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/CommonGateway/CustomerInteractionBundle/main/docs/openapi.json&nocors"
-    }
-  },
-  {
     "label": "Open Registers",
     "type": "external",
     "current": {

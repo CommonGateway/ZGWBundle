@@ -9,6 +9,13 @@ Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle 
 * **Data Minimalisatie:** Maakt efficiënt gebruik van data mogelijk door filtering, wat bijdraagt aan privacybescherming en performance.
 * **Snelheid:** Profiteert van de snelheid en schaalbaarheid van OpenRegisters voor snelle toegang en verwerking van zaken.
 
+## Gebaseerd op Open Index
+Doordat 
+
+
+
+
+
 ## Installatie
 
 Het Zakenregister is ontworpen voor eenvoudige lokale installatie voor ontwikkelingsdoeleinden of voor implementatie online op een server of Kubernetes/Haven platform. Meer informatie over de installatie vindt u in [INSTALLATION.md](INSTALLATION.md).
