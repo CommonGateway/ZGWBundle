@@ -10,11 +10,8 @@ Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle 
 * **Snelheid:** Profiteert van de snelheid en schaalbaarheid van OpenRegisters voor snelle toegang en verwerking van zaken.
 
 ## Gebaseerd op Open Index
-Doordat 
 
-
-
-
+Doordat
 
 ## Installatie
 
