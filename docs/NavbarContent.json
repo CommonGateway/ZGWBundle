@@ -29,6 +29,19 @@
         }
       },
       {
+        "label": "Installatie",
+        "type": "internalMarkdown",
+        "current": {
+          "pathname": "/docs/Installatie"
+        },
+        "handleClick": {
+          "internalMarkdown": {
+            "fileName": "Installatie"
+          }
+        }
+      }
+      ,
+      {
         "label": "Kosten",
         "type": "internalMarkdown",
         "current": {
