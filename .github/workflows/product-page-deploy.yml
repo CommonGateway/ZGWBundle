@@ -19,7 +19,7 @@ jobs:
           github_repository_name_as_prefix: false
           github_repository_url: https://github.com/CommonGateway/ZGWBundle
           github_api_base_url: https://api.github.com/repos/CommonGateway/ZGWBundle/contents
-          slack_url: "https://samenorganiseren.slack.com/archives/C03JLP1EUH4"
+          slack_url: "https://github.com/openwebconcept/"
           navbar_content: 'https://raw.githubusercontent.com/CommonGateway/ZGWBundle/master/docs/NavbarContent.json'
           footer_show_logo: true
           footer_logo_href: "https://opencatalogi.nl/"
