@@ -19,8 +19,8 @@ jobs:
           github_repository_name_as_prefix: false
           github_repository_url: https://github.com/CommonGateway/ZGWBundle
           github_api_base_url: https://api.github.com/repos/CommonGateway/ZGWBundle/contents
-          github_docs_directory_paths: '[{"name": "Documentatie", "location": "/docs/Documentatie"}]'
-          READ_THE_DOCS_URL: "false"
+          github_docs_directory_paths: '[{"name": "docs", "location": "/docs"}]'
+          read_the_docs_url: "false"
           slack_url: "https://github.com/openwebconcept/"
           navbar_content: 'https://raw.githubusercontent.com/CommonGateway/ZGWBundle/master/docs/NavbarContent.json'
           footer_show_logo: true
