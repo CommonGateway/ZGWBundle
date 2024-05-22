@@ -29,57 +29,18 @@
         }
       },
       {
-        "label": "Functionaliteit",
+        "label": "Installatie",
         "type": "internalMarkdown",
         "current": {
-          "pathname": "/docs/Features"
+          "pathname": "/docs/Installatie"
         },
         "handleClick": {
           "internalMarkdown": {
-            "directoryName": "docs",
-            "fileName": "Features"
+            "fileName": "Installatie"
           }
         }
-      },
-      {
-        "label": "Taken",
-        "type": "internalMarkdown",
-        "current": {
-          "pathname": "/docs/klanten"
-        },
-        "handleClick": {
-          "internalMarkdown": {
-            "directoryName": "taken",
-            "fileName": "klanten"
-          }
-        }
-      },
-      {
-        "label": "Berichten",
-        "type": "internalMarkdown",
-        "current": {
-          "pathname": "/docs/berichten"
-        },
-        "handleClick": {
-          "internalMarkdown": {
-            "directoryName": "berichten",
-            "fileName": "berichten"
-          }
-        }
-      },
-      {
-        "label": "Objecten",
-        "type": "internalMarkdown",
-        "current": {
-          "pathname": "/docs/schema/README"
-        },
-        "handleClick": {
-          "internalMarkdown": {
-            "directoryName": "objecten",
-            "fileName": "README"
-          }
-        }
-      },
+      }
+      ,
       {
         "label": "Kosten",
         "type": "internalMarkdown",
