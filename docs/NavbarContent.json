@@ -19,11 +19,11 @@
         "label": "Architectuur",
         "type": "internalMarkdown",
         "current": {
-          "pathname": "/Documentatie/Architectuur"
+          "pathname": "/docs/Architectuur"
         },
         "handleClick": {
           "internalMarkdown": {
-            "directoryName": "Documentatie",
+            "directoryName": "docs",
             "fileName": "Architectuur"
           }
         }
@@ -32,11 +32,11 @@
         "label": "Installatie",
         "type": "internalMarkdown",
         "current": {
-          "pathname": "/Documentatie/Installatie"
+          "pathname": "/docs/Installatie"
         },
         "handleClick": {
           "internalMarkdown": {
-            "directoryName": "Documentatie",
+            "directoryName": "docs",
             "fileName": "Installatie"
           }
         }
@@ -46,11 +46,11 @@
         "label": "Kosten",
         "type": "internalMarkdown",
         "current": {
-          "pathname": "/Documentatie/Kosten"
+          "pathname": "/docs/Kosten"
         },
         "handleClick": {
           "internalMarkdown": {
-            "directoryName": "Documentatie",
+            "directoryName": "docs",
             "fileName": "Kosten"
           }
         }
