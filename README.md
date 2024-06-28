@@ -31,7 +31,7 @@ Voor meer informatie over het Zakenregister en hoe u dit binnen uw organisatie k
 
 ## Notities installatie CommonGateway
 
-- Voorlopige fix Catalogus endpoint voor OpenFormulieren: Zorg ervoor dat gebruikte application een configuration veld als:
+- Voorlopige fix Catalogus endpoint voor OpenFormulieren: Zorg ervoor dat gebruikte application een configuration veld heeft als:
 `"configuration": [
         {
             "https://vng.opencatalogi.nl/EntityEndpoint/Catalogus.endpoint.json": {
