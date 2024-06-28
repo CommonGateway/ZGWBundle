@@ -1,0 +1,13 @@
+{
+  "title": "Catalogus context mapping",
+  "$id": "https://vng.opencatalogi.nl/schemas/zgw.catalogusContext.mapping.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
+  "version": "0.0.1",
+  "passTrough": true,
+  "mapping": {
+    "next": "null"
+  },
+  "cast" :{
+    "next": "nullStringToNull"
+  }
+}

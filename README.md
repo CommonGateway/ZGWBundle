@@ -28,3 +28,17 @@ Het Zakenregister is uitgegeven onder een EUPL 1.2 licentie. Voor meer details, 
 ## Contact
 
 Voor meer informatie over het Zakenregister en hoe u dit binnen uw organisatie kunt implementeren, neem contact met ons op via <info@conduction.nl>.
+
+## Notities installatie CommonGateway
+
+- Voorlopige fix Catalogus endpoint voor OpenFormulieren: Zorg ervoor dat gebruikte application een configuration veld als:
+`"configuration": [
+        {
+            "https://vng.opencatalogi.nl/EntityEndpoint/Catalogus.endpoint.json": {
+                "out": {
+                    "body": {
+                        "mapping": "https://vng.opencatalogi.nl/schemas/zgw.catalogusContext.mapping.json"
+                    }
+                }
+            }
+        }`
