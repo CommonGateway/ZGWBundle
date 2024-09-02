@@ -1,6 +1,6 @@
 # Over Zakenregister
 
-Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle door VNG gedefinieerde ZGW API's te leveren. Het ondersteunt het extend patroon op alle onderliggende objecten en maakt data minimalisatie mogelijk door middel van filtering, waardoor een efficiënte en flexibele oplossing voor zaakgericht werken binnen de overheid wordt geboden.
+Het Zakenregister benut de kracht van OpenRegisters om gemakkelijk en snel alle door VNG gedefinieerde ZGW API's te leveren. Het ondersteunt het extend patroon op alle onderliggende objecten en maakt data minimalisatie mogelijk door middel van filtering, waardoor een efficiënte en flexibele oplossing voor zaakgericht werken binnen de overheid wordt geboden. Het Zakenregister probeert zo goed mogelijk de laatste versie van ZGW te ondersteunen (op dit moment 1.5.1).
 
 ## Kernvoordelen
 
