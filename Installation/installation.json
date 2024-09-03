@@ -72,8 +72,10 @@
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakInformatieObject.schema.json",
+        "version": "0.1.0",
         "path": "zaakinformatieobjecten",
-        "methods": []
+        "methods": [],
+        "enablePagination": false
       },
       {
         "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaak.schema.json",
@@ -83,31 +85,37 @@
           {
             "description": "Audit Trails",
             "reference": "https://vng.opencatalogi.nl/schemas/zgw.auditTrail.schema.json",
+            "version": "0.1.0",
             "path": "audit_trails",
             "methods": [
               "GET"
             ],
             "throws": [
               "zgw.get.auditTrails"
-            ]
+            ],
+            "enablePagination": false
           }
         ],
         "subSchemaEndpoints": [
           {
             "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakEigenschap.schema.json",
+            "version": "0.1.0",
             "path": "zaakeigenschappen",
             "methods": [],
             "throws": [
               "zrc.post.zaakeigenschap"
-            ]
+            ],
+            "enablePagination": false
           },
           {
             "reference": "https://vng.opencatalogi.nl/schemas/zrc.zaakBesluit.schema.json",
+            "version": "0.1.0",
             "path": "besluiten",
             "methods": [],
             "throws": [
               "zrc.post.zaakbesluit"
-            ]
+            ],
+            "enablePagination": false
           }
         ]
       },
